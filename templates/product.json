@@ -80,15 +80,43 @@
         "faq_1": {
           "type": "faq_item",
           "settings": {
-            "question": "Quand vais-je recevoir ma commande ?",
-            "answer": "<p>Nous préparons les commandes rapidement ; le délai exact s’affiche à la caisse selon votre adresse.</p>"
+            "question": "En quoi cet appareil détend les pieds et la voûte plantaire ?",
+            "answer": "<p>Il combine massage, chaleur et une pression douce réglable pour apaiser les tensions en quelques minutes, sans vous déplacer. L’objectif est une sensation de légèreté et de confort au fil des séances, directement chez vous.</p>"
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
-            "question": "Puis-je être remboursé ?",
-            "answer": "<p>Consultez notre politique de retours dans le pied de page pour les conditions et délais.</p>"
+            "question": "Comment régler le massage et la chaleur ?",
+            "answer": "<p>Glissez vos pieds dans l’appareil, ajustez les sangles pour un bon maintien, puis utilisez le panneau de contrôle pour choisir l’intensité du massage et le niveau de chaleur selon votre confort.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "À quoi correspondent les bienfaits annoncés (circulation, jambes lourdes, sommeil) ?",
+            "answer": "<p>La chaleur et le massage peuvent favoriser la détente locale et une meilleure sensation de confort dans les pieds et la cheville ; beaucoup d’utilisateurs recherchent ce type de rituel pour des jambes moins « lourdes » en fin de journée ou pour se détendre avant le coucher. Les effets varient selon les personnes.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Puis-je l’utiliser souvent et sur la durée ?",
+            "answer": "<p>Oui : il est pensé pour un usage régulier à la maison, avec des séances courtes que vous pouvez répéter. Les matériaux et la finition sont choisis pour accompagner ce rythme ; vous gardez la main sur l’intensité et la fréquence.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Pack Solo ou Pack Duo : lequel choisir ?",
+            "answer": "<p>Le <strong>Pack Solo</strong> convient pour découvrir l’appareil sur un pied. Le <strong>Pack Duo</strong> est idéal pour une action sur les deux pieds en même temps ou pour en offrir un à un proche, avec l’avantage économique affiché sur la fiche.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Y a-t-il une garantie sur ce produit ?",
+            "answer": "<p>La fiche produit mentionne la garantie « Jambes Légères » 90 jours. Pour le détail des conditions, reportez-vous aux informations de commande et à nos pages légales (politique de retours, CGV) en pied de page.</p>"
           }
         }
       },
@@ -100,7 +128,11 @@
         "howto_vis_3",
         "content_1",
         "faq_1",
-        "faq_2"
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
       ],
       "settings": {
         "show_sticky_bar": true,
