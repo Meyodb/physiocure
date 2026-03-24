@@ -75,7 +75,17 @@
       "sku": "SKU",
       "quantity": { "label": "Quantity", "input_label": "Quantity for {{ product }}" },
       "price": { "from_price_html": "From {{ price }}", "regular_price": "Regular price", "sale_price": "Sale price", "unit_price": "Unit price" },
-      "media": { "open_media": "Open media {{ index }} in modal", "play_model": "Play 3D viewer", "play_video": "Play video" },
+      "media": {
+        "open_media": "Open media {{ index }} in modal",
+        "open_modal": "Enlarge image",
+        "close_modal": "Close",
+        "lightbox_label": "Product image enlarged",
+        "play_model": "Play 3D viewer",
+        "play_video": "Play video"
+      },
+      "variant_option_label": "Options",
+      "save_percent": "SAVE {{ percent }}%",
+      "carousel_scroll_hint": "Scroll sideways for more testimonials",
       "inventory_in_stock": "In stock",
       "inventory_in_stock_show_count": "{{ quantity }} in stock",
       "inventory_low_stock": "Low stock",

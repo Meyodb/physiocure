@@ -1,9 +1,25 @@
 {%- liquid
   assign target = product.selected_or_first_available_variant
+  assign on_sale = false
+  if target.compare_at_price > target.price
+    assign on_sale = true
+  endif
+  assign save_pct = 0
+  if on_sale and target.compare_at_price > 0
+    assign save_pct = target.compare_at_price | minus: target.price | times: 100.0 | divided_by: target.compare_at_price | round
+  endif
+  assign show_save = show_save_badge | default: false
 -%}
-<div class="price{% if target.compare_at_price > target.price %} price--on-sale{% endif %}">
-  <span class="price__current">{{ target.price | money }}</span>
-  {%- if target.compare_at_price > target.price -%}
-    <span class="price__compare">{{ target.compare_at_price | money }}</span>
+<div class="price{% if on_sale %} price--on-sale{% endif %}">
+  {%- if on_sale -%}
+    <span class="price__sale-row">
+      <span class="price__current">{{ target.price | money }}</span>
+      <span class="price__compare">{{ target.compare_at_price | money }}</span>
+      {%- if show_save and save_pct > 0 -%}
+        <span class="price__save-badge">{{ 'products.product.save_percent' | t: percent: save_pct }}</span>
+      {%- endif -%}
+    </span>
+  {%- else -%}
+    <span class="price__current">{{ target.price | money }}</span>
   {%- endif -%}
 </div>

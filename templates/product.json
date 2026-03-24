@@ -4,13 +4,136 @@
       "type": "main-product",
       "settings": {
         "show_vendor": false,
+        "usp_text": "<p><strong>Votre confort au quotidien</strong> — décrivez en une phrase le bénéfice principal pour vos clients.</p>",
+        "benefits_list": "Bénéfice clé 1\nBénéfice clé 2\nBénéfice clé 3\nBénéfice clé 4",
+        "urgency_text": "",
+        "show_low_stock_banner": true,
+        "low_stock_threshold": 10,
+        "details_toggle_label": "Afficher tous les détails",
+        "media_strip_label": "Galerie produit",
+        "steps_heading": "3 étapes simples",
+        "carousel_heading": "Pourquoi nos clients l’adoptent",
+        "faq_heading": "Questions fréquentes",
+        "show_secondary_description": false,
         "description_heading": "En savoir plus",
         "show_trust_bar": true,
         "trust_bar_label": "Avantages commande",
-        "trust_text_1": "Livraison suivie",
-        "trust_text_2": "Paiement sécurisé",
-        "trust_text_3": "Service client réactif"
-      }
+        "trust_icon_1": "📦",
+        "trust_text_1": "Livraison rapide",
+        "trust_icon_2": "🛡️",
+        "trust_text_2": "Garantie satisfait ou remboursé",
+        "trust_icon_3": "📍",
+        "trust_text_3": "Suivi d’expédition inclus"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "Une vraie différence dès les premiers jours.",
+            "author": "Marie L.",
+            "rating": 5
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "Simple à utiliser, je le recommande sans hésiter.",
+            "author": "Thomas R.",
+            "rating": 5
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "Le meilleur achat que j’ai fait cette année.",
+            "author": "Julie P.",
+            "rating": 5
+          }
+        },
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Première étape",
+            "text": "<p>Expliquez comment commencer en une ou deux phrases.</p>"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Deuxième étape",
+            "text": "<p>Décrivez le réglage ou l’usage idéal.</p>"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Troisième étape",
+            "text": "<p>Invitez à profiter du résultat au quotidien.</p>"
+          }
+        },
+        "car_1": {
+          "type": "carousel_slide",
+          "settings": {
+            "title": "Facile au quotidien",
+            "quote": "Je l’utilise régulièrement et c’est devenu un réflexe.",
+            "author": "Marc D.",
+            "rating": 5
+          }
+        },
+        "car_2": {
+          "type": "carousel_slide",
+          "settings": {
+            "title": "Résultats concrets",
+            "quote": "Je ne m’attendais pas à autant de confort.",
+            "author": "Élodie V.",
+            "rating": 5
+          }
+        },
+        "car_3": {
+          "type": "carousel_slide",
+          "settings": {
+            "title": "Je recommande",
+            "quote": "Livraison rapide et produit conforme à la description.",
+            "author": "Nicolas B.",
+            "rating": 5
+          }
+        },
+        "content_1": {
+          "type": "content_row",
+          "settings": {
+            "heading": "Conçu pour durer",
+            "text": "<p>Ajoutez ici un paragraphe de confiance : matériaux, usage, positionnement par rapport aux alternatives (sans promesses médicales non fondées).</p>"
+          }
+        },
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Quand vais-je recevoir ma commande ?",
+            "answer": "<p>Nous préparons les commandes rapidement ; le délai exact s’affiche à la caisse selon votre adresse.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Puis-je être remboursé ?",
+            "answer": "<p>Consultez notre politique de retours dans le pied de page pour les conditions et délais.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "step_1",
+        "step_2",
+        "step_3",
+        "car_1",
+        "car_2",
+        "car_3",
+        "content_1",
+        "faq_1",
+        "faq_2"
+      ]
     }
   },
   "order": ["main"]

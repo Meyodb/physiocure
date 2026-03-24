@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const item = btn.closest('[data-faq-item]');
       if (!item) return;
       const open = item.getAttribute('data-open') === 'true';
-      item.setAttribute('data-open', open ? 'false' : 'true');
-      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      const next = !open;
+      item.setAttribute('data-open', next ? 'true' : 'false');
+      btn.setAttribute('aria-expanded', next ? 'true' : 'false');
     });
   });
 
@@ -40,6 +41,61 @@ document.addEventListener('DOMContentLoaded', () => {
       const opt = variantSelect.selectedOptions[0];
       const url = opt && opt.dataset.url;
       if (url) window.location.href = url;
+    });
+  }
+
+  const galleryRoot = document.querySelector('[data-product-gallery]');
+  if (galleryRoot) {
+    const mainBtn = galleryRoot.querySelector('[data-lightbox-open]');
+    const mainImg = galleryRoot.querySelector('.product-neuro-gallery__img');
+    const dialog = galleryRoot.querySelector('[data-product-lightbox]');
+    const lightboxImg = galleryRoot.querySelector('[data-lightbox-img]');
+    const thumbs = galleryRoot.querySelectorAll('[data-gallery-thumb]');
+
+    const openLightbox = (src, alt) => {
+      if (!dialog || !lightboxImg || !src) return;
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      }
+    };
+
+    const closeLightbox = () => {
+      if (dialog && typeof dialog.close === 'function') dialog.close();
+    };
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        const src = thumb.dataset.fullSrc;
+        const alt = thumb.querySelector('img')?.getAttribute('alt') || '';
+        const type = thumb.dataset.mediaType || 'image';
+        thumbs.forEach((t) => t.classList.remove('is-active'));
+        thumb.classList.add('is-active');
+        if (type === 'image' && mainImg && src) {
+          mainImg.src = src;
+          mainImg.removeAttribute('srcset');
+          mainImg.alt = alt;
+        }
+        openLightbox(src, alt);
+      });
+    });
+
+    if (mainBtn && mainImg && lightboxImg) {
+      mainBtn.addEventListener('click', (e) => {
+        if (e.target.closest('video, model-viewer, iframe')) return;
+        const src = mainImg.currentSrc || mainImg.src;
+        openLightbox(src, mainImg.alt || '');
+      });
+    }
+
+    galleryRoot.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
+    dialog?.addEventListener('click', (e) => {
+      if (e.target === dialog) closeLightbox();
+    });
+    dialog?.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      closeLightbox();
     });
   }
 });
