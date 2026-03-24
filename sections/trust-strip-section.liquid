@@ -1,10 +1,43 @@
-<section class="section-padding section-trust-strip" style="padding-block: clamp(1.5rem, 3.5vw, 2.5rem);">
+{%- liquid
+  assign trust_aria = section.settings.accessibility_label | strip
+  if trust_aria == blank
+    assign trust_aria = 'Nos engagements : livraison, paiement, SAV et transparence'
+  endif
+-%}
+<section
+  class="section-padding section-trust-strip trust-strip-marquee-section"
+  style="--trust-marquee-duration: {{ section.settings.marquee_duration | default: 45 }}s; padding-block: clamp(1.5rem, 3.5vw, 2.5rem);"
+  aria-label="{{ trust_aria | escape }}"
+>
   <div class="page-width">
-    <ul class="trust-strip" role="list">
-      {%- for block in section.blocks -%}
-        <li {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> — {{ block.settings.detail }}</li>
-      {%- endfor -%}
-    </ul>
+    {%- if section.blocks.size == 0 -%}
+      <p class="trust-strip-marquee__empty">Ajoutez des éléments dans l’éditeur de thème.</p>
+    {%- else -%}
+    <div class="trust-strip-marquee">
+      <div class="trust-strip-marquee__viewport">
+        <div class="trust-strip-marquee__track">
+          <ul class="trust-strip-marquee__list" role="list">
+            {%- for block in section.blocks -%}
+              <li class="trust-strip-marquee__item" {{ block.shopify_attributes }}>
+                <span class="trust-strip-marquee__label">{{ block.settings.label }}</span>
+                <span class="trust-strip-marquee__dash" aria-hidden="true">—</span>
+                <span class="trust-strip-marquee__detail">{{ block.settings.detail }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <ul class="trust-strip-marquee__list trust-strip-marquee__list--clone" role="presentation" aria-hidden="true">
+            {%- for block in section.blocks -%}
+              <li class="trust-strip-marquee__item">
+                <span class="trust-strip-marquee__label">{{ block.settings.label }}</span>
+                <span class="trust-strip-marquee__dash" aria-hidden="true">—</span>
+                <span class="trust-strip-marquee__detail">{{ block.settings.detail }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -12,14 +45,32 @@
 {
   "name": "Bandeau confiance",
   "tag": "section",
-  "max_blocks": 6,
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "range",
+      "id": "marquee_duration",
+      "min": 20,
+      "max": 90,
+      "step": 5,
+      "unit": "s",
+      "label": "Durée d’un cycle de défilement",
+      "default": 45
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Libellé accessibilité (lecteurs d’écran)",
+      "default": "Nos engagements : livraison, paiement, SAV et transparence"
+    }
+  ],
   "blocks": [
     {
       "type": "item",
       "name": "Élément",
       "settings": [
-        { "type": "text", "id": "label", "label": "Libellé court", "default": "Paiement sécurisé" },
-        { "type": "text", "id": "detail", "label": "Détail", "default": "Transactions chiffrées (SSL)" }
+        { "type": "text", "id": "label", "label": "Libellé court", "default": "Paiement blindé" },
+        { "type": "text", "id": "detail", "label": "Détail", "default": "Transactions 100 % sécurisées" }
       ]
     }
   ],
@@ -27,9 +78,10 @@
     {
       "name": "Bandeau confiance",
       "blocks": [
-        { "type": "item", "settings": { "label": "Livraison", "detail": "Suivi inclus" } },
-        { "type": "item", "settings": { "label": "SAV", "detail": "Sous 48 h ouvrées" } },
-        { "type": "item", "settings": { "label": "Transparence", "detail": "Retours & infos claires" } }
+        { "type": "item", "settings": { "label": "Expédition suivie", "detail": "Votre colis, du départ à la livraison" } },
+        { "type": "item", "settings": { "label": "Paiement sécurisé", "detail": "Cryptage SSL & transactions protégées" } },
+        { "type": "item", "settings": { "label": "SAV réactif", "detail": "Une réponse sous 48 h ouvrées" } },
+        { "type": "item", "settings": { "label": "Transparence totale", "detail": "Retours simples, politique claire" } }
       ]
     }
   ]

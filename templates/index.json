@@ -58,29 +58,29 @@
         "t1": {
           "type": "item",
           "settings": {
-            "label": "Livraison",
-            "detail": "Suivi inclus"
+            "label": "Expédition suivie",
+            "detail": "Votre colis, du départ à la livraison"
           }
         },
         "t2": {
           "type": "item",
           "settings": {
-            "label": "Paiement",
-            "detail": "Transactions sécurisées"
+            "label": "Paiement sécurisé",
+            "detail": "Cryptage SSL & transactions protégées"
           }
         },
         "t3": {
           "type": "item",
           "settings": {
-            "label": "SAV",
-            "detail": "Réponse sous 48 h ouvrées"
+            "label": "SAV réactif",
+            "detail": "Une réponse sous 48 h ouvrées"
           }
         },
         "t4": {
           "type": "item",
           "settings": {
-            "label": "Transparence",
-            "detail": "Retours & politique claire"
+            "label": "Transparence totale",
+            "detail": "Retours simples, politique claire"
           }
         }
       },
@@ -90,7 +90,10 @@
         "t3",
         "t4"
       ],
-      "settings": {}
+      "settings": {
+        "marquee_duration": 45,
+        "accessibility_label": "Nos engagements : livraison, paiement, SAV et transparence"
+      }
     },
     "how_it_works": {
       "type": "home-how-it-works",
