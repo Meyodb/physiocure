@@ -42,7 +42,18 @@
     <nav id="MainNav" class="main-nav" data-main-nav aria-label="Principal">
       {%- if section.settings.menu != blank -%}
         {%- for link in section.settings.menu.links -%}
-          <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- liquid
+            assign hide_suivi = false
+            if link.title == 'Suivi'
+              assign hide_suivi = true
+            endif
+            if link.type == 'page' and link.object != blank and link.object.handle == 'suivi'
+              assign hide_suivi = true
+            endif
+          -%}
+          {%- unless hide_suivi -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endunless -%}
         {%- endfor -%}
       {%- else -%}
         <a href="{{ routes.all_products_collection_url }}">{{ 'collections.title' | t }}</a>
