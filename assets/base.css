@@ -718,11 +718,8 @@ button, input, select, textarea { font: inherit; }
   cursor: not-allowed;
 }
 
-/* Pas de vente en ligne : masquer tout CTA panier / achat direct sur la fiche (backup si ancien markup) */
-.template-product #MainProduct .product-neuro-form__actions,
-.template-product #MainProduct .product-neuro-form__submit,
+/* Pas d’ajout au panier : masquer seuls les anciens CTA « Ajouter au panier » (Acheter maintenant reste visible) */
 .template-product #MainProduct button[type="submit"][name="add"],
-.template-product #MainProduct [data-buy-now],
 .template-product #MainProduct [data-pack-submit],
 .template-product #MainProduct [data-sticky-submit],
 .template-product #MainProduct .product-sticky-bar {

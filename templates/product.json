@@ -144,6 +144,7 @@
         "pack_option_index": "1",
         "pack_divider_text": "Choisissez votre formule",
         "hide_qty_pack_cards": true,
+        "show_buy_now": true,
         "testimonials_layout": "grid",
         "testimonials_heading": "Ils en parlent",
         "details_toggle_label": "Afficher tous les détails",

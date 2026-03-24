@@ -34,6 +34,10 @@
   class="section-padding section-main-product product-layout-neuro"
   data-section-type="product"
   data-section-id="{{ section.id }}"
+  data-cart-add-url="{{ routes.cart_add_url }}.js"
+  data-shop-checkout-root="{{ routes.root_url }}"
+  data-buy-now-loading="{{ 'accessibility.loading' | t | escape }}"
+  data-buy-now-error="{{ 'cart.cart_error' | t | escape }}"
 >
   <div class="page-width">
     <div class="product-neuro-top">
@@ -200,15 +204,52 @@
 
         {%- if use_pack_picker -%}
           <div class="product-neuro-pack-form-wrap" data-product-pack-form>
-            <div class="product-neuro-form product-neuro-form--pack">
+            <form class="product-neuro-form product-neuro-form--pack" id="product-buy-form-pack-{{ section.id }}" novalidate>
               <input
                 type="hidden"
+                name="id"
                 id="VariantId-{{ section.id }}"
                 value="{{ current_variant.id }}"
                 data-variant-input
               >
               {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks, use_pack_qty_mode: use_pack_qty_mode %}
-            </div>
+
+              {%- liquid
+                assign pack_default_qty = 1
+                if use_pack_qty_mode
+                  for b in pack_blocks limit: 1
+                    assign pack_default_qty = b.settings.pack_quantity | default: 1 | plus: 0
+                  endfor
+                  if pack_default_qty < 1
+                    assign pack_default_qty = 1
+                  endif
+                endif
+              -%}
+              {%- if use_pack_qty_mode -%}
+                <input
+                  type="hidden"
+                  name="quantity"
+                  id="Quantity-{{ section.id }}"
+                  value="{{ pack_default_qty }}"
+                  data-pack-qty-input
+                >
+              {%- else -%}
+                <input type="hidden" name="quantity" value="1">
+              {%- endif -%}
+
+              {%- if section.settings.show_buy_now -%}
+                <div class="product-neuro-form__actions">
+                  <button
+                    type="button"
+                    class="btn product-neuro-form__submit product-neuro-form__submit--buynow"
+                    data-buy-now
+                    {% unless current_variant.available %}disabled{% endunless %}
+                  >
+                    {{ 'products.product.buy_it_now' | t }}
+                  </button>
+                </div>
+              {%- endif -%}
+            </form>
           </div>
         {%- else -%}
           <div class="product-neuro-price-card">
@@ -221,11 +262,12 @@
               {%- endunless -%}
             </div>
 
-            <div class="product-neuro-form">
+            <form class="product-neuro-form" id="product-buy-form-{{ section.id }}" novalidate>
               {%- unless product.has_only_default_variant -%}
                 <div class="field product-neuro-form__field">
                   <label for="Variant-{{ section.id }}">{{ 'products.product.variant_option_label' | t }}</label>
                   <select
+                    name="id"
                     id="Variant-{{ section.id }}"
                     data-main-variant-select
                     class="variant-select"
@@ -242,8 +284,24 @@
                     {%- endfor -%}
                   </select>
                 </div>
+              {%- else -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
               {%- endunless -%}
-            </div>
+              <input type="hidden" name="quantity" value="1">
+
+              {%- if section.settings.show_buy_now -%}
+                <div class="product-neuro-form__actions">
+                  <button
+                    type="button"
+                    class="btn product-neuro-form__submit product-neuro-form__submit--buynow"
+                    data-buy-now
+                    {% unless current_variant.available %}disabled{% endunless %}
+                  >
+                    {{ 'products.product.buy_it_now' | t }}
+                  </button>
+                </div>
+              {%- endif -%}
+            </form>
           </div>
         {%- endif -%}
 
@@ -642,6 +700,13 @@
       "id": "hide_qty_pack_cards",
       "label": "Masquer la quantité avec les cartes d’offre",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buy_now",
+      "label": "Bouton « Acheter maintenant »",
+      "default": true,
+      "info": "Ouvre le tunnel de commande : le panier est vidé puis une ligne avec la variante et la quantité choisies y est ajoutée."
     },
     {
       "type": "header",
