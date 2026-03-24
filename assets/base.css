@@ -1992,6 +1992,28 @@ body.nav-open { overflow: hidden; }
 /* Password */
 .password-main { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
 .password-card { max-width: 420px; width: 100%; background: var(--color-surface); padding: 2rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); text-align: center; }
+.password-main--minimal { padding: 1.25rem; }
+.password-card--minimal {
+  max-width: 18rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+}
+.password-card--minimal__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: var(--color-surface);
+  font: inherit;
+}
+.password-card--minimal__btn { width: 100%; }
 
 /* Page title block */
 .page-header { padding: 2rem 0 1rem; }
