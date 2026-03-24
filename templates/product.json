@@ -15,6 +15,7 @@
         "show_sticky_bar": true,
         "sticky_bar_cta_label": "Ajouter au panier",
         "show_vendor": false,
+        "product_title_override": "Le Soulagement Médical à Domicile pour vos Pieds et Chevilles",
         "usp_text": "<p><strong>Votre confort au quotidien</strong> — décrivez en une phrase le bénéfice principal pour vos clients.</p>",
         "benefits_list": "Relance la circulation pour éliminer les jambes lourdes.\nApaise les douleurs articulaires du pied et de la cheville.\nFinit les impatiences nocturnes pour un meilleur sommeil.\nThermothérapie intégrée pour un soulagement durable.",
         "urgency_text": "",
@@ -41,11 +42,11 @@
         "show_trust_bar": true,
         "trust_bar_label": "Avantages commande",
         "trust_icon_1": "📦",
-        "trust_text_1": "Livraison rapide",
-        "trust_icon_2": "🛡️",
-        "trust_text_2": "Garantie satisfait ou remboursé",
+        "trust_text_1": "LIVRAISON RAPIDE",
+        "trust_icon_2": "",
+        "trust_text_2": "✅ Garantie \"Jambes Légères\" 90 Jours",
         "trust_icon_3": "📍",
-        "trust_text_3": "Suivi d’expédition inclus"
+        "trust_text_3": "SUIVI D'EXPÉDITION INCLUS"
       },
       "blocks": {
         "pack_1": {
@@ -73,7 +74,7 @@
             "line_price_cents_override": 9999,
             "option_value": "2 unités",
             "card_title": "Pack duo",
-            "subtitle": "Pour les deux jambes ou un proche",
+            "subtitle": "✅ Idéal pour une action bilatérale simultanée ou pour équiper un proche.",
             "popular_badge": "Le + vendu",
             "show_savings_badge": true,
             "savings_label": "",

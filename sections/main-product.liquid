@@ -32,6 +32,10 @@
     assign sticky_bar_btn_add = 'Ajouter au panier'
   endif
   assign sticky_bar_btn_sold = 'Rupture de stock'
+  assign product_display_title = product.title
+  if section.settings.product_title_override != blank
+    assign product_display_title = section.settings.product_title_override | strip
+  endif
 -%}
 
 <section
@@ -129,7 +133,7 @@
           <p class="product-neuro-buy__vendor">{{ product.vendor }}</p>
         {%- endif -%}
 
-        <h1 class="product-neuro-buy__title">{{ product.title }}</h1>
+        <h1 class="product-neuro-buy__title">{{ product_display_title }}</h1>
 
         {%- comment -%} Judge.me — badge étoiles (installer l’app Judge.me pour les scripts) {%- endcomment -%}
         <!-- Start of Judge.me code -->
@@ -333,15 +337,21 @@
         {%- if section.settings.show_trust_bar -%}
           <ul class="product-neuro-trust" aria-label="{{ section.settings.trust_bar_label | escape }}">
             <li class="product-neuro-trust__item">
-              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_1 }}</span>
+              {%- if section.settings.trust_icon_1 != blank -%}
+                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_1 }}</span>
+              {%- endif -%}
               <span class="product-neuro-trust__text">{{ section.settings.trust_text_1 }}</span>
             </li>
             <li class="product-neuro-trust__item">
-              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_2 }}</span>
+              {%- if section.settings.trust_icon_2 != blank -%}
+                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_2 }}</span>
+              {%- endif -%}
               <span class="product-neuro-trust__text">{{ section.settings.trust_text_2 }}</span>
             </li>
             <li class="product-neuro-trust__item">
-              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_3 }}</span>
+              {%- if section.settings.trust_icon_3 != blank -%}
+                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_3 }}</span>
+              {%- endif -%}
               <span class="product-neuro-trust__text">{{ section.settings.trust_text_3 }}</span>
             </li>
           </ul>
@@ -489,7 +499,7 @@
       <div
         id="judgeme_product_reviews"
         class="jdgm-widget jdgm-review-widget"
-        data-product-title="{{ product.title | escape }}"
+        data-product-title="{{ product_display_title | escape }}"
         data-id="{{ product.id }}"
         data-product-id="{{ product.id }}"
         data-widget="review"
@@ -579,7 +589,7 @@
             <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
           {%- endif -%}
           <div class="product-sticky-bar__text">
-            <p class="product-sticky-bar__title">{{ product.title }}</p>
+            <p class="product-sticky-bar__title">{{ product_display_title }}</p>
             <div
               class="price{% if sticky_on_sale %} price--on-sale{% endif %} product-sticky-bar__price"
               data-sticky-prices
@@ -776,6 +786,12 @@
       "id": "show_vendor",
       "label": "Afficher la marque (vendor)",
       "default": false
+    },
+    {
+      "type": "text",
+      "id": "product_title_override",
+      "label": "Titre affiché sur la fiche (optionnel)",
+      "info": "Remplace le nom du produit Shopify pour le titre principal (H1) et la barre d’achat fixe. Laisser vide pour utiliser le titre catalogue. Les données structurées (SEO) conservent le nom produit Shopify."
     },
     {
       "type": "richtext",
@@ -980,13 +996,14 @@
       "type": "text",
       "id": "trust_icon_2",
       "label": "Icône / emoji 2",
-      "default": "🛡️"
+      "default": "",
+      "info": "Laisser vide si le texte inclut déjà une icône (ex. ✅)."
     },
     {
       "type": "text",
       "id": "trust_text_2",
       "label": "Texte 2",
-      "default": "Garantie satisfait ou remboursé"
+      "default": "✅ Garantie \"Jambes Légères\" 90 Jours"
     },
     {
       "type": "text",

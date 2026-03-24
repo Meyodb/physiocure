@@ -747,6 +747,9 @@ button, input, select, textarea { font: inherit; }
   letter-spacing: 0.03em;
   color: var(--color-text);
 }
+.product-neuro-trust__text {
+  text-transform: none;
+}
 .product-neuro-trust__icon {
   flex-shrink: 0;
   font-size: 1.25rem;
