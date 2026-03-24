@@ -18,6 +18,7 @@
         "testimonials_layout": "grid",
         "testimonials_heading": "Ils en parlent",
         "visual_howto_heading": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
+        "visual_howto_fallback_ext": "gif",
         "details_toggle_label": "Afficher tous les détails",
         "media_strip_label": "Galerie produit",
         "steps_heading": "3 étapes simples",
