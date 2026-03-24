@@ -2299,11 +2299,14 @@ body.nav-open { overflow: hidden; }
 .section-home-cta-banner__inner {
   position: relative;
   z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 .section-home-cta-banner__card {
   position: relative;
   z-index: 1;
-  max-width: 32rem;
+  width: 100%;
+  max-width: 26rem;
   padding: clamp(1.5rem, 4vw, 2rem);
   border-radius: 18px;
   background: color-mix(in srgb, var(--color-surface) 96%, transparent);

@@ -22,7 +22,7 @@
         <h2 id="home-cta-heading-{{ section.id }}" style="font-size: clamp(1.4rem, 3vw, 1.85rem); margin: 0 0 0.65rem;">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
-        <p style="margin: 0 0 1.25rem; color: var(--color-muted); max-width: 32rem;">{{ section.settings.text }}</p>
+        <p style="margin: 0 0 1.25rem; color: var(--color-muted);">{{ section.settings.text }}</p>
       {%- endif -%}
       {%- liquid
         assign btn_href = section.settings.button_link
