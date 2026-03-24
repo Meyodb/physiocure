@@ -7,7 +7,7 @@
     <a href="{{ routes.root_url }}" class="header-logo">
       {%- if section.settings.logo != blank -%}
         <img
-          src="{{ section.settings.logo | image_url: width: 400 }}"
+          src="{{ section.settings.logo | image_url: width: 800 }}"
           alt="{{ shop.name | escape }}"
           width="{{ section.settings.logo.width }}"
           height="{{ section.settings.logo.height }}"
@@ -18,11 +18,10 @@
         <img
           src="{{ 'logo-physiocure.png' | asset_url }}"
           alt="{{ section.settings.logo_text | default: 'PhysioCure' | escape }}"
-          width="200"
-          height="64"
+          width="697"
+          height="314"
           loading="eager"
           decoding="async"
-          class="header-logo__default"
         >
       {%- endif -%}
     </a>

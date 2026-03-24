@@ -281,8 +281,12 @@ button, input, select, textarea { font: inherit; }
   color: var(--color-primary);
   text-decoration: none;
 }
-.header-logo img { max-height: 44px; width: auto; height: auto; }
-.header-logo__default { max-height: 48px; width: auto; }
+.header-logo img {
+  max-height: clamp(3.5rem, 8.5vw, 5.5rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
 .menu-toggle {
   display: flex;
   align-items: center;
