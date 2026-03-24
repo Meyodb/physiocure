@@ -590,20 +590,40 @@ button, input, select, textarea { font: inherit; }
 .product-pack-card__price-col {
   text-align: right;
 }
+.product-pack-card__price-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+.product-pack-card__price-stack--inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 0.35rem 0.55rem;
+}
 .product-pack-card__price-current {
   display: block;
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.15;
 }
+.product-pack-card__price-stack--inline .product-pack-card__price-current {
+  display: inline;
+}
 .product-pack-card__price-compare {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-muted);
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   margin-bottom: 0.2rem;
+}
+.product-pack-card__price-stack--inline .product-pack-card__price-compare {
+  display: inline;
+  margin-bottom: 0;
 }
 .product-pack-card__bundles {
   display: flex;

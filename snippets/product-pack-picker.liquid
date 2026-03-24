@@ -29,7 +29,15 @@
       {%- if price_cents_ov > 0 -%}
         {%- assign line_price = price_cents_ov -%}
       {%- endif -%}
-      {%- assign compare_cents_ov = block.settings.compare_at_price_cents_override | default: 0 | plus: 0 -%}
+      {%- assign compare_cents_block = block.settings.compare_at_price_cents_override | plus: 0 -%}
+      {%- assign compare_cents_ov = compare_cents_block -%}
+      {%- if compare_cents_ov < 1 -%}
+        {%- if forloop.index == 1 -%}
+          {%- assign compare_cents_ov = section.settings.pack_compare_fallback_1_cents | plus: 0 -%}
+        {%- elsif forloop.index == 2 -%}
+          {%- assign compare_cents_ov = section.settings.pack_compare_fallback_2_cents | plus: 0 -%}
+        {%- endif -%}
+      {%- endif -%}
       {%- if compare_cents_ov > line_price -%}
         {%- assign line_compare = compare_cents_ov -%}
       {%- elsif line_compare <= line_price -%}
@@ -106,10 +114,12 @@
               {%- endif -%}
             </span>
             <span class="product-pack-card__price-col">
-              {%- if line_compare > line_price -%}
-                <span class="product-pack-card__price-compare">{{ line_compare | money }}</span>
-              {%- endif -%}
-              <span class="product-pack-card__price-current">{{ line_price | money }}</span>
+              <span class="product-pack-card__price-stack product-pack-card__price-stack--inline">
+                {%- if line_compare > line_price -%}
+                  <span class="product-pack-card__price-compare">{{ line_compare | money }}</span>
+                {%- endif -%}
+                <span class="product-pack-card__price-current">{{ line_price | money }}</span>
+              </span>
             </span>
           </span>
 
@@ -202,7 +212,15 @@
       {%- if price_cents_ov > 0 -%}
         {%- assign card_price = price_cents_ov -%}
       {%- endif -%}
-      {%- assign compare_cents_ov = block.settings.compare_at_price_cents_override | default: 0 | plus: 0 -%}
+      {%- assign compare_cents_block = block.settings.compare_at_price_cents_override | plus: 0 -%}
+      {%- assign compare_cents_ov = compare_cents_block -%}
+      {%- if compare_cents_ov < 1 -%}
+        {%- if forloop.index == 1 -%}
+          {%- assign compare_cents_ov = section.settings.pack_compare_fallback_1_cents | plus: 0 -%}
+        {%- elsif forloop.index == 2 -%}
+          {%- assign compare_cents_ov = section.settings.pack_compare_fallback_2_cents | plus: 0 -%}
+        {%- endif -%}
+      {%- endif -%}
       {%- if compare_cents_ov > card_price -%}
         {%- assign v_compare_display = compare_cents_ov -%}
       {%- elsif v_compare_display <= card_price -%}
@@ -266,10 +284,12 @@
               {%- endif -%}
             </span>
             <span class="product-pack-card__price-col">
-              {%- if v_compare_display > card_price -%}
-                <span class="product-pack-card__price-compare">{{ v_compare_display | money }}</span>
-              {%- endif -%}
-              <span class="product-pack-card__price-current">{{ card_price | money }}</span>
+              <span class="product-pack-card__price-stack product-pack-card__price-stack--inline">
+                {%- if v_compare_display > card_price -%}
+                  <span class="product-pack-card__price-compare">{{ v_compare_display | money }}</span>
+                {%- endif -%}
+                <span class="product-pack-card__price-current">{{ card_price | money }}</span>
+              </span>
             </span>
           </span>
 
