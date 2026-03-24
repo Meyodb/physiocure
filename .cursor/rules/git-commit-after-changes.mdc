@@ -1,0 +1,14 @@
+---
+description: Commiter systématiquement les changements du thème Shopify dans Git après chaque modification de code.
+alwaysApply: true
+---
+
+# Commits Git après modifications
+
+À chaque session où tu modifies des fichiers dans ce dépôt (thème Shopify PhysioCure) :
+
+1. **À la fin des changements** (ou par lot logique), exécuter : `git status`, puis `git add` sur les fichiers concernés, puis `git commit` avec un message clair en français ou en anglais (ex. `fix: …`, `feat: …`, `chore: …`).
+2. **Ne pas laisser** le dépôt avec des modifications non commitées si la tâche est terminée.
+3. Si le push échoue (auth), indiquer à l’utilisateur de lancer `git push` localement ; le commit local reste obligatoire.
+
+Ne pas demander confirmation pour un commit simple lié au travail demandé, sauf si l’utilisateur a indiqué le contraire.
