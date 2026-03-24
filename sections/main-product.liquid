@@ -21,6 +21,7 @@
   elsif testimonials_layout == 'carousel' and carousel_blocks.size > 0
     assign show_testimonial_carousel = true
   endif
+  assign visual_howto_blocks = section.blocks | where: 'type', 'visual_howto_step'
 -%}
 
 <section
@@ -284,6 +285,10 @@
       </div>
     </div>
 
+    {%- if section.settings.show_sticky_bar -%}
+      <div class="product-sticky-sentinel" data-product-sticky-sentinel aria-hidden="true"></div>
+    {%- endif -%}
+
     {%- comment -%} Témoignages : grille OU carrousel (pas les deux) {%- endcomment -%}
     {%- if show_testimonial_grid -%}
       <div class="product-neuro-reviews">
@@ -332,7 +337,15 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} Étapes (ex. « 3 étapes ») {%- endcomment -%}
+    {%- if visual_howto_blocks.size > 0 -%}
+      {% render 'howto-visual-steps',
+        heading: section.settings.visual_howto_heading,
+        blocks: visual_howto_blocks,
+        section_id: section.id
+      %}
+    {%- endif -%}
+
+    {%- comment -%} Étapes texte seul (sans images) {%- endcomment -%}
     {%- if step_blocks.size > 0 -%}
       <section class="product-neuro-steps">
         {%- if section.settings.steps_heading != blank -%}
@@ -428,6 +441,98 @@
       </div>
     {%- endif -%}
   </div>
+
+  {%- if section.settings.show_sticky_bar -%}
+    {%- liquid
+      assign sticky_cv = product.selected_or_first_available_variant
+      assign sticky_on_sale = false
+      if sticky_cv.compare_at_price > sticky_cv.price
+        assign sticky_on_sale = true
+      endif
+      assign sticky_save_pct = 0
+      if sticky_on_sale and sticky_cv.compare_at_price > 0
+        assign sticky_save_pct = sticky_cv.compare_at_price | minus: sticky_cv.price | times: 100.0 | divided_by: sticky_cv.compare_at_price | round
+      endif
+      assign sticky_thumb = sticky_cv.featured_image | default: primary_media.preview_image | default: product.featured_image
+      if sticky_thumb == blank and primary_media != blank
+        assign sticky_thumb = primary_media.preview_image | default: primary_media
+      endif
+    -%}
+    <div
+      class="product-sticky-bar"
+      data-product-sticky-bar
+      data-save-label-fmt="{{ 'products.product.save_percent' | t: percent: '___PCT___' | escape }}"
+      hidden
+    >
+      <div class="page-width product-sticky-bar__inner">
+        <div class="product-sticky-bar__info">
+          {%- if sticky_thumb != blank -%}
+            {{
+              sticky_thumb
+              | image_url: width: 160
+              | image_tag: loading: 'lazy', class: 'product-sticky-bar__thumb', alt: product.title
+            }}
+          {%- else -%}
+            <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
+          {%- endif -%}
+          <div class="product-sticky-bar__text">
+            <p class="product-sticky-bar__title">{{ product.title }}</p>
+            <div
+              class="price{% if sticky_on_sale %} price--on-sale{% endif %} product-sticky-bar__price"
+              data-sticky-prices
+            >
+              <span class="price__sale-row">
+                <span class="price__current product-sticky-bar__price-current" data-sticky-current>{{ sticky_cv.price | money }}</span>
+                <span
+                  class="price__compare product-sticky-bar__price-compare"
+                  data-sticky-compare
+                  {% unless sticky_on_sale %}
+                    hidden
+                  {% endunless %}
+                >
+                  {%- if sticky_on_sale -%}
+                    {{- sticky_cv.compare_at_price | money -}}
+                  {%- endif -%}
+                </span>
+                <span
+                  class="price__save-badge product-sticky-bar__save"
+                  data-sticky-save-badge
+                  {% unless sticky_on_sale and sticky_save_pct > 0 %}
+                    hidden
+                  {% endunless %}
+                >
+                  {%- if sticky_on_sale and sticky_save_pct > 0 -%}
+                    {{ 'products.product.save_percent' | t: percent: sticky_save_pct }}
+                  {%- endif -%}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn product-sticky-bar__cta"
+          data-sticky-submit
+          data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
+          data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
+          {% if section.settings.sticky_bar_cta_label != blank %}
+            data-label-custom="{{ section.settings.sticky_bar_cta_label | escape }}"
+          {% endif %}
+          {% unless sticky_cv.available %}
+            disabled
+          {% endunless %}
+        >
+          {%- if section.settings.sticky_bar_cta_label != blank -%}
+            {{ section.settings.sticky_bar_cta_label }}
+          {%- elsif sticky_cv.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
 </section>
 
 {%- assign ld_image = product.featured_media | image_url: width: 1200 -%}
@@ -462,6 +567,19 @@
   "tag": "section",
   "class": "section-main-product",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_sticky_bar",
+      "label": "Barre d’achat fixe en bas (mobile & desktop)",
+      "default": true,
+      "info": "S’affiche quand la zone d’achat principal n’est plus visible. Le bouton déclenche le même formulaire que sur la fiche."
+    },
+    {
+      "type": "text",
+      "id": "sticky_bar_cta_label",
+      "label": "Texte du bouton (barre fixe)",
+      "info": "Vide = « Ajouter au panier » ou « Épuisé » selon le stock."
+    },
     {
       "type": "checkbox",
       "id": "show_vendor",
@@ -584,8 +702,16 @@
     {
       "type": "text",
       "id": "steps_heading",
-      "label": "Titre bloc étapes",
-      "default": "3 étapes simples"
+      "label": "Titre bloc étapes (texte seul)",
+      "default": "3 étapes simples",
+      "info": "Pour les blocs « Étape » sans image. Préférez « Étape visuelle » pour le bandeau avec photos."
+    },
+    {
+      "type": "text",
+      "id": "visual_howto_heading",
+      "label": "Titre du bloc « 3 étapes visuelles »",
+      "default": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
+      "info": "S’affiche après le bandeau de miniatures, si vous ajoutez des blocs « Étape visuelle »."
     },
     {
       "type": "text",
@@ -781,7 +907,7 @@
     },
     {
       "type": "step",
-      "name": "Étape",
+      "name": "Étape (texte seul)",
       "settings": [
         {
           "type": "text",
@@ -794,6 +920,36 @@
           "id": "text",
           "label": "Texte",
           "default": "<p>Expliquez cette étape en une ou deux phrases.</p>"
+        }
+      ]
+    },
+    {
+      "type": "visual_howto_step",
+      "name": "Étape visuelle",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Carré recommandé. Si vide : howto-step-1.png … 3 du thème selon l’ordre."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Texte alternatif",
+          "default": "Étape d’utilisation du produit"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Enroulez autour des pieds"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Glissez vos pieds dans l’appareil et ajustez les sangles pour un maintien confortable.</p>"
         }
       ]
     },
