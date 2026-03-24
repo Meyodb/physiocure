@@ -58,6 +58,7 @@
         "t1": {
           "type": "item",
           "settings": {
+            "emoji": "📦",
             "label": "Expédition suivie",
             "detail": "Votre colis, du départ à la livraison"
           }
@@ -65,6 +66,7 @@
         "t2": {
           "type": "item",
           "settings": {
+            "emoji": "🔒",
             "label": "Paiement sécurisé",
             "detail": "Cryptage SSL & transactions protégées"
           }
@@ -72,6 +74,7 @@
         "t3": {
           "type": "item",
           "settings": {
+            "emoji": "💬",
             "label": "SAV réactif",
             "detail": "Une réponse sous 48 h ouvrées"
           }
@@ -79,6 +82,7 @@
         "t4": {
           "type": "item",
           "settings": {
+            "emoji": "🛡️",
             "label": "Transparence totale",
             "detail": "Retours simples, politique claire"
           }

@@ -3,10 +3,14 @@
   if trust_aria == blank
     assign trust_aria = 'Nos engagements : livraison, paiement, SAV et transparence'
   endif
+  assign marquee_seconds = section.settings.marquee_duration | default: 45 | plus: 0
+  if marquee_seconds < 15
+    assign marquee_seconds = 45
+  endif
 -%}
 <section
   class="section-padding section-trust-strip trust-strip-marquee-section"
-  style="--trust-marquee-duration: {{ section.settings.marquee_duration | default: 45 }}s; padding-block: clamp(1.5rem, 3.5vw, 2.5rem);"
+  style="--trust-marquee-duration: {{ marquee_seconds }}s; padding-block: clamp(1.5rem, 3.5vw, 2.5rem);"
   aria-label="{{ trust_aria | escape }}"
 >
   <div class="page-width">
@@ -15,10 +19,16 @@
     {%- else -%}
     <div class="trust-strip-marquee">
       <div class="trust-strip-marquee__viewport">
-        <div class="trust-strip-marquee__track">
+        <div
+          class="trust-strip-marquee__track"
+          style="animation-duration: {{ marquee_seconds }}s;"
+        >
           <ul class="trust-strip-marquee__list" role="list">
             {%- for block in section.blocks -%}
               <li class="trust-strip-marquee__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.emoji != blank -%}
+                  <span class="trust-strip-marquee__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
+                {%- endif -%}
                 <span class="trust-strip-marquee__label">{{ block.settings.label }}</span>
                 <span class="trust-strip-marquee__dash" aria-hidden="true">—</span>
                 <span class="trust-strip-marquee__detail">{{ block.settings.detail }}</span>
@@ -28,6 +38,9 @@
           <ul class="trust-strip-marquee__list trust-strip-marquee__list--clone" role="presentation" aria-hidden="true">
             {%- for block in section.blocks -%}
               <li class="trust-strip-marquee__item">
+                {%- if block.settings.emoji != blank -%}
+                  <span class="trust-strip-marquee__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
+                {%- endif -%}
                 <span class="trust-strip-marquee__label">{{ block.settings.label }}</span>
                 <span class="trust-strip-marquee__dash" aria-hidden="true">—</span>
                 <span class="trust-strip-marquee__detail">{{ block.settings.detail }}</span>
@@ -69,6 +82,13 @@
       "type": "item",
       "name": "Élément",
       "settings": [
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji (optionnel)",
+          "default": "✨",
+          "info": "Un seul caractère ou emoji affiché avant le libellé."
+        },
         { "type": "text", "id": "label", "label": "Libellé court", "default": "Paiement blindé" },
         { "type": "text", "id": "detail", "label": "Détail", "default": "Transactions 100 % sécurisées" }
       ]
@@ -78,10 +98,10 @@
     {
       "name": "Bandeau confiance",
       "blocks": [
-        { "type": "item", "settings": { "label": "Expédition suivie", "detail": "Votre colis, du départ à la livraison" } },
-        { "type": "item", "settings": { "label": "Paiement sécurisé", "detail": "Cryptage SSL & transactions protégées" } },
-        { "type": "item", "settings": { "label": "SAV réactif", "detail": "Une réponse sous 48 h ouvrées" } },
-        { "type": "item", "settings": { "label": "Transparence totale", "detail": "Retours simples, politique claire" } }
+        { "type": "item", "settings": { "emoji": "📦", "label": "Expédition suivie", "detail": "Votre colis, du départ à la livraison" } },
+        { "type": "item", "settings": { "emoji": "🔒", "label": "Paiement sécurisé", "detail": "Cryptage SSL & transactions protégées" } },
+        { "type": "item", "settings": { "emoji": "💬", "label": "SAV réactif", "detail": "Une réponse sous 48 h ouvrées" } },
+        { "type": "item", "settings": { "emoji": "🛡️", "label": "Transparence totale", "detail": "Retours simples, politique claire" } }
       ]
     }
   ]
