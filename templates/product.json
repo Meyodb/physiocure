@@ -46,30 +46,6 @@
             "bundle_2_compare": ""
           }
         },
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "quote": "Une vraie différence dès les premiers jours.",
-            "author": "Marie L.",
-            "rating": 5
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "quote": "Simple à utiliser, je le recommande sans hésiter.",
-            "author": "Thomas R.",
-            "rating": 5
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "quote": "Le meilleur achat que j’ai fait cette année.",
-            "author": "Julie P.",
-            "rating": 5
-          }
-        },
         "howto_vis_1": {
           "type": "visual_howto_step",
           "settings": {
@@ -122,9 +98,6 @@
         "howto_vis_1",
         "howto_vis_2",
         "howto_vis_3",
-        "review_1",
-        "review_2",
-        "review_3",
         "content_1",
         "faq_1",
         "faq_2"
@@ -143,8 +116,8 @@
         "pack_divider_text": "Choisissez votre formule",
         "hide_qty_pack_cards": true,
         "show_buy_now": true,
-        "testimonials_layout": "grid",
-        "testimonials_heading": "Ils en parlent",
+        "testimonials_layout": "none",
+        "testimonials_heading": "",
         "details_toggle_label": "Afficher tous les détails",
         "steps_heading": "3 étapes simples",
         "visual_howto_heading": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
