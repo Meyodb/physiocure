@@ -16,6 +16,7 @@
           "type": "pack_offer",
           "settings": {
             "pack_quantity": 1,
+            "compare_at_price_cents_override": 8999,
             "option_value": "1 unité",
             "card_title": "Pack solo",
             "subtitle": "Idéal pour essayer",
@@ -35,6 +36,7 @@
           "settings": {
             "pack_quantity": 2,
             "line_price_cents_override": 9999,
+            "compare_at_price_cents_override": 13999,
             "option_value": "2 unités",
             "card_title": "Pack duo",
             "subtitle": "✅ Idéal pour une action bilatérale simultanée ou pour équiper un proche.",
