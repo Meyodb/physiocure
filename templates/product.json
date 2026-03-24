@@ -17,7 +17,6 @@
           "settings": {
             "pack_quantity": 1,
             "line_price_cents_override": 0,
-            "compare_at_price_cents_override": 8999,
             "option_value": "1 unité",
             "card_title": "Pack solo",
             "subtitle": "Idéal pour essayer",
@@ -35,7 +34,6 @@
           "settings": {
             "pack_quantity": 2,
             "line_price_cents_override": 9999,
-            "compare_at_price_cents_override": 12999,
             "option_value": "2 unités",
             "card_title": "Pack duo",
             "subtitle": "✅ Idéal pour une action bilatérale simultanée ou pour équiper un proche.",
@@ -144,8 +142,6 @@
         "pack_option_index": "1",
         "pack_divider_text": "Choisissez votre formule",
         "hide_qty_pack_cards": true,
-        "pack_compare_fallback_1_cents": 8999,
-        "pack_compare_fallback_2_cents": 12999,
         "show_buy_now": true,
         "testimonials_layout": "grid",
         "testimonials_heading": "Ils en parlent",

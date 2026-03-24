@@ -685,26 +685,6 @@
       "default": true
     },
     {
-      "type": "header",
-      "content": "Prix barrés sur les cartes pack (secours)"
-    },
-    {
-      "type": "paragraph",
-      "content": "Si le « Prix comparé » d’un bloc Offre est à 0, ces valeurs (centimes) s’appliquent à la 1ʳᵉ / 2ᵉ carte dans l’ordre des blocs. 0 = désactivé."
-    },
-    {
-      "type": "number",
-      "id": "pack_compare_fallback_1_cents",
-      "label": "1ʳᵉ carte — prix barré (centimes)",
-      "default": 0
-    },
-    {
-      "type": "number",
-      "id": "pack_compare_fallback_2_cents",
-      "label": "2ᵉ carte — prix barré (centimes)",
-      "default": 0
-    },
-    {
       "type": "checkbox",
       "id": "show_buy_now",
       "label": "Bouton « Acheter maintenant »",
@@ -867,13 +847,6 @@
           "info": "Fixe le prix montré sur la carte (ex. 9999 = 99,99 €). 0 = prix Shopify (ou unitaire × quantité si une seule variante). Le panier utilise toujours le prix catalogue de la variante."
         },
         {
-          "type": "number",
-          "id": "compare_at_price_cents_override",
-          "label": "Prix barré / comparé (centimes, optionnel)",
-          "default": 0,
-          "info": "Affiche un prix barré sur la carte si supérieur au prix affiché. 0 = utiliser le prix comparé Shopify (s’il existe). Utile avec un prix affiché personnalisé ci-dessus."
-        },
-        {
           "type": "text",
           "id": "option_value",
           "label": "Valeur d’option Shopify (correspondance exacte)",
@@ -908,7 +881,7 @@
           "type": "text",
           "id": "savings_label",
           "label": "Texte du badge d’économie (optionnel)",
-          "info": "Ex. ÉCONOMISEZ 119,99 €. Vide = calcul automatique si prix barré."
+          "info": "Ex. Meilleure offre. Laisser vide : aucun texte sur la pilule (plus de calcul automatique)."
         },
         {
           "type": "header",
