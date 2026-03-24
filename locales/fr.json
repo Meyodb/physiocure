@@ -37,7 +37,14 @@
   "cart": {
     "title": "Panier",
     "caption": "Articles du panier",
+    "column_product": "Produit",
+    "remove": "Retirer",
     "remove_title": "Retirer {{ title }}",
+    "update": "Mettre à jour",
+    "items_count": {
+      "one": "{{ count }} article",
+      "other": "{{ count }} articles"
+    },
     "subtotal": "Sous-total",
     "new_subtotal": "Nouveau sous-total",
     "note": "Note de commande",

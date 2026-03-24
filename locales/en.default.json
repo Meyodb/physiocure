@@ -37,7 +37,14 @@
   "cart": {
     "title": "Cart",
     "caption": "Cart items",
+    "column_product": "Product",
+    "remove": "Remove",
     "remove_title": "Remove {{ title }}",
+    "update": "Update",
+    "items_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
     "subtotal": "Subtotal",
     "new_subtotal": "New subtotal",
     "note": "Order note",

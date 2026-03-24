@@ -1,81 +1,134 @@
-<section class="section-padding">
+<section class="cart-page section-padding" data-cart-page>
   <div class="page-width">
-    <h1 class="page-header" style="margin-bottom:2rem;">{{ 'cart.title' | t }}</h1>
+    <header class="cart-page__intro">
+      <h1 class="cart-page__title">{{ 'cart.title' | t }}</h1>
+      {%- if cart.item_count > 0 -%}
+        <p class="cart-page__meta">{{ 'cart.items_count' | t: count: cart.item_count }}</p>
+      {%- endif -%}
+    </header>
 
     {%- if cart.item_count == 0 -%}
-      <p>{{ 'cart.empty' | t }}</p>
-      <p><a href="{{ routes.all_products_collection_url }}" class="btn" style="margin-top:1rem;">{{ 'general.continue_shopping' | t }}</a></p>
+      <div class="cart-empty">
+        <p class="cart-empty__text">{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn cart-empty__cta">{{ 'general.continue_shopping' | t }}</a>
+      </div>
     {%- else -%}
-      {% form 'cart', cart, class: 'cart-form' %}
+      {% form 'cart', cart, class: 'cart-form cart-page__form', id: 'CartPageForm' %}
         <div class="cart-layout">
-          <div>
-            <table class="cart-table" role="table">
-              <caption class="visually-hidden">{{ 'cart.caption' | t }}</caption>
-              <thead>
-                <tr>
-                  <th colspan="2">{{ 'cart.title' | t }}</th>
-                  <th>{{ 'products.product.quantity.label' | t }}</th>
-                  <th>{{ 'customer.order.total' | t }}</th>
-                </tr>
-              </thead>
-              <tbody>
+          <div class="cart-main">
+            <div class="cart-items-panel">
+              <div class="cart-items-panel__head" aria-hidden="true">
+                <span class="cart-items-panel__col cart-items-panel__col--media"></span>
+                <span class="cart-items-panel__col cart-items-panel__col--product">{{ 'cart.column_product' | t }}</span>
+                <span class="cart-items-panel__col cart-items-panel__col--qty">{{ 'products.product.quantity.label' | t }}</span>
+                <span class="cart-items-panel__col cart-items-panel__col--total">{{ 'customer.order.total' | t }}</span>
+              </div>
+              <ul class="cart-items" role="list">
                 {%- for item in cart.items -%}
-                  <tr>
-                    <td class="cart-item__image">
-                      {% if item.image %}
-                        <a href="{{ item.url }}">{{ item | image_url: width: 160 | image_tag: loading: 'lazy', alt: item.title }}</a>
-                      {% endif %}
-                    </td>
-                    <td>
-                      <a href="{{ item.url }}"><strong>{{ item.product.title }}</strong></a>
-                      {%- unless item.product.has_only_default_variant -%}
-                        <div style="font-size:0.9rem; color: var(--color-muted);">{{ item.variant.title }}</div>
-                      {%- endunless -%}
-                      <a href="{{ item.url_to_remove }}" style="font-size:0.85rem;">{{ 'cart.remove_title' | t: title: item.title }}</a>
-                    </td>
-                    <td>
-                      <input
-                        name="updates[]"
-                        value="{{ item.quantity }}"
-                        type="number"
-                        min="0"
-                        aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title }}"
-                        style="max-width: 4rem; padding: 0.4rem; border-radius: 8px; border: 1px solid rgba(0,0,0,0.15);"
-                      >
-                    </td>
-                    <td>{{ item.final_line_price | money }}</td>
-                  </tr>
+                  <li class="cart-item">
+                    <div class="cart-item__body">
+                      <a href="{{ item.url }}" class="cart-item__media" tabindex="-1" aria-hidden="true">
+                        {%- if item.image -%}
+                          {{ item | image_url: width: 200 | image_tag: loading: 'lazy', class: 'cart-item__img', alt: '' }}
+                        {%- else -%}
+                          <span class="cart-item__placeholder" aria-hidden="true"></span>
+                        {%- endif -%}
+                      </a>
+                      <div class="cart-item__info">
+                        <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                        {%- unless item.product.has_only_default_variant -%}
+                          <p class="cart-item__variant">{{ item.variant.title }}</p>
+                        {%- endunless -%}
+                        <a
+                          href="{{ item.url_to_remove }}"
+                          class="cart-item__remove"
+                          aria-label="{{ 'cart.remove_title' | t: title: item.title | escape }}"
+                        >
+                          {{ 'cart.remove' | t }}
+                        </a>
+                      </div>
+                      <div class="cart-item__qty-block">
+                        <label class="visually-hidden" for="CartQty-{{ forloop.index }}">
+                          {{- 'products.product.quantity.input_label' | t: product: item.product.title -}}
+                        </label>
+                        <div class="cart-qty">
+                          <input
+                            id="CartQty-{{ forloop.index }}"
+                            class="cart-qty__input"
+                            name="updates[]"
+                            value="{{ item.quantity }}"
+                            type="number"
+                            min="0"
+                            inputmode="numeric"
+                            data-cart-qty
+                            aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title }}"
+                          >
+                        </div>
+                      </div>
+                      <div class="cart-item__line-total">
+                        <span class="cart-item__line-label visually-hidden">{{ 'customer.order.total' | t }}</span>
+                        <span class="cart-item__price">{{ item.final_line_price | money }}</span>
+                      </div>
+                    </div>
+                  </li>
                 {%- endfor -%}
-              </tbody>
-            </table>
+              </ul>
+            </div>
 
-            <button type="submit" name="update" class="btn btn--secondary" style="margin-top:1rem;">
-              Mettre à jour
-            </button>
+            <div class="cart-toolbar">
+              <button type="submit" name="update" class="btn btn--secondary cart-toolbar__update" data-cart-update-btn>
+                {{ 'cart.update' | t }}
+              </button>
+            </div>
 
             {%- if section.settings.show_note -%}
-              <div class="field" style="margin-top:1.5rem;">
-                <label for="CartNote">{{ 'cart.note' | t }}</label>
-                <textarea name="note" id="CartNote" rows="3">{{ cart.note }}</textarea>
+              <div class="cart-note field">
+                <label class="cart-note__label" for="CartNote">{{ 'cart.note' | t }}</label>
+                <textarea
+                  class="cart-note__input"
+                  name="note"
+                  id="CartNote"
+                  rows="2"
+                  placeholder="{{ 'cart.note' | t }}"
+                >{{ cart.note }}</textarea>
               </div>
             {%- endif -%}
           </div>
 
-          <div class="cart-summary">
-            <p style="display:flex; justify-content:space-between; font-size:1.1rem;">
+          <aside class="cart-summary" aria-labelledby="cart-summary-heading">
+            <h2 id="cart-summary-heading" class="visually-hidden">{{ 'cart.subtotal' | t }}</h2>
+            <div class="cart-summary__row">
               <span>{{ 'cart.subtotal' | t }}</span>
-              <strong>{{ cart.total_price | money }}</strong>
-            </p>
-            <p style="font-size:0.85rem; color: var(--color-muted); margin:0 0 1rem;">
-              {{ section.settings.tax_text }}
-            </p>
-            <button type="submit" name="checkout" class="btn" style="width:100%;">
+              <strong class="cart-summary__amount">{{ cart.total_price | money }}</strong>
+            </div>
+            <p class="cart-summary__legal">{{ section.settings.tax_text }}</p>
+            <button type="submit" name="checkout" class="btn cart-summary__checkout">
               {{ 'cart.checkout' | t }}
             </button>
-            <a href="{{ routes.all_products_collection_url }}" style="display:block; text-align:center; margin-top:1rem;">{{ 'general.continue_shopping' | t }}</a>
-          </div>
+            <a href="{{ routes.all_products_collection_url }}" class="cart-summary__continue">{{ 'general.continue_shopping' | t }}</a>
+          </aside>
         </div>
       {% endform %}
+
+      <script>
+        (function () {
+          var form = document.getElementById('CartPageForm');
+          if (!form) return;
+          form.classList.add('cart-form--auto');
+          var inputs = form.querySelectorAll('[data-cart-qty]');
+          var updateBtn = form.querySelector('[data-cart-update-btn]');
+          var t;
+          function scheduleUpdate() {
+            clearTimeout(t);
+            t = setTimeout(function () {
+              if (updateBtn) updateBtn.click();
+            }, 450);
+          }
+          inputs.forEach(function (el) {
+            el.addEventListener('change', scheduleUpdate);
+          });
+        })();
+      </script>
     {%- endif -%}
   </div>
 </section>
