@@ -1,0 +1,60 @@
+{%- comment -%}
+  Grille 3 colonnes « comment utiliser » (images + textes).
+  @param heading {String}
+  @param blocks {Array} blocs type visual_howto_step
+  @param section_id {String}
+{%- endcomment -%}
+{%- if blocks.size > 0 -%}
+  <section
+    class="section-howto-visual section-howto-visual--embedded"
+    id="HowTo-{{ section_id }}"
+    aria-labelledby="HowToHeading-{{ section_id }}"
+  >
+    {%- if heading != blank -%}
+      <h2 class="section-howto-visual__heading" id="HowToHeading-{{ section_id }}">
+        {{ heading | escape }}
+      </h2>
+    {%- endif -%}
+
+    <div class="section-howto-visual__grid">
+      {%- for block in blocks -%}
+        <article class="section-howto-visual__card" {{ block.shopify_attributes }}>
+          <div class="section-howto-visual__media">
+            {%- assign step_alt = block.settings.image_alt | default: block.settings.title | strip_html -%}
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'section-howto-visual__img',
+                  sizes: '(min-width: 900px) min(28vw, 400px), 88vw',
+                  widths: '400, 600, 900',
+                  alt: step_alt
+              }}
+            {%- else -%}
+              {%- assign fallback_file = 'howto-step-' | append: forloop.index | append: '.png' -%}
+              <img
+                src="{{ fallback_file | asset_url }}"
+                alt="{{ step_alt | escape }}"
+                class="section-howto-visual__img"
+                width="900"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              >
+            {%- endif -%}
+          </div>
+          <div class="section-howto-visual__body">
+            {%- if block.settings.title != blank -%}
+              <h3 class="section-howto-visual__title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="section-howto-visual__text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
