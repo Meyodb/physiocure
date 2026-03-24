@@ -20,7 +20,7 @@
           </div>
         {%- else -%}
           <div style="aspect-ratio:1; border-radius:20px; background: linear-gradient(145deg, #EDF2F7, #F7FAFC); display:flex; align-items:center; justify-content:center; color: var(--color-muted);">
-            <span style="padding:1rem; text-align:center;">Sélectionnez votre produit vedette dans l’éditeur de thème (section Hero produit).</span>
+            <span style="padding:1rem; text-align:center; max-width:22rem; line-height:1.45;">Choisissez le produit vedette dans le thème. Pour le visuel : privilégiez une photo lifestyle (personne détendue qui utilise l’appareil), pas le produit seul sur fond blanc.</span>
           </div>
         {%- endif -%}
       </div>
@@ -29,7 +29,7 @@
           <span class="badge">{{ section.settings.badge }}</span>
         {%- endif -%}
         <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-top: 0.75rem;">
-          {{ section.settings.heading | default: featured.title | default: "Masseur de pieds premium" }}
+          {{ section.settings.heading | default: featured.title | default: "Retrouvez la légèreté de vos jambes en 15 minutes." }}
         </h1>
         <p style="font-size: 1.1rem; color: var(--color-muted); max-width: 36rem;">
           {{ section.settings.subheading }}
@@ -104,13 +104,13 @@
       "type": "textarea",
       "id": "subheading",
       "label": "Sous-titre",
-      "default": "Soulagez la tension plantaire et retrouvez une sensation de légèreté après la journée. Design pensé pour un usage quotidien, finitions soignées et expérience de marque transparente."
+      "default": "Soulagez la sensation de jambes lourdes et retrouvez la légèreté — quelques minutes par jour, confortablement installé chez vous."
     },
     {
       "type": "text",
       "id": "primary_cta_label",
       "label": "Libellé bouton principal",
-      "default": "Découvrir le produit"
+      "default": "Soulager mes jambes maintenant"
     },
     {
       "type": "text",
@@ -137,9 +137,9 @@
     {
       "name": "Hero produit",
       "blocks": [
-        { "type": "point", "settings": { "text": "Pressions ajustables pour un confort personnalisé" } },
-        { "type": "point", "settings": { "text": "Chaleur douce en option pour détendre les muscles" } },
-        { "type": "point", "settings": { "text": "Livraison suivie et emballage soigné" } }
+        { "type": "point", "settings": { "text": "15 niveaux d’intensité pour un drainage sur-mesure." } },
+        { "type": "point", "settings": { "text": "Technologie de chaleur apaisante pour relancer le flux sanguin." } },
+        { "type": "point", "settings": { "text": "Soulagement garanti : 90 jours pour tester sans risque." } }
       ]
     }
   ]

@@ -4,28 +4,28 @@
       "type": "hero-product",
       "settings": {
         "badge": "Bien-être & récupération",
-        "heading": "",
-        "subheading": "Soulagez la tension plantaire et retrouvez une sensation de légèreté après la journée. Design pensé pour un usage quotidien, finitions soignées et expérience de marque transparente.",
-        "primary_cta_label": "Découvrir le produit",
+        "heading": "Retrouvez la légèreté de vos jambes en 15 minutes.",
+        "subheading": "Soulagez la sensation de jambes lourdes et retrouvez la légèreté — quelques minutes par jour, confortablement installé chez vous.",
+        "primary_cta_label": "Soulager mes jambes maintenant",
         "secondary_cta_label": "Voir les détails"
       },
       "blocks": {
         "point_1": {
           "type": "point",
           "settings": {
-            "text": "Pressions ajustables pour un confort personnalisé"
+            "text": "15 niveaux d’intensité pour un drainage sur-mesure."
           }
         },
         "point_2": {
           "type": "point",
           "settings": {
-            "text": "Chaleur douce en option pour détendre les muscles"
+            "text": "Technologie de chaleur apaisante pour relancer le flux sanguin."
           }
         },
         "point_3": {
           "type": "point",
           "settings": {
-            "text": "Livraison suivie et emballage soigné"
+            "text": "Soulagement garanti : 90 jours pour tester sans risque."
           }
         }
       },
@@ -38,21 +38,21 @@
           "type": "item",
           "settings": {
             "label": "Livraison",
-            "detail": "Suivi d’expédition fourni"
+            "detail": "Suivi inclus"
           }
         },
         "t2": {
           "type": "item",
           "settings": {
             "label": "SAV",
-            "detail": "Réponse sous 24–48 h ouvrées"
+            "detail": "Sous 48 h ouvrées"
           }
         },
         "t3": {
           "type": "item",
           "settings": {
             "label": "Transparence",
-            "detail": "Fiche produit détaillée & politique de retour"
+            "detail": "Retours & infos claires"
           }
         }
       },
