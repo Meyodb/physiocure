@@ -35,17 +35,29 @@
           {{ section.settings.subheading }}
         </p>
 
+        {%- liquid
+          if section.settings.primary_cta_page != blank
+            assign primary_href = section.settings.primary_cta_page.url
+          elsif pages.physiocure != blank
+            assign primary_href = pages.physiocure.url
+          elsif featured != blank
+            assign primary_href = featured.url
+          else
+            assign primary_href = routes.all_products_collection_url
+          endif
+        -%}
+
         {%- if featured != blank -%}
           <div style="margin: 1.5rem 0;">
             {% render 'price', product: featured %}
           </div>
 
           <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
-            <a href="{{ featured.url }}" class="btn">{{ section.settings.primary_cta_label }}</a>
+            <a href="{{ primary_href }}" class="btn">{{ section.settings.primary_cta_label }}</a>
             <a href="{{ featured.url }}#MainProduct" class="btn btn--secondary">{{ section.settings.secondary_cta_label }}</a>
           </div>
         {%- else -%}
-          <a href="{{ routes.all_products_collection_url }}" class="btn">{{ section.settings.primary_cta_label }}</a>
+          <a href="{{ primary_href }}" class="btn">{{ section.settings.primary_cta_label }}</a>
         {%- endif -%}
 
         {%- if section.blocks.size > 0 -%}
@@ -93,11 +105,17 @@
       "default": "Soulagez la sensation de jambes lourdes et retrouvez la légèreté — quelques minutes par jour, confortablement installé chez vous."
     },
     {
+      "type": "page",
+      "id": "primary_cta_page",
+      "label": "Page du bouton principal",
+      "info": "Optionnel. Si vide, la page dont le handle est « physiocure » est utilisée ; sinon le produit vedette."
+    },
+    {
       "type": "text",
       "id": "primary_cta_label",
       "label": "Libellé bouton principal",
       "default": "Soulager mes jambes maintenant",
-      "info": "Ouvre la page du produit vedette."
+      "info": "Ouvre la page configurée ci-dessus, ou /pages/physiocure si elle existe, sinon la fiche produit vedette."
     },
     {
       "type": "text",
