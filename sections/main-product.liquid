@@ -330,14 +330,82 @@
       </div>
     </div>
 
-    {%- comment -%} Description repliable : sous le bandeau produit, avant les étapes et les avis {%- endcomment -%}
-    {%- if product.description != blank -%}
-      <details class="product-neuro-details" id="ProductDetails-{{ section.id }}">
-        <summary class="product-neuro-details__summary">{{ section.settings.details_toggle_label }}</summary>
-        <div class="product-neuro-details__body rte">
-          {{ product.description }}
-        </div>
-      </details>
+    {%- liquid
+      assign desc_lead = section.settings.product_summary_text
+      assign d1h = section.settings.desc_category_1_heading | strip
+      assign d1t = section.settings.desc_category_1_text
+      assign d2h = section.settings.desc_category_2_heading | strip
+      assign d2t = section.settings.desc_category_2_text
+      assign d3h = section.settings.desc_category_3_heading | strip
+      assign d3t = section.settings.desc_category_3_text
+      assign show_desc_cat_1 = false
+      assign show_desc_cat_2 = false
+      assign show_desc_cat_3 = false
+      if d1h != blank or d1t != blank
+        assign show_desc_cat_1 = true
+      endif
+      if d2h != blank or d2t != blank
+        assign show_desc_cat_2 = true
+      endif
+      if d3h != blank or d3t != blank
+        assign show_desc_cat_3 = true
+      endif
+      assign show_product_desc_zone = false
+      if desc_lead != blank or show_desc_cat_1 or show_desc_cat_2 or show_desc_cat_3
+        assign show_product_desc_zone = true
+      endif
+    -%}
+    {%- if show_product_desc_zone -%}
+      <section
+        class="product-neuro-desc-summary"
+        id="ProductDetails-{{ section.id }}"
+        {% if section.settings.product_summary_heading != blank -%}
+          aria-labelledby="ProductDescSummaryHeading-{{ section.id }}"
+        {%- endif %}
+      >
+        {%- if section.settings.product_summary_heading != blank -%}
+          <h2 class="product-neuro-desc-summary__heading" id="ProductDescSummaryHeading-{{ section.id }}">
+            {{ section.settings.product_summary_heading }}
+          </h2>
+        {%- endif -%}
+        {%- if desc_lead != blank -%}
+          <div class="product-neuro-desc-summary__lead rte">{{ desc_lead }}</div>
+        {%- endif -%}
+        {%- if show_desc_cat_1 or show_desc_cat_2 or show_desc_cat_3 -%}
+          <div class="product-neuro-desc-summary__grid">
+            {%- if show_desc_cat_1 -%}
+              <article class="product-neuro-desc-summary__card">
+                {%- if d1h != blank -%}
+                  <h3 class="product-neuro-desc-summary__card-title">{{ d1h }}</h3>
+                {%- endif -%}
+                {%- if d1t != blank -%}
+                  <div class="product-neuro-desc-summary__card-body rte">{{ d1t }}</div>
+                {%- endif -%}
+              </article>
+            {%- endif -%}
+            {%- if show_desc_cat_2 -%}
+              <article class="product-neuro-desc-summary__card">
+                {%- if d2h != blank -%}
+                  <h3 class="product-neuro-desc-summary__card-title">{{ d2h }}</h3>
+                {%- endif -%}
+                {%- if d2t != blank -%}
+                  <div class="product-neuro-desc-summary__card-body rte">{{ d2t }}</div>
+                {%- endif -%}
+              </article>
+            {%- endif -%}
+            {%- if show_desc_cat_3 -%}
+              <article class="product-neuro-desc-summary__card">
+                {%- if d3h != blank -%}
+                  <h3 class="product-neuro-desc-summary__card-title">{{ d3h }}</h3>
+                {%- endif -%}
+                {%- if d3t != blank -%}
+                  <div class="product-neuro-desc-summary__card-body rte">{{ d3t }}</div>
+                {%- endif -%}
+              </article>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </section>
     {%- endif -%}
 
     {%- if visual_howto_blocks.size > 0 -%}
@@ -714,10 +782,56 @@
       "info": "Remplace l’ancien titre « carrousel » si renseigné."
     },
     {
+      "type": "header",
+      "content": "Résumé produit (remplace l’ancien repliable)"
+    },
+    {
       "type": "text",
-      "id": "details_toggle_label",
-      "label": "Libellé du repliable description",
-      "default": "Afficher tous les détails"
+      "id": "product_summary_heading",
+      "label": "Titre de la zone",
+      "default": "En savoir plus"
+    },
+    {
+      "type": "richtext",
+      "id": "product_summary_text",
+      "label": "Texte synthétique (introduction)",
+      "default": "<p>Résumez en quelques phrases l’essentiel : bénéfice principal, usage, public visé.</p>"
+    },
+    {
+      "type": "text",
+      "id": "desc_category_1_heading",
+      "label": "Catégorie 1 — titre",
+      "default": "Bienfaits"
+    },
+    {
+      "type": "richtext",
+      "id": "desc_category_1_text",
+      "label": "Catégorie 1 — texte",
+      "default": "<p>Décrivez les atouts perçus par le client (ton bien-être, sans promesse médicale non fondée).</p>"
+    },
+    {
+      "type": "text",
+      "id": "desc_category_2_heading",
+      "label": "Catégorie 2 — titre",
+      "default": "Utilisation"
+    },
+    {
+      "type": "richtext",
+      "id": "desc_category_2_text",
+      "label": "Catégorie 2 — texte",
+      "default": "<p>Mode d’emploi court : fréquence, durée, précautions simples.</p>"
+    },
+    {
+      "type": "text",
+      "id": "desc_category_3_heading",
+      "label": "Catégorie 3 — titre",
+      "default": "Contenu & entretien"
+    },
+    {
+      "type": "richtext",
+      "id": "desc_category_3_text",
+      "label": "Catégorie 3 — texte",
+      "default": "<p>Contenu de la boîte, entretien, garantie ou livraison selon votre politique.</p>"
     },
     {
       "type": "text",
@@ -731,7 +845,7 @@
       "id": "visual_howto_heading",
       "label": "Titre du bloc « 3 étapes visuelles »",
       "default": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
-      "info": "S’affiche après la description repliable du produit, si vous ajoutez des blocs « Étape visuelle »."
+      "info": "S’affiche après le résumé produit (3 catégories), si vous ajoutez des blocs « Étape visuelle »."
     },
     {
       "type": "select",
@@ -762,7 +876,7 @@
       "id": "show_secondary_description",
       "label": "Répéter la description complète sous la page",
       "default": false,
-      "info": "Désactivé par défaut : la description est dans le repliable « Afficher tous les détails »."
+      "info": "Affiche la description complète du produit Shopify en bas de page (SEO / détail). La zone « Résumé produit » ci-dessus reste visible sans repliable."
     },
     {
       "type": "text",
