@@ -97,40 +97,45 @@
         "respect_reduced_motion": false
       }
     },
-    "how_it_works": {
-      "type": "home-how-it-works",
+    "home_howto_visual": {
+      "type": "home-howto-visual",
       "blocks": {
-        "step_1": {
-          "type": "step",
+        "v1": {
+          "type": "visual_howto_step",
           "settings": {
-            "title": "Branchez et choisissez votre programme",
-            "text": "Plusieurs intensités et modes pour adapter la séance à votre journée."
+            "image": "",
+            "image_alt": "Pose du bandage autour du mollet et de la cheville",
+            "title": "Enroulez autour de la jambe",
+            "text": "<p>Placez l’appareil autour du mollet et de la cheville, puis ajustez les sangles pour un maintien ferme et confortable.</p>"
           }
         },
-        "step_2": {
-          "type": "step",
+        "v2": {
+          "type": "visual_howto_step",
           "settings": {
-            "title": "Laissez agir environ 15 minutes",
-            "text": "Drainage et détente ciblés sur les jambes, avec la chaleur apaisante pour relancer le flux sanguin."
+            "image": "",
+            "image_alt": "Réglage du boîtier de contrôle",
+            "title": "Choisissez vos réglages",
+            "text": "<p>Utilisez le panneau pour choisir l’une des 15 intensités et activer la chaleur apaisante selon votre confort.</p>"
           }
         },
-        "step_3": {
-          "type": "step",
+        "v3": {
+          "type": "visual_howto_step",
           "settings": {
-            "title": "Ressentez la légèreté",
-            "text": "Intégrez la séance à votre routine du soir ou après l’effort."
+            "image": "",
+            "image_alt": "Utilisation détendue à la maison",
+            "title": "Asseyez-vous et détendez-vous",
+            "text": "<p>En environ 15 minutes, la combinaison drainage, massage et chaleur peut soulager la sensation de jambes lourdes — installé confortablement chez vous.</p>"
           }
         }
       },
       "block_order": [
-        "step_1",
-        "step_2",
-        "step_3"
+        "v1",
+        "v2",
+        "v3"
       ],
       "settings": {
-        "heading": "Comment ça marche",
-        "subheading": "Trois étapes simples, sans contrainte — chez vous.",
-        "show_step_images": false
+        "heading": "3 étapes pour soulager les jambes lourdes et retrouver la légèreté.",
+        "fallback_ext": "gif"
       }
     },
     "benefits": {
@@ -139,6 +144,7 @@
         "b1": {
           "type": "column",
           "settings": {
+            "image": "",
             "show_placeholder": false,
             "title": "Récupération",
             "text": "Idéal après une longue journée debout ou une séance d’entraînement."
@@ -147,6 +153,7 @@
         "b2": {
           "type": "column",
           "settings": {
+            "image": "",
             "show_placeholder": false,
             "title": "Usage simple",
             "text": "Interface claire : choisissez un programme et installez-vous confortablement."
@@ -155,6 +162,7 @@
         "b3": {
           "type": "column",
           "settings": {
+            "image": "",
             "show_placeholder": false,
             "title": "Qualité perçue",
             "text": "Matériaux et finitions pensés pour durer — pas d’effet « gadget »."
@@ -221,14 +229,17 @@
         "cta_secondary_label": "Acheter maintenant"
       }
     },
-    "cta_banner": {
-      "type": "home-cta-banner",
+    "featured_collection": {
+      "type": "home-featured-collection",
       "settings": {
-        "heading": "Prêt à soulager vos jambes ?",
-        "text": "Livraison suivie, SAV réactif et politique de retour claire.",
-        "button_label": "Voir le PhysioCure",
-        "button_link": "shopify://products/physiocure",
-        "button_page": ""
+        "eyebrow": "Notre sélection",
+        "heading": "Les produits les plus demandés",
+        "subheading": "Récupération et confort des jambes — qualité et simplicité d’usage.",
+        "collection": "",
+        "products_to_show": 2,
+        "show_view_all": true,
+        "view_all_label": "Voir toute la gamme",
+        "empty_state": "Dans l’éditeur de thème, choisissez une collection pour afficher vos produits ici."
       }
     },
     "faq_home": {
@@ -284,10 +295,10 @@
   "order": [
     "hero_product",
     "trust_strip",
-    "how_it_works",
+    "home_howto_visual",
     "benefits",
     "product_specs",
-    "cta_banner",
+    "featured_collection",
     "faq_home",
     "newsletter"
   ]
