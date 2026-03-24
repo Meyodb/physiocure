@@ -221,19 +221,6 @@
         "cta_secondary_label": "Acheter maintenant"
       }
     },
-    "featured_collection": {
-      "type": "home-featured-collection",
-      "settings": {
-        "eyebrow": "Notre sélection",
-        "heading": "Les produits les plus demandés",
-        "subheading": "Récupération et confort des jambes — qualité et simplicité d’usage.",
-        "collection": "",
-        "products_to_show": 2,
-        "show_view_all": true,
-        "view_all_label": "Voir toute la gamme",
-        "empty_state": "Dans l’éditeur de thème, choisissez une collection pour afficher vos produits ici."
-      }
-    },
     "cta_banner": {
       "type": "home-cta-banner",
       "settings": {
@@ -300,7 +287,6 @@
     "how_it_works",
     "benefits",
     "product_specs",
-    "featured_collection",
     "cta_banner",
     "faq_home",
     "newsletter"
