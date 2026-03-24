@@ -290,6 +290,10 @@
             </li>
           </ul>
         {%- endif -%}
+
+        {%- if section.settings.show_sticky_bar and section.settings.show_buy_now -%}
+          <div class="product-sticky-sentinel" data-product-sticky-sentinel aria-hidden="true"></div>
+        {%- endif -%}
       </div>
     </div>
 
@@ -501,6 +505,59 @@
       </div>
     {%- endif -%}
   </div>
+
+  {%- liquid
+    assign sticky_cta_label = section.settings.sticky_bar_cta_label | strip
+    if sticky_cta_label == blank
+      assign sticky_cta_label = 'products.product.buy_it_now' | t
+    endif
+  -%}
+  {%- if section.settings.show_sticky_bar and section.settings.show_buy_now -%}
+    <div
+      id="ProductStickyBar-{{ section.id }}"
+      class="product-sticky-bar"
+      data-product-sticky-bar
+      hidden
+      role="region"
+      aria-label="{{ sticky_cta_label | escape }}"
+    >
+      <div class="product-sticky-bar__inner page-width" style="width:min(100% - 2rem, 72rem); margin-inline:auto; padding-inline:clamp(1rem, 3vw, 1.5rem);">
+        <div class="product-sticky-bar__info">
+          {%- if primary_media -%}
+            {%- assign sticky_thumb = primary_media.preview_image | default: primary_media -%}
+            {%- if sticky_thumb != blank -%}
+              {{
+                sticky_thumb
+                | image_url: width: 120
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'product-sticky-bar__thumb',
+                  alt: product_display_title
+              }}
+            {%- else -%}
+              <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
+          {%- endif -%}
+          <div class="product-sticky-bar__text">
+            <p class="product-sticky-bar__title">{{ product_display_title }}</p>
+            <div class="product-sticky-bar__price">
+              {% render 'price', product: product, show_save_badge: true %}
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn product-neuro-form__submit product-neuro-form__submit--buynow product-sticky-bar__cta"
+          data-sticky-mirror-buy
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          {{ sticky_cta_label }}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
 
 </section>
 
@@ -725,6 +782,20 @@
       "label": "Bouton « Acheter maintenant »",
       "default": true,
       "info": "Ouvre le tunnel de commande : le panier est vidé puis une ligne avec la variante et la quantité choisies y est ajoutée."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_bar",
+      "label": "Barre d’achat fixe en bas (après défilement)",
+      "default": true,
+      "info": "S’affiche quand la zone d’achat n’est plus visible. Nécessite « Acheter maintenant »."
+    },
+    {
+      "type": "text",
+      "id": "sticky_bar_cta_label",
+      "label": "Libellé du bouton (barre fixe)",
+      "default": "Acheter maintenant",
+      "info": "Laisser vide pour réutiliser la traduction du bouton principal."
     },
     {
       "type": "header",

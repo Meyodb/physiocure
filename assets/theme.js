@@ -65,6 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (buyNowBtn) {
         buyNowBtn.disabled = !available;
       }
+      const mainProductEl = document.querySelector('#MainProduct[data-cart-add-url]');
+      const stickyMirror = mainProductEl && mainProductEl.querySelector('[data-sticky-mirror-buy]');
+      if (stickyMirror) {
+        stickyMirror.disabled = !available;
+      }
       packWrap.querySelectorAll('[data-pack-card]').forEach((card) => {
         const input = card.querySelector('[data-pack-qty-radio], [data-pack-variant-radio]');
         card.classList.toggle('is-selected', Boolean(input && input.checked));
@@ -98,6 +103,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutUrl = checkoutRoot ? `${checkoutRoot}/checkout` : '/checkout';
     const loadingLabel = mainProduct.getAttribute('data-buy-now-loading') || '…';
     const errorLabel = mainProduct.getAttribute('data-buy-now-error') || 'Error';
+
+    mainProduct.querySelectorAll('[data-sticky-mirror-buy]').forEach((stickyBtn) => {
+      stickyBtn.addEventListener('click', () => {
+        const primary = mainProduct.querySelector('[data-buy-now]');
+        if (!primary || primary.disabled) return;
+        primary.click();
+      });
+    });
+
+    const stickyBar = mainProduct.querySelector('[data-product-sticky-bar]');
+    const stickySentinel = mainProduct.querySelector('[data-product-sticky-sentinel]');
+    if (stickyBar && stickySentinel && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry) return;
+          const buyZoneInView = entry.isIntersecting;
+          stickyBar.hidden = buyZoneInView;
+          document.body.classList.toggle('product-sticky-bar-on', !buyZoneInView);
+        },
+        { root: null, threshold: 0, rootMargin: '0px 0px -48px 0px' }
+      );
+      observer.observe(stickySentinel);
+    }
 
     mainProduct.querySelectorAll('[data-buy-now]').forEach((btn) => {
       btn.addEventListener('click', async () => {

@@ -708,8 +708,7 @@ button, input, select, textarea { font: inherit; }
 /* Pas d’ajout au panier : masquer seuls les anciens CTA « Ajouter au panier » (Acheter maintenant reste visible) */
 .template-product #MainProduct button[type="submit"][name="add"],
 .template-product #MainProduct [data-pack-submit],
-.template-product #MainProduct [data-sticky-submit],
-.template-product #MainProduct .product-sticky-bar {
+.template-product #MainProduct [data-sticky-submit] {
   display: none !important;
 }
 
