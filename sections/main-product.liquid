@@ -131,6 +131,13 @@
 
         <h1 class="product-neuro-buy__title">{{ product.title }}</h1>
 
+        {%- comment -%} Judge.me — badge étoiles (installer l’app Judge.me pour les scripts) {%- endcomment -%}
+        <!-- Start of Judge.me code -->
+        <div class="jdgm-widget jdgm-preview-badge product-neuro-buy__jdgm-badge" data-id="{{ product.id }}">
+          {{ product.metafields.judgeme.badge }}
+        </div>
+        <!-- End of Judge.me code -->
+
         {%- if section.settings.usp_text != blank -%}
           <div class="product-neuro-buy__usp rte">{{ section.settings.usp_text }}</div>
         {%- endif -%}
