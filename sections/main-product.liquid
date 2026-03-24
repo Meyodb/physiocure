@@ -1041,6 +1041,13 @@
           "info": "Une seule variante : fixe le prix montré sur la carte (ex. 9999 = 99,99 €). 0 = prix unitaire × quantité. Le total au panier suit le prix catalogue Shopify × quantité sauf remise ou variante dédiée."
         },
         {
+          "type": "number",
+          "id": "compare_at_price_cents_override",
+          "label": "Prix barré / comparé (centimes, optionnel)",
+          "default": 0,
+          "info": "Affiche un prix barré sur la carte si supérieur au prix affiché. 0 = utiliser le prix comparé Shopify (s’il existe). Utile avec un prix affiché personnalisé ci-dessus."
+        },
+        {
           "type": "text",
           "id": "option_value",
           "label": "Valeur d’option Shopify (correspondance exacte)",
