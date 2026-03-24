@@ -4,6 +4,23 @@
   assign review_blocks = section.blocks | where: 'type', 'review'
   assign step_blocks = section.blocks | where: 'type', 'step'
   assign carousel_blocks = section.blocks | where: 'type', 'carousel_slide'
+  assign pack_blocks = section.blocks | where: 'type', 'pack_offer'
+  assign use_pack_picker = false
+  if section.settings.use_pack_cards and pack_blocks.size > 0 and product.has_only_default_variant == false
+    assign use_pack_picker = true
+  endif
+  assign testimonials_layout = section.settings.testimonials_layout | default: 'grid'
+  assign testimonials_heading = section.settings.testimonials_heading
+  if testimonials_heading == blank
+    assign testimonials_heading = section.settings.carousel_heading
+  endif
+  assign show_testimonial_grid = false
+  assign show_testimonial_carousel = false
+  if testimonials_layout == 'grid' and review_blocks.size > 0
+    assign show_testimonial_grid = true
+  elsif testimonials_layout == 'carousel' and carousel_blocks.size > 0
+    assign show_testimonial_carousel = true
+  endif
 -%}
 
 <section
@@ -104,7 +121,7 @@
         {%- endif -%}
 
         {%- if section.settings.benefits_list != blank -%}
-          <ul class="product-neuro-benefits">
+          <ul class="product-neuro-benefits{% if section.settings.benefits_use_checks %} product-neuro-benefits--checks{% endif %}">
             {%- assign benefit_lines = section.settings.benefits_list | newline_to_br | split: '<br />' -%}
             {%- for line in benefit_lines -%}
               {%- assign line_clean = line | strip -%}
@@ -129,64 +146,50 @@
           endif
         -%}
         {%- if show_urgency -%}
-          <p class="product-neuro-urgency">{{ urgency_out }}</p>
+          <p class="product-neuro-urgency{% if section.settings.urgency_use_dot %} product-neuro-urgency--dot{% endif %}">{{ urgency_out }}</p>
         {%- endif -%}
 
         {% capture product_form_id %}product-form-{{ section.id }}{% endcapture %}
 
-        <div class="product-neuro-price-card">
-          <p class="product-neuro-price-card__product-title">{{ product.title }}</p>
-          <div class="product-neuro-price-card__row">
-            <div class="product-neuro-price-card__prices">
-              {% render 'price', product: product, show_save_badge: true %}
-            </div>
-            {%- unless current_variant.available -%}
-              <span class="product-neuro-badge product-neuro-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
-            {%- endunless -%}
-          </div>
+        {%- if use_pack_picker and section.settings.pack_divider_text != blank -%}
+          <p class="product-neuro-pack-divider" role="presentation">
+            <span>{{ section.settings.pack_divider_text }}</span>
+          </p>
+        {%- endif -%}
 
-          {% form 'product', product, class: 'product-neuro-form', id: product_form_id %}
-            {%- unless product.has_only_default_variant -%}
-              <div class="field product-neuro-form__field">
-                <label for="Variant-{{ section.id }}">{{ 'products.product.variant_option_label' | t }}</label>
-                <select
-                  name="id"
-                  id="Variant-{{ section.id }}"
-                  data-main-variant-select
-                  class="variant-select"
+        {%- if use_pack_picker -%}
+          <div class="product-neuro-pack-form-wrap" data-product-pack-form>
+            {% form 'product', product, class: 'product-neuro-form product-neuro-form--pack', id: product_form_id %}
+            <input
+              type="hidden"
+              name="id"
+              id="VariantId-{{ section.id }}"
+              value="{{ current_variant.id }}"
+              data-variant-input
+            >
+            {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks %}
+
+            {%- unless section.settings.hide_qty_pack_cards -%}
+              <div class="field product-neuro-form__field product-neuro-form__qty-row">
+                <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
+                <input
+                  type="number"
+                  id="Quantity-{{ section.id }}"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  class="product-neuro-form__qty"
                 >
-                  {%- for variant in product.variants -%}
-                    <option
-                      value="{{ variant.id }}"
-                      {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
-                      {% unless variant.available %}disabled{% endunless %}
-                      data-url="{{ product.url }}?variant={{ variant.id }}"
-                    >
-                      {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
-                    </option>
-                  {%- endfor -%}
-                </select>
               </div>
-            {%- else -%}
-              <input type="hidden" name="id" value="{{ current_variant.id }}">
             {%- endunless -%}
-
-            <div class="field product-neuro-form__field product-neuro-form__qty-row">
-              <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
-              <input
-                type="number"
-                id="Quantity-{{ section.id }}"
-                name="quantity"
-                value="1"
-                min="1"
-                class="product-neuro-form__qty"
-              >
-            </div>
 
             <button
               type="submit"
               name="add"
-              class="btn product-neuro-form__submit"
+              class="btn product-neuro-form__submit product-neuro-form__submit--pack"
+              data-pack-submit
+              data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
+              data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
               {% unless current_variant.available %}disabled{% endunless %}
             >
               {%- if current_variant.available -%}
@@ -195,8 +198,72 @@
                 {{ 'products.product.sold_out' | t }}
               {%- endif -%}
             </button>
-          {% endform %}
-        </div>
+            {% endform %}
+          </div>
+        {%- else -%}
+          <div class="product-neuro-price-card">
+            <div class="product-neuro-price-card__row">
+              <div class="product-neuro-price-card__prices">
+                {% render 'price', product: product, show_save_badge: true %}
+              </div>
+              {%- unless current_variant.available -%}
+                <span class="product-neuro-badge product-neuro-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+              {%- endunless -%}
+            </div>
+
+            {% form 'product', product, class: 'product-neuro-form', id: product_form_id %}
+              {%- unless product.has_only_default_variant -%}
+                <div class="field product-neuro-form__field">
+                  <label for="Variant-{{ section.id }}">{{ 'products.product.variant_option_label' | t }}</label>
+                  <select
+                    name="id"
+                    id="Variant-{{ section.id }}"
+                    data-main-variant-select
+                    class="variant-select"
+                  >
+                    {%- for variant in product.variants -%}
+                      <option
+                        value="{{ variant.id }}"
+                        {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                        {% unless variant.available %}disabled{% endunless %}
+                        data-url="{{ product.url }}?variant={{ variant.id }}"
+                      >
+                        {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                </div>
+              {%- else -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+              {%- endunless -%}
+
+              <div class="field product-neuro-form__field product-neuro-form__qty-row">
+                <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
+                <input
+                  type="number"
+                  id="Quantity-{{ section.id }}"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  class="product-neuro-form__qty"
+                >
+              </div>
+
+              <button
+                type="submit"
+                name="add"
+                class="btn product-neuro-form__submit"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </button>
+            {% endform %}
+          </div>
+        {%- endif -%}
 
         {%- if section.settings.show_trust_bar -%}
           <ul class="product-neuro-trust" aria-label="{{ section.settings.trust_bar_label | escape }}">
@@ -217,9 +284,12 @@
       </div>
     </div>
 
-    {%- comment -%} Avis courts (bandeau 3 colonnes) {%- endcomment -%}
-    {%- if review_blocks.size > 0 -%}
+    {%- comment -%} Témoignages : grille OU carrousel (pas les deux) {%- endcomment -%}
+    {%- if show_testimonial_grid -%}
       <div class="product-neuro-reviews">
+        {%- if testimonials_heading != blank -%}
+          <h2 class="product-neuro-reviews__heading">{{ testimonials_heading }}</h2>
+        {%- endif -%}
         {%- for block in review_blocks -%}
           <blockquote class="product-neuro-review" {{ block.shopify_attributes }}>
             <div class="product-neuro-review__stars" aria-hidden="true">
@@ -283,11 +353,10 @@
       </section>
     {%- endif -%}
 
-    {%- comment -%} Carrousel témoignages {%- endcomment -%}
-    {%- if carousel_blocks.size > 0 -%}
+    {%- if show_testimonial_carousel -%}
       <section class="product-neuro-carousel-section">
-        {%- if section.settings.carousel_heading != blank -%}
-          <h2 class="product-neuro-carousel-section__heading">{{ section.settings.carousel_heading }}</h2>
+        {%- if testimonials_heading != blank -%}
+          <h2 class="product-neuro-carousel-section__heading">{{ testimonials_heading }}</h2>
         {%- endif -%}
         <div class="product-neuro-carousel" data-product-carousel tabindex="0">
           {%- for block in carousel_blocks -%}
@@ -433,6 +502,74 @@
       "default": 10
     },
     {
+      "type": "checkbox",
+      "id": "benefits_use_checks",
+      "label": "Afficher des coches bleues pour les avantages",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "urgency_use_dot",
+      "label": "Pastille rouge avant le texte d’urgence",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Offres en cartes (packs / variantes)"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_pack_cards",
+      "label": "Utiliser les cartes d’offre (remplace le menu déroulant)",
+      "default": false,
+      "info": "Ajoutez un bloc « Offre (carte) » par variante. La valeur d’option doit correspondre exactement à celle définie dans Shopify (ex. 1 VitalPulser™)."
+    },
+    {
+      "type": "select",
+      "id": "pack_option_index",
+      "label": "Option Shopify à faire correspondre",
+      "options": [
+        { "value": "1", "label": "Option 1 (ex. Titre)" },
+        { "value": "2", "label": "Option 2" },
+        { "value": "3", "label": "Option 3" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "pack_divider_text",
+      "label": "Texte au-dessus des cartes (ligne séparatrice)",
+      "default": "Offre limitée"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_qty_pack_cards",
+      "label": "Masquer la quantité avec les cartes d’offre",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Témoignages"
+    },
+    {
+      "type": "select",
+      "id": "testimonials_layout",
+      "label": "Affichage des témoignages",
+      "options": [
+        { "value": "none", "label": "Masquer" },
+        { "value": "grid", "label": "Grille (3 colonnes)" },
+        { "value": "carousel", "label": "Carrousel horizontal" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_heading",
+      "label": "Titre de la section témoignages",
+      "default": "Ils en parlent",
+      "info": "Remplace l’ancien titre « carrousel » si renseigné."
+    },
+    {
       "type": "text",
       "id": "details_toggle_label",
       "label": "Libellé du repliable description",
@@ -453,7 +590,7 @@
     {
       "type": "text",
       "id": "carousel_heading",
-      "label": "Titre carrousel témoignages",
+      "label": "Titre carrousel (secours si titre témoignages vide)",
       "default": "Pourquoi nos clients l’adoptent"
     },
     {
@@ -530,6 +667,91 @@
     }
   ],
   "blocks": [
+    {
+      "type": "pack_offer",
+      "name": "Offre (carte)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "option_value",
+          "label": "Valeur d’option Shopify (correspondance exacte)",
+          "default": "1 unité",
+          "info": "Doit être identique à l’option du produit (position choisie ci-dessus), ex. 1 VitalPulser™."
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Titre sur la carte (optionnel)",
+          "info": "Par défaut : titre de la variante."
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sous-titre (ex. prix d’introduction)",
+          "default": "Prix d’introduction"
+        },
+        {
+          "type": "text",
+          "id": "popular_badge",
+          "label": "Badge coin (ex. Le plus populaire)",
+          "info": "Laisser vide pour masquer."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_savings_badge",
+          "label": "Afficher le badge d’économie",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "savings_label",
+          "label": "Texte du badge d’économie (optionnel)",
+          "info": "Ex. ÉCONOMISEZ 119,99 €. Vide = calcul automatique si prix barré."
+        },
+        {
+          "type": "header",
+          "content": "Ligne bonus 1"
+        },
+        {
+          "type": "text",
+          "id": "bundle_1_label",
+          "label": "Libellé",
+          "default": "+ Câble de charge rapide"
+        },
+        {
+          "type": "text",
+          "id": "bundle_1_compare",
+          "label": "Prix barré affiché",
+          "default": "9,99 €"
+        },
+        {
+          "type": "image_picker",
+          "id": "bundle_1_image",
+          "label": "Vignette"
+        },
+        {
+          "type": "header",
+          "content": "Ligne bonus 2"
+        },
+        {
+          "type": "text",
+          "id": "bundle_2_label",
+          "label": "Libellé",
+          "default": "+ Guide bien-être"
+        },
+        {
+          "type": "text",
+          "id": "bundle_2_compare",
+          "label": "Prix barré affiché",
+          "default": "19,95 €"
+        },
+        {
+          "type": "image_picker",
+          "id": "bundle_2_image",
+          "label": "Vignette"
+        }
+      ]
+    },
     {
       "type": "review",
       "name": "Avis court",

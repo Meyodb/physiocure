@@ -1,0 +1,140 @@
+{%- liquid
+  assign opt_idx = section.settings.pack_option_index | default: 1 | plus: 0
+  if opt_idx < 1
+    assign opt_idx = 1
+  endif
+  if opt_idx > 3
+    assign opt_idx = 3
+  endif
+-%}
+<fieldset class="product-pack-cards" data-pack-picker data-pack-option-index="{{ opt_idx }}">
+  <legend class="visually-hidden">{{ 'products.product.pack_picker.legend' | t }}</legend>
+  {%- for block in pack_blocks -%}
+    {%- assign matched_variant = false -%}
+    {%- assign match_val = block.settings.option_value | strip -%}
+    {%- if match_val != blank -%}
+      {%- for variant in product.variants -%}
+        {%- assign vopt = variant.option1 -%}
+        {%- if opt_idx == 2 -%}
+          {%- assign vopt = variant.option2 -%}
+        {%- elsif opt_idx == 3 -%}
+          {%- assign vopt = variant.option3 -%}
+        {%- endif -%}
+        {%- if vopt == match_val -%}
+          {%- assign matched_variant = variant -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- if matched_variant == false -%}
+      {%- continue -%}
+    {%- endif -%}
+
+    {%- assign v = matched_variant -%}
+    {%- assign card_selected = false -%}
+    {%- if v.id == current_variant.id -%}
+      {%- assign card_selected = true -%}
+    {%- endif -%}
+
+    {%- assign title_line = block.settings.card_title | default: v.title -%}
+    {%- assign save_label = block.settings.savings_label | strip -%}
+    {%- if save_label == blank and v.compare_at_price > v.price -%}
+      {%- assign save_money = v.compare_at_price | minus: v.price | money -%}
+      {%- assign save_label = 'products.product.save_amount' | t: amount: save_money -%}
+    {%- endif -%}
+
+    <label
+      class="product-pack-card{% if card_selected %} is-selected{% endif %}{% unless v.available %} is-disabled{% endunless %}"
+      data-pack-card
+      {{ block.shopify_attributes }}
+    >
+      <input
+        type="radio"
+        name="product-pack-variant-{{ section.id }}"
+        class="product-pack-card__input visually-hidden-focusable"
+        value="{{ v.id }}"
+        data-pack-variant-radio
+        data-variant-available="{{ v.available }}"
+        {% if card_selected %}
+          checked
+        {% endif %}
+        {% unless v.available %}
+          disabled
+        {% endunless %}
+      >
+
+      {%- if block.settings.popular_badge != blank -%}
+        <span class="product-pack-card__ribbon" aria-hidden="true">{{ block.settings.popular_badge }}</span>
+      {%- endif -%}
+
+      <span class="product-pack-card__shell">
+        <span class="product-pack-card__header">
+          <span class="product-pack-card__radio-ui" aria-hidden="true"></span>
+          <span class="product-pack-card__head-text">
+            <span class="product-pack-card__title-row">
+              <strong class="product-pack-card__title">{{ title_line }}</strong>
+              {%- if save_label != blank and block.settings.show_savings_badge -%}
+                <span class="product-pack-card__save-pill">{{ save_label }}</span>
+              {%- endif -%}
+            </span>
+            {%- if block.settings.subtitle != blank -%}
+              <span class="product-pack-card__subtitle">{{ block.settings.subtitle }}</span>
+            {%- endif -%}
+          </span>
+          <span class="product-pack-card__price-col">
+            <span class="product-pack-card__price-current">{{ v.price | money }}</span>
+            {%- if v.compare_at_price > v.price -%}
+              <span class="product-pack-card__price-compare">{{ v.compare_at_price | money }}</span>
+            {%- endif -%}
+          </span>
+        </span>
+
+        {%- if block.settings.bundle_1_label != blank or block.settings.bundle_2_label != blank -%}
+          <span class="product-pack-card__bundles">
+            {%- if block.settings.bundle_1_label != blank -%}
+              <span class="product-pack-card__bundle-row">
+                {%- if block.settings.bundle_1_image != blank -%}
+                  {{
+                    block.settings.bundle_1_image
+                    | image_url: width: 120
+                    | image_tag:
+                      loading: 'lazy',
+                      class: 'product-pack-card__bundle-thumb',
+                      alt: block.settings.bundle_1_label
+                  }}
+                {%- endif -%}
+                <span class="product-pack-card__bundle-meta">
+                  <span class="product-pack-card__bundle-label">{{ block.settings.bundle_1_label }}</span>
+                  {%- if block.settings.bundle_1_compare != blank -%}
+                    <span class="product-pack-card__bundle-compare">{{ block.settings.bundle_1_compare }}</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            {%- endif -%}
+            {%- if block.settings.bundle_2_label != blank -%}
+              <span class="product-pack-card__bundle-row">
+                {%- if block.settings.bundle_2_image != blank -%}
+                  {{
+                    block.settings.bundle_2_image
+                    | image_url: width: 120
+                    | image_tag:
+                      loading: 'lazy',
+                      class: 'product-pack-card__bundle-thumb',
+                      alt: block.settings.bundle_2_label
+                  }}
+                {%- endif -%}
+                <span class="product-pack-card__bundle-meta">
+                  <span class="product-pack-card__bundle-label">{{ block.settings.bundle_2_label }}</span>
+                  {%- if block.settings.bundle_2_compare != blank -%}
+                    <span class="product-pack-card__bundle-compare">{{ block.settings.bundle_2_compare }}</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            {%- endif -%}
+          </span>
+        {%- endif -%}
+      </span>
+    </label>
+  {%- endfor -%}
+</fieldset>

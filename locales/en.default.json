@@ -86,6 +86,8 @@
       "variant_option_label": "Options",
       "save_percent": "SAVE {{ percent }}%",
       "carousel_scroll_hint": "Scroll sideways for more testimonials",
+      "save_amount": "SAVE {{ amount }}",
+      "pack_picker": { "legend": "Choose your offer" },
       "inventory_in_stock": "In stock",
       "inventory_in_stock_show_count": "{{ quantity }} in stock",
       "inventory_low_stock": "Low stock",

@@ -44,6 +44,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const packWrap = document.querySelector('[data-product-pack-form]');
+  if (packWrap) {
+    const hiddenId = packWrap.querySelector('[data-variant-input]');
+    const submitBtn = packWrap.querySelector('[data-pack-submit]');
+    const radios = packWrap.querySelectorAll('[data-pack-variant-radio]');
+
+    const applyPack = (radio) => {
+      if (!radio || !radio.checked) return;
+      if (hiddenId) hiddenId.value = radio.value;
+      const available = radio.getAttribute('data-variant-available') === 'true';
+      if (submitBtn) {
+        submitBtn.disabled = !available;
+        const la = submitBtn.getAttribute('data-label-available');
+        const ls = submitBtn.getAttribute('data-label-sold');
+        if (la && ls) submitBtn.textContent = available ? la : ls;
+      }
+      packWrap.querySelectorAll('[data-pack-card]').forEach((card) => {
+        const input = card.querySelector('[data-pack-variant-radio]');
+        card.classList.toggle('is-selected', Boolean(input && input.checked));
+      });
+      try {
+        const base = window.location.pathname;
+        window.history.replaceState({}, '', `${base}?variant=${encodeURIComponent(radio.value)}`);
+      } catch (_) {
+        /* ignore */
+      }
+    };
+
+    radios.forEach((radio) => {
+      radio.addEventListener('change', () => applyPack(radio));
+    });
+    const initial = packWrap.querySelector('[data-pack-variant-radio]:checked');
+    if (initial) applyPack(initial);
+  }
+
   const galleryRoot = document.querySelector('[data-product-gallery]');
   if (galleryRoot) {
     const mainBtn = galleryRoot.querySelector('[data-lightbox-open]');

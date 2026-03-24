@@ -9,6 +9,14 @@
         "urgency_text": "",
         "show_low_stock_banner": true,
         "low_stock_threshold": 10,
+        "benefits_use_checks": true,
+        "urgency_use_dot": true,
+        "use_pack_cards": true,
+        "pack_option_index": "1",
+        "pack_divider_text": "Offre limitée",
+        "hide_qty_pack_cards": true,
+        "testimonials_layout": "grid",
+        "testimonials_heading": "Ils en parlent",
         "details_toggle_label": "Afficher tous les détails",
         "media_strip_label": "Galerie produit",
         "steps_heading": "3 étapes simples",
@@ -26,6 +34,40 @@
         "trust_text_3": "Suivi d’expédition inclus"
       },
       "blocks": {
+        "pack_1": {
+          "type": "pack_offer",
+          "settings": {
+            "option_value": "1 unité",
+            "card_title": "",
+            "subtitle": "Prix d’introduction",
+            "popular_badge": "",
+            "show_savings_badge": true,
+            "savings_label": "",
+            "bundle_1_label": "+ Câble de charge rapide",
+            "bundle_1_compare": "9,99 €",
+            "bundle_1_image": "",
+            "bundle_2_label": "+ Guide bien-être",
+            "bundle_2_compare": "19,95 €",
+            "bundle_2_image": ""
+          }
+        },
+        "pack_2": {
+          "type": "pack_offer",
+          "settings": {
+            "option_value": "2 unités",
+            "card_title": "",
+            "subtitle": "",
+            "popular_badge": "Le plus populaire",
+            "show_savings_badge": true,
+            "savings_label": "",
+            "bundle_1_label": "+ 2 câbles de charge rapide",
+            "bundle_1_compare": "19,98 €",
+            "bundle_1_image": "",
+            "bundle_2_label": "+ Guide bien-être",
+            "bundle_2_compare": "19,95 €",
+            "bundle_2_image": ""
+          }
+        },
         "review_1": {
           "type": "review",
           "settings": {
@@ -71,33 +113,6 @@
             "text": "<p>Invitez à profiter du résultat au quotidien.</p>"
           }
         },
-        "car_1": {
-          "type": "carousel_slide",
-          "settings": {
-            "title": "Facile au quotidien",
-            "quote": "Je l’utilise régulièrement et c’est devenu un réflexe.",
-            "author": "Marc D.",
-            "rating": 5
-          }
-        },
-        "car_2": {
-          "type": "carousel_slide",
-          "settings": {
-            "title": "Résultats concrets",
-            "quote": "Je ne m’attendais pas à autant de confort.",
-            "author": "Élodie V.",
-            "rating": 5
-          }
-        },
-        "car_3": {
-          "type": "carousel_slide",
-          "settings": {
-            "title": "Je recommande",
-            "quote": "Livraison rapide et produit conforme à la description.",
-            "author": "Nicolas B.",
-            "rating": 5
-          }
-        },
         "content_1": {
           "type": "content_row",
           "settings": {
@@ -121,15 +136,14 @@
         }
       },
       "block_order": [
+        "pack_1",
+        "pack_2",
         "review_1",
         "review_2",
         "review_3",
         "step_1",
         "step_2",
         "step_3",
-        "car_1",
-        "car_2",
-        "car_3",
         "content_1",
         "faq_1",
         "faq_2"
