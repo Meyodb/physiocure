@@ -2156,11 +2156,23 @@ body.nav-open { overflow: hidden; }
   display: grid;
   gap: 1.75rem;
 }
+.home-how-steps--text-only .home-how-steps__item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--color-bg);
+}
+.home-how-steps--text-only .home-how-steps__body {
+  padding-left: 0;
+}
 @media (min-width: 768px) {
   .home-how-steps {
     gap: 2rem;
   }
-  .home-how-steps__item {
+  .home-how-steps:not(.home-how-steps--text-only) .home-how-steps__item {
     display: grid;
     grid-template-columns: minmax(0, 220px) 1fr;
     gap: 1.5rem;

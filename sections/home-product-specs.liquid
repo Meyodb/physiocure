@@ -18,34 +18,36 @@
             {% render 'home-image-placeholder', label: 'Image principale — ajoutez-la ici', ratio: '4 / 5' %}
           {%- endif -%}
         </div>
-        <div class="home-product-specs__media-sub">
-          {%- if section.settings.image_secondary != blank -%}
-            {{
-              section.settings.image_secondary
-              | image_url: width: 600
-              | image_tag:
-                loading: 'lazy',
-                sizes: '(min-width: 900px) 24vw, 50vw',
-                widths: '300, 450, 600',
-                alt: section.settings.image_secondary.alt | default: section.settings.heading
-            }}
-          {%- else -%}
-            {% render 'home-image-placeholder', label: 'Photo détail / contexte', ratio: '1 / 1' %}
-          {%- endif -%}
-          {%- if section.settings.image_tertiary != blank -%}
-            {{
-              section.settings.image_tertiary
-              | image_url: width: 600
-              | image_tag:
-                loading: 'lazy',
-                sizes: '(min-width: 900px) 24vw, 50vw',
-                widths: '300, 450, 600',
-                alt: section.settings.image_tertiary.alt | default: section.settings.heading
-            }}
-          {%- else -%}
-            {% render 'home-image-placeholder', label: 'Lifestyle ou packaging', ratio: '1 / 1' %}
-          {%- endif -%}
-        </div>
+        {%- if section.settings.show_extra_images -%}
+          <div class="home-product-specs__media-sub">
+            {%- if section.settings.image_secondary != blank -%}
+              {{
+                section.settings.image_secondary
+                | image_url: width: 600
+                | image_tag:
+                  loading: 'lazy',
+                  sizes: '(min-width: 900px) 24vw, 50vw',
+                  widths: '300, 450, 600',
+                  alt: section.settings.image_secondary.alt | default: section.settings.heading
+              }}
+            {%- else -%}
+              {% render 'home-image-placeholder', label: 'Photo détail / contexte', ratio: '1 / 1' %}
+            {%- endif -%}
+            {%- if section.settings.image_tertiary != blank -%}
+              {{
+                section.settings.image_tertiary
+                | image_url: width: 600
+                | image_tag:
+                  loading: 'lazy',
+                  sizes: '(min-width: 900px) 24vw, 50vw',
+                  widths: '300, 450, 600',
+                  alt: section.settings.image_tertiary.alt | default: section.settings.heading
+              }}
+            {%- else -%}
+              {% render 'home-image-placeholder', label: 'Lifestyle ou packaging', ratio: '1 / 1' %}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
 
       <div class="home-product-specs__content">
@@ -142,6 +144,13 @@
       "type": "image_picker",
       "id": "image_main",
       "label": "Image principale (grande)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_extra_images",
+      "label": "Afficher 2 images supplémentaires",
+      "default": false,
+      "info": "Sous l’image principale : détail + lifestyle (ou emplacements vides)."
     },
     {
       "type": "image_picker",

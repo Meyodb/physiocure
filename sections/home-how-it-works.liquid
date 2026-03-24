@@ -7,25 +7,27 @@
       <p style="text-align: center; color: var(--color-muted); max-width: 34rem; margin: 0 auto 2.5rem;">{{ section.settings.subheading }}</p>
     {%- endif -%}
 
-    <ol class="home-how-steps" style="list-style: none; padding: 0; margin: 0;">
+    <ol class="home-how-steps{% unless section.settings.show_step_images %} home-how-steps--text-only{% endunless %}" style="list-style: none; padding: 0; margin: 0;">
       {%- for block in section.blocks -%}
         <li class="home-how-steps__item" {{ block.shopify_attributes }}>
-          <div class="home-how-steps__media">
-            {%- if block.settings.image != blank -%}
-              {{
-                block.settings.image
-                | image_url: width: 700
-                | image_tag:
-                  loading: 'lazy',
-                  sizes: '(min-width: 900px) 280px, 100vw',
-                  widths: '300, 450, 700',
-                  alt: block.settings.image.alt | default: block.settings.title
-              }}
-            {%- else -%}
-              {%- assign step_ph_label = 'Étape ' | append: forloop.index | append: ' — ajoutez une image' -%}
-              {% render 'home-image-placeholder', label: step_ph_label, ratio: '1 / 1' %}
-            {%- endif -%}
-          </div>
+          {%- if section.settings.show_step_images -%}
+            <div class="home-how-steps__media">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 900px) 280px, 100vw',
+                    widths: '300, 450, 700',
+                    alt: block.settings.image.alt | default: block.settings.title
+                }}
+              {%- else -%}
+                {%- assign step_ph_label = 'Étape ' | append: forloop.index | append: ' — ajoutez une image' -%}
+                {% render 'home-image-placeholder', label: step_ph_label, ratio: '1 / 1' %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
           <div class="home-how-steps__body">
             <span class="home-how-steps__num" aria-hidden="true">{{ forloop.index }}</span>
             {%- if block.settings.title != blank -%}
@@ -58,6 +60,13 @@
       "id": "subheading",
       "label": "Sous-titre",
       "default": "Simple, rapide, sans contrainte — à la maison ou après le travail."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_images",
+      "label": "Afficher une image par étape",
+      "default": false,
+      "info": "Désactivé : étapes en texte uniquement (moins d’images sur la page)."
     }
   ],
   "blocks": [
