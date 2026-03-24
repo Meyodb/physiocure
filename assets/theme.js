@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const badge = bar.querySelector('[data-sticky-save-badge]');
     const thumb = bar.querySelector('img.product-sticky-bar__thumb');
     const stickyBtn = bar.querySelector('[data-sticky-submit]');
-    const stickyBuyNow = bar.querySelector('[data-buy-now]');
 
     if (current) current.textContent = radio.getAttribute('data-sticky-price') || '';
 
@@ -95,9 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const la = stickyBtn.dataset.labelAvailable;
       const ls = stickyBtn.dataset.labelSold;
       stickyBtn.textContent = available ? la || '' : ls || '';
-    }
-    if (stickyBuyNow) {
-      stickyBuyNow.disabled = !available;
     }
   };
 
@@ -203,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mainProduct.querySelectorAll('[data-buy-now]').forEach((btn) => {
       btn.addEventListener('click', async () => {
         if (btn.disabled) return;
-        const form = btn.closest('form') || mainProduct.querySelector('form');
+        const form = btn.closest('form');
         if (!form) return;
         const idEl = form.querySelector('[name="id"]');
         const qtyEl = form.querySelector('[name="quantity"]');
