@@ -97,7 +97,10 @@
       "save_percent": "−{{ percent }} %",
       "carousel_scroll_hint": "Faites défiler horizontalement pour plus de témoignages",
       "save_amount": "ÉCONOMISEZ {{ amount }}",
-      "pack_picker": { "legend": "Choisir votre offre" },
+      "pack_picker": {
+        "legend": "Choisir votre formule",
+        "title_qty": { "one": "{{ count }} unité", "other": "{{ count }} unités" }
+      },
       "inventory_in_stock": "En stock",
       "inventory_in_stock_show_count": "{{ quantity }} en stock",
       "inventory_low_stock": "Stock limité",

@@ -102,11 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (packWrap) {
     const hiddenId = packWrap.querySelector('[data-variant-input]');
     const submitBtn = packWrap.querySelector('[data-pack-submit]');
-    const radios = packWrap.querySelectorAll('[data-pack-variant-radio]');
+    const qtyInput = packWrap.querySelector('[data-pack-qty-input]');
+    const qtyMode = Boolean(packWrap.querySelector('[data-pack-qty-mode]'));
+    const radios = qtyMode
+      ? packWrap.querySelectorAll('[data-pack-qty-radio]')
+      : packWrap.querySelectorAll('[data-pack-variant-radio]');
 
     const applyPack = (radio) => {
       if (!radio || !radio.checked) return;
-      if (hiddenId) hiddenId.value = radio.value;
+      if (qtyMode && qtyInput) {
+        qtyInput.value = radio.value;
+      } else if (hiddenId) {
+        hiddenId.value = radio.value;
+      }
       const available = radio.getAttribute('data-variant-available') === 'true';
       if (submitBtn) {
         submitBtn.disabled = !available;
@@ -115,22 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (la && ls) submitBtn.textContent = available ? la : ls;
       }
       packWrap.querySelectorAll('[data-pack-card]').forEach((card) => {
-        const input = card.querySelector('[data-pack-variant-radio]');
+        const input = card.querySelector('[data-pack-qty-radio], [data-pack-variant-radio]');
         card.classList.toggle('is-selected', Boolean(input && input.checked));
       });
       syncStickyProductBar(radio);
-      try {
-        const base = window.location.pathname;
-        window.history.replaceState({}, '', `${base}?variant=${encodeURIComponent(radio.value)}`);
-      } catch (_) {
-        /* ignore */
+      if (!qtyMode) {
+        try {
+          const base = window.location.pathname;
+          window.history.replaceState({}, '', `${base}?variant=${encodeURIComponent(radio.value)}`);
+        } catch (_) {
+          /* ignore */
+        }
       }
     };
 
     radios.forEach((radio) => {
       radio.addEventListener('change', () => applyPack(radio));
     });
-    const initial = packWrap.querySelector('[data-pack-variant-radio]:checked');
+    const initial = packWrap.querySelector(
+      qtyMode ? '[data-pack-qty-radio]:checked' : '[data-pack-variant-radio]:checked'
+    );
     if (initial) applyPack(initial);
   }
 

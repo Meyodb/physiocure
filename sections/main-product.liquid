@@ -5,8 +5,9 @@
   assign step_blocks = section.blocks | where: 'type', 'step'
   assign carousel_blocks = section.blocks | where: 'type', 'carousel_slide'
   assign pack_blocks = section.blocks | where: 'type', 'pack_offer'
+  assign use_pack_qty_mode = product.has_only_default_variant
   assign use_pack_picker = false
-  if section.settings.use_pack_cards and pack_blocks.size > 0 and product.has_only_default_variant == false
+  if section.settings.use_pack_cards and pack_blocks.size > 0
     assign use_pack_picker = true
   endif
   assign testimonials_layout = section.settings.testimonials_layout | default: 'grid'
@@ -168,9 +169,28 @@
               value="{{ current_variant.id }}"
               data-variant-input
             >
-            {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks %}
+            {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks, use_pack_qty_mode: use_pack_qty_mode %}
 
-            {%- unless section.settings.hide_qty_pack_cards -%}
+            {%- liquid
+              assign pack_default_qty = 1
+              if use_pack_qty_mode
+                for b in pack_blocks limit: 1
+                  assign pack_default_qty = b.settings.pack_quantity | default: 1 | plus: 0
+                endfor
+                if pack_default_qty < 1
+                  assign pack_default_qty = 1
+                endif
+              endif
+            -%}
+            {%- if use_pack_qty_mode -%}
+              <input
+                type="hidden"
+                name="quantity"
+                id="Quantity-{{ section.id }}"
+                value="{{ pack_default_qty }}"
+                data-pack-qty-input
+              >
+            {%- elsif section.settings.hide_qty_pack_cards == false -%}
               <div class="field product-neuro-form__field product-neuro-form__qty-row">
                 <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
                 <input
@@ -182,7 +202,7 @@
                   class="product-neuro-form__qty"
                 >
               </div>
-            {%- endunless -%}
+            {%- endif -%}
 
             <button
               type="submit"
@@ -641,7 +661,7 @@
       "id": "use_pack_cards",
       "label": "Utiliser les cartes d’offre (remplace le menu déroulant)",
       "default": false,
-      "info": "Ajoutez un bloc « Offre (carte) » par variante. La valeur d’option doit correspondre exactement à celle définie dans Shopify (ex. 1 VitalPulser™)."
+      "info": "Ajoutez un bloc « Offre (carte) » par formule. Produit à plusieurs variantes : la valeur d’option doit correspondre à Shopify. Produit à une seule variante : réglez la quantité par offre sur chaque bloc (ex. 1 et 2)."
     },
     {
       "type": "select",
@@ -810,11 +830,21 @@
       "name": "Offre (carte)",
       "settings": [
         {
+          "type": "range",
+          "id": "pack_quantity",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "label": "Quantité pour cette offre (panier)",
+          "default": 1,
+          "info": "Si le produit n’a qu’une variante : nombre d’articles ajoutés au panier pour cette carte (ex. 1 vs 2). Sinon, ignoré — utiliser la valeur d’option."
+        },
+        {
           "type": "text",
           "id": "option_value",
           "label": "Valeur d’option Shopify (correspondance exacte)",
           "default": "1 unité",
-          "info": "Doit être identique à l’option du produit (position choisie ci-dessus), ex. 1 VitalPulser™."
+          "info": "Produit multi-variantes uniquement : identique à l’option Shopify (position ci-dessus). Laissé de côté si une seule variante."
         },
         {
           "type": "text",

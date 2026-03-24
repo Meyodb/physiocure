@@ -13,7 +13,7 @@
         "urgency_use_dot": true,
         "use_pack_cards": true,
         "pack_option_index": "1",
-        "pack_divider_text": "Offre limitée",
+        "pack_divider_text": "Choisissez votre formule",
         "hide_qty_pack_cards": true,
         "testimonials_layout": "grid",
         "testimonials_heading": "Ils en parlent",
@@ -39,9 +39,10 @@
         "pack_1": {
           "type": "pack_offer",
           "settings": {
+            "pack_quantity": 1,
             "option_value": "1 unité",
-            "card_title": "",
-            "subtitle": "Prix d’introduction",
+            "card_title": "Pack solo",
+            "subtitle": "Idéal pour essayer",
             "popular_badge": "",
             "show_savings_badge": true,
             "savings_label": "",
@@ -56,10 +57,11 @@
         "pack_2": {
           "type": "pack_offer",
           "settings": {
+            "pack_quantity": 2,
             "option_value": "2 unités",
-            "card_title": "",
-            "subtitle": "",
-            "popular_badge": "Le plus populaire",
+            "card_title": "Pack duo",
+            "subtitle": "Pour les deux jambes ou un proche",
+            "popular_badge": "Le + vendu",
             "show_savings_badge": true,
             "savings_label": "",
             "bundle_1_label": "+ 2 câbles de charge rapide",
