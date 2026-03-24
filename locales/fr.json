@@ -115,7 +115,7 @@
       },
       "variant_option_label": "Options",
       "save_percent": "−{{ percent }} %",
-      "carousel_scroll_hint": "Faites défiler horizontalement pour plus de témoignages",
+      "carousel_scroll_hint": "Témoignages clients affichés en trois colonnes",
       "save_amount": "ÉCONOMISEZ {{ amount }}",
       "pack_picker": {
         "legend": "Choisir votre formule",
