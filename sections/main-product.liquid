@@ -467,6 +467,10 @@
       {%- endif -%}
     {%- endfor -%}
 
+    <div class="product-neuro-judgeme">
+      {% render 'judgeme-product-reviews' %}
+    </div>
+
     {%- assign faq_only = section.blocks | where: 'type', 'faq_item' -%}
     {%- if faq_only.size > 0 -%}
       {%- if section.settings.faq_heading != blank -%}

@@ -1068,6 +1068,11 @@ button, input, select, textarea { font: inherit; }
   line-height: 1.65;
   color: var(--color-muted);
 }
+.product-neuro-judgeme {
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
 .product-neuro-secondary-desc {
   margin-top: clamp(2rem, 4vw, 3rem);
 }
