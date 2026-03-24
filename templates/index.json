@@ -141,6 +141,47 @@
         "fallback_ext": "gif"
       }
     },
+    "home_howto_visual_2": {
+      "type": "home-howto-visual",
+      "blocks": {
+        "w1": {
+          "type": "visual_howto_step",
+          "settings": {
+            "image": "",
+            "image_alt": "Pose du bandage autour du mollet et de la cheville",
+            "title": "Enroulez autour de la jambe",
+            "text": "<p>Placez l’appareil autour du mollet et de la cheville, puis ajustez les sangles pour un maintien ferme et confortable.</p>"
+          }
+        },
+        "w2": {
+          "type": "visual_howto_step",
+          "settings": {
+            "image": "",
+            "image_alt": "Réglage du boîtier de contrôle",
+            "title": "Choisissez vos réglages",
+            "text": "<p>Utilisez le panneau pour choisir l’une des 15 intensités et activer la chaleur apaisante selon votre confort.</p>"
+          }
+        },
+        "w3": {
+          "type": "visual_howto_step",
+          "settings": {
+            "image": "",
+            "image_alt": "Utilisation détendue à la maison",
+            "title": "Asseyez-vous et détendez-vous",
+            "text": "<p>En environ 15 minutes, la combinaison drainage, massage et chaleur peut soulager la sensation de jambes lourdes — installé confortablement chez vous.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3"
+      ],
+      "settings": {
+        "heading": "3 étapes pour soulager les jambes lourdes et retrouver la légèreté.",
+        "fallback_ext": "gif"
+      }
+    },
     "benefits": {
       "type": "benefits-columns",
       "blocks": {
@@ -311,6 +352,7 @@
     "hero_product",
     "trust_strip",
     "home_howto_visual",
+    "home_howto_visual_2",
     "benefits",
     "product_specs",
     "featured_collection",
