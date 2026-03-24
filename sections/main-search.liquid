@@ -1,45 +1,18 @@
+{%- comment -%}
+  La recherche est désactivée : /search redirige vers l’accueil (lien de secours sans JS).
+{%- endcomment -%}
 <section class="section-padding">
-  <div class="page-width">
-    <header class="page-header">
-      <h1>{{ 'templates.search.title' | t }}</h1>
-    </header>
-
-    <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
-      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.search' | t }}" aria-label="{{ 'general.search.search' | t }}">
-      <button type="submit" class="btn">{{ 'general.search.search' | t }}</button>
-    </form>
-
-    {%- if search.performed -%}
-      {%- if search.results_count == 0 -%}
-        <p>{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
-      {%- else -%}
-        <p>{{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}</p>
-        <ul style="list-style:none; padding:0; margin:2rem 0 0;">
-          {%- for item in search.results -%}
-            <li style="padding:1rem 0; border-bottom:1px solid rgba(0,0,0,0.08);">
-              {%- case item.object_type -%}
-                {%- when 'product' -%}
-                  <a href="{{ item.url }}" style="font-weight:600;">{{ item.title }}</a>
-                  <div style="font-size:0.9rem; color: var(--color-muted);">{{ item.price | money }}</div>
-                {%- when 'article' -%}
-                  <a href="{{ item.url }}" style="font-weight:600;">{{ item.title }}</a>
-                  <div style="font-size:0.9rem; color: var(--color-muted);">{{ item.published_at | date: format: 'abbreviated_date' }}</div>
-                {%- when 'page' -%}
-                  <a href="{{ item.url }}" style="font-weight:600;">{{ item.title }}</a>
-                {%- else -%}
-                  <a href="{{ item.url }}" style="font-weight:600;">{{ item.title }}</a>
-              {%- endcase -%}
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
-    {%- endif -%}
+  <div class="page-width visually-hidden">
+    <p><a href="{{ routes.root_url }}">Retour à l’accueil</a></p>
   </div>
 </section>
+<script>
+  window.location.replace({{ routes.root_url | json }});
+</script>
 
 {% schema %}
 {
-  "name": "Recherche",
+  "name": "Recherche (redirection)",
   "tag": "section",
   "class": "section-main-search"
 }

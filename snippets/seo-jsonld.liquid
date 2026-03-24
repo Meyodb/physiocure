@@ -1,5 +1,5 @@
 {%- comment -%}
-  Données structurées globales : Organization (+ WebSite + SearchAction sur l’accueil).
+  Données structurées globales : Organization (+ WebSite sur l’accueil).
 {%- endcomment -%}
 {%- liquid
   assign org_logo_src = blank
@@ -54,21 +54,12 @@
   }
 </script>
 {%- if request.page_type == 'index' -%}
-  {%- assign search_template = shop.url | append: routes.search_url | append: '?q={search_term_string}' -%}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": {{ shop.name | json }},
-      "url": {{ shop.url | json }},
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": {{ search_template | json }}
-        },
-        "query-input": "required name=search_term_string"
-      }
+      "url": {{ shop.url | json }}
     }
   </script>
 {%- endif -%}
