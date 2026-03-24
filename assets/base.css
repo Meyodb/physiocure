@@ -371,8 +371,15 @@ button, input, select, textarea { font: inherit; }
 }
 .product-neuro-buy__title {
   font-size: clamp(1.65rem, 3.5vw, 2.35rem);
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.35rem;
   line-height: 1.15;
+}
+.product-neuro-buy__judgeme-stars {
+  margin: 0 0 0.65rem;
+  min-height: 1.25rem;
+}
+.product-neuro-buy__judgeme-stars .jdgm-widget {
+  margin: 0;
 }
 .product-neuro-buy__usp {
   margin: 0 0 1rem;

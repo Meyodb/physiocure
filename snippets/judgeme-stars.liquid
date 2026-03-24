@@ -1,0 +1,12 @@
+{% comment %}
+  Judge.me — étoiles + lien vers les avis (Preview Badge).
+  Nécessite l’app Judge.me et le bloc d’app judgeme_core (chargement des scripts).
+{% endcomment %}
+{% if product != blank %}
+  <div
+    class="jdgm-widget jdgm-preview-badge"
+    data-id="{{ product.id }}"
+    data-template="product"
+    data-auto-install="false"
+  ></div>
+{% endif %}

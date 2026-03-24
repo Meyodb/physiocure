@@ -126,6 +126,10 @@
 
         <h1 class="product-neuro-buy__title">{{ product_display_title }}</h1>
 
+        <div class="product-neuro-buy__judgeme-stars">
+          {% render 'judgeme-stars', product: product %}
+        </div>
+
         {%- if section.settings.usp_text != blank -%}
           <div class="product-neuro-buy__usp rte">{{ section.settings.usp_text }}</div>
         {%- endif -%}
