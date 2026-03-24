@@ -23,15 +23,6 @@
     assign show_testimonial_carousel = true
   endif
   assign visual_howto_blocks = section.blocks | where: 'type', 'visual_howto_step'
-  assign show_product_sticky_bar = true
-  if section.settings.show_sticky_bar == false
-    assign show_product_sticky_bar = false
-  endif
-  assign sticky_bar_btn_add = section.settings.sticky_bar_cta_label | strip
-  if sticky_bar_btn_add == blank
-    assign sticky_bar_btn_add = 'Ajouter au panier'
-  endif
-  assign sticky_bar_btn_sold = 'Rupture de stock'
   assign product_display_title = product.title
   if section.settings.product_title_override != blank
     assign product_display_title = section.settings.product_title_override | strip
@@ -43,10 +34,6 @@
   class="section-padding section-main-product product-layout-neuro"
   data-section-type="product"
   data-section-id="{{ section.id }}"
-  data-cart-add-url="{{ routes.cart_add_url }}.js"
-  data-shop-checkout-root="{{ routes.root_url }}"
-  data-buy-now-loading="{{ 'accessibility.loading' | t | escape }}"
-  data-buy-now-error="{{ 'cart.cart_error' | t | escape }}"
 >
   <div class="page-width">
     <div class="product-neuro-top">
@@ -205,8 +192,6 @@
           <p class="product-neuro-urgency{% if section.settings.urgency_use_dot %} product-neuro-urgency--dot{% endif %}">{{ urgency_out }}</p>
         {%- endif -%}
 
-        {% capture product_form_id %}product-form-{{ section.id }}{% endcapture %}
-
         {%- if use_pack_picker and section.settings.pack_divider_text != blank -%}
           <p class="product-neuro-pack-divider" role="presentation">
             <span>{{ section.settings.pack_divider_text }}</span>
@@ -215,77 +200,15 @@
 
         {%- if use_pack_picker -%}
           <div class="product-neuro-pack-form-wrap" data-product-pack-form>
-            {% form 'product', product, class: 'product-neuro-form product-neuro-form--pack', id: product_form_id %}
-            <input
-              type="hidden"
-              name="id"
-              id="VariantId-{{ section.id }}"
-              value="{{ current_variant.id }}"
-              data-variant-input
-            >
-            {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks, use_pack_qty_mode: use_pack_qty_mode %}
-
-            {%- liquid
-              assign pack_default_qty = 1
-              if use_pack_qty_mode
-                for b in pack_blocks limit: 1
-                  assign pack_default_qty = b.settings.pack_quantity | default: 1 | plus: 0
-                endfor
-                if pack_default_qty < 1
-                  assign pack_default_qty = 1
-                endif
-              endif
-            -%}
-            {%- if use_pack_qty_mode -%}
+            <div class="product-neuro-form product-neuro-form--pack">
               <input
                 type="hidden"
-                name="quantity"
-                id="Quantity-{{ section.id }}"
-                value="{{ pack_default_qty }}"
-                data-pack-qty-input
+                id="VariantId-{{ section.id }}"
+                value="{{ current_variant.id }}"
+                data-variant-input
               >
-            {%- elsif section.settings.hide_qty_pack_cards == false -%}
-              <div class="field product-neuro-form__field product-neuro-form__qty-row">
-                <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
-                <input
-                  type="number"
-                  id="Quantity-{{ section.id }}"
-                  name="quantity"
-                  value="1"
-                  min="1"
-                  class="product-neuro-form__qty"
-                >
-              </div>
-            {%- endif -%}
-
-            <div class="product-neuro-form__actions">
-              <button
-                type="submit"
-                name="add"
-                class="btn product-neuro-form__submit product-neuro-form__submit--pack"
-                data-pack-submit
-                data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
-                data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
-                {% unless current_variant.available %}disabled{% endunless %}
-              >
-                {%- if current_variant.available -%}
-                  {{ 'products.product.add_to_cart' | t }}
-                {%- else -%}
-                  {{ 'products.product.sold_out' | t }}
-                {%- endif -%}
-              </button>
-              {%- if section.settings.show_buy_now -%}
-                <button
-                  type="button"
-                  class="btn product-neuro-form__submit product-neuro-form__submit--pack product-neuro-form__submit--buynow"
-                  data-buy-now
-                  {% unless current_variant.available %}disabled{% endunless %}
-                >
-                  {{ 'products.product.buy_it_now' | t }}
-                </button>
-              {%- endif -%}
+              {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks, use_pack_qty_mode: use_pack_qty_mode %}
             </div>
-            {% endform %}
           </div>
         {%- else -%}
           <div class="product-neuro-price-card">
@@ -298,12 +221,11 @@
               {%- endunless -%}
             </div>
 
-            {% form 'product', product, class: 'product-neuro-form', id: product_form_id %}
+            <div class="product-neuro-form">
               {%- unless product.has_only_default_variant -%}
                 <div class="field product-neuro-form__field">
                   <label for="Variant-{{ section.id }}">{{ 'products.product.variant_option_label' | t }}</label>
                   <select
-                    name="id"
                     id="Variant-{{ section.id }}"
                     data-main-variant-select
                     class="variant-select"
@@ -320,47 +242,8 @@
                     {%- endfor -%}
                   </select>
                 </div>
-              {%- else -%}
-                <input type="hidden" name="id" value="{{ current_variant.id }}">
               {%- endunless -%}
-
-              <div class="field product-neuro-form__field product-neuro-form__qty-row">
-                <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
-                <input
-                  type="number"
-                  id="Quantity-{{ section.id }}"
-                  name="quantity"
-                  value="1"
-                  min="1"
-                  class="product-neuro-form__qty"
-                >
-              </div>
-
-              <div class="product-neuro-form__actions">
-                <button
-                  type="submit"
-                  name="add"
-                  class="btn product-neuro-form__submit"
-                  {% unless current_variant.available %}disabled{% endunless %}
-                >
-                  {%- if current_variant.available -%}
-                    {{ 'products.product.add_to_cart' | t }}
-                  {%- else -%}
-                    {{ 'products.product.sold_out' | t }}
-                  {%- endif -%}
-                </button>
-                {%- if section.settings.show_buy_now -%}
-                  <button
-                    type="button"
-                    class="btn product-neuro-form__submit product-neuro-form__submit--buynow"
-                    data-buy-now
-                    {% unless current_variant.available %}disabled{% endunless %}
-                  >
-                    {{ 'products.product.buy_it_now' | t }}
-                  </button>
-                {%- endif -%}
-              </div>
-            {% endform %}
+            </div>
           </div>
         {%- endif -%}
 
@@ -388,10 +271,6 @@
         {%- endif -%}
       </div>
     </div>
-
-    {%- if show_product_sticky_bar -%}
-      <div class="product-sticky-sentinel" data-product-sticky-sentinel aria-hidden="true"></div>
-    {%- endif -%}
 
     {%- comment -%} Témoignages : grille OU carrousel (pas les deux) {%- endcomment -%}
     {%- if show_testimonial_grid -%}
@@ -547,92 +426,6 @@
     {%- endif -%}
   </div>
 
-  {%- if show_product_sticky_bar -%}
-    {%- liquid
-      assign sticky_cv = product.selected_or_first_available_variant
-      assign sticky_on_sale = false
-      if sticky_cv.compare_at_price > sticky_cv.price
-        assign sticky_on_sale = true
-      endif
-      assign sticky_save_pct = 0
-      if sticky_on_sale and sticky_cv.compare_at_price > 0
-        assign sticky_save_pct = sticky_cv.compare_at_price | minus: sticky_cv.price | times: 100.0 | divided_by: sticky_cv.compare_at_price | round
-      endif
-      assign sticky_thumb = sticky_cv.featured_image | default: primary_media.preview_image | default: product.featured_image
-      if sticky_thumb == blank and primary_media != blank
-        assign sticky_thumb = primary_media.preview_image | default: primary_media
-      endif
-    -%}
-    <div
-      class="product-sticky-bar"
-      data-product-sticky-bar
-      data-save-label-fmt="−___PCT___ %"
-      hidden
-    >
-      <div class="page-width product-sticky-bar__inner">
-        <div class="product-sticky-bar__info">
-          {%- if sticky_thumb != blank -%}
-            {{
-              sticky_thumb
-              | image_url: width: 160
-              | image_tag: loading: 'lazy', class: 'product-sticky-bar__thumb', alt: product.title
-            }}
-          {%- else -%}
-            <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
-          {%- endif -%}
-          <div class="product-sticky-bar__text">
-            <p class="product-sticky-bar__title">{{ product_display_title }}</p>
-            <div
-              class="price{% if sticky_on_sale %} price--on-sale{% endif %} product-sticky-bar__price"
-              data-sticky-prices
-            >
-              <span class="price__sale-row">
-                <span class="price__current product-sticky-bar__price-current" data-sticky-current>{{ sticky_cv.price | money }}</span>
-                <span
-                  class="price__compare product-sticky-bar__price-compare"
-                  data-sticky-compare
-                  {% unless sticky_on_sale %}
-                    hidden
-                  {% endunless %}
-                >
-                  {%- if sticky_on_sale -%}
-                    {{- sticky_cv.compare_at_price | money -}}
-                  {%- endif -%}
-                </span>
-                <span
-                  class="price__save-badge product-sticky-bar__save"
-                  data-sticky-save-badge
-                  {% unless sticky_on_sale and sticky_save_pct > 0 %}
-                    hidden
-                  {% endunless %}
-                >
-                  {%- if sticky_on_sale and sticky_save_pct > 0 -%}
-                    −{{ sticky_save_pct }} %
-                  {%- endif -%}
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <button
-          type="button"
-          class="btn product-sticky-bar__cta"
-          data-sticky-submit
-          data-label-available="{{ sticky_bar_btn_add | escape }}"
-          data-label-sold="{{ sticky_bar_btn_sold | escape }}"
-          {% unless sticky_cv.available %}
-            disabled
-          {% endunless %}
-        >
-          {%- if sticky_cv.available -%}
-            {{ sticky_bar_btn_add }}
-          {%- else -%}
-            {{ sticky_bar_btn_sold }}
-          {%- endif -%}
-        </button>
-      </div>
-    </div>
-  {%- endif -%}
 </section>
 
 {%- liquid
@@ -761,20 +554,6 @@
   "settings": [
     {
       "type": "checkbox",
-      "id": "show_sticky_bar",
-      "label": "Barre d’achat fixe en bas (mobile & desktop)",
-      "default": true,
-      "info": "S’affiche quand la zone d’achat principal n’est plus visible. Le bouton déclenche le même formulaire que sur la fiche."
-    },
-    {
-      "type": "text",
-      "id": "sticky_bar_cta_label",
-      "label": "Texte du bouton (barre fixe)",
-      "default": "Ajouter au panier",
-      "info": "Libellé du bouton quand le produit est disponible. « Rupture de stock » s’affiche si épuisé. Laissez vide pour utiliser « Ajouter au panier »."
-    },
-    {
-      "type": "checkbox",
       "id": "show_vendor",
       "label": "Afficher la marque (vendor)",
       "default": false
@@ -783,7 +562,7 @@
       "type": "text",
       "id": "product_title_override",
       "label": "Titre affiché sur la fiche (optionnel)",
-      "info": "Remplace le nom du produit Shopify pour le titre principal (H1) et la barre d’achat fixe. Laisser vide pour utiliser le titre catalogue. Les données structurées (SEO) conservent le nom produit Shopify."
+      "info": "Remplace le nom du produit Shopify pour le titre principal (H1). Laisser vide pour utiliser le titre catalogue. Les données structurées (SEO) conservent le nom produit Shopify."
     },
     {
       "type": "richtext",
@@ -863,13 +642,6 @@
       "id": "hide_qty_pack_cards",
       "label": "Masquer la quantité avec les cartes d’offre",
       "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_buy_now",
-      "label": "Bouton achat direct (paiement)",
-      "default": true,
-      "info": "Ajoute « Acheter maintenant » sous le panier : vide le panier, n’y met que cette ligne, puis ouvre le tunnel de commande."
     },
     {
       "type": "header",

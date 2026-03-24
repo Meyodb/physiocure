@@ -44,63 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const syncStickyProductBar = (radio) => {
-    const bar = document.querySelector('[data-product-sticky-bar]');
-    if (!bar || !radio || !radio.hasAttribute('data-sticky-price')) return;
-    const fmt = bar.getAttribute('data-save-label-fmt') || '';
-    const priceRoot = bar.querySelector('[data-sticky-prices]');
-    const current = bar.querySelector('[data-sticky-current]');
-    const compare = bar.querySelector('[data-sticky-compare]');
-    const badge = bar.querySelector('[data-sticky-save-badge]');
-    const thumb = bar.querySelector('img.product-sticky-bar__thumb');
-    const stickyBtn = bar.querySelector('[data-sticky-submit]');
-
-    if (current) current.textContent = radio.getAttribute('data-sticky-price') || '';
-
-    const cmp = radio.getAttribute('data-sticky-compare') || '';
-    if (compare) {
-      if (cmp) {
-        compare.textContent = cmp;
-        compare.removeAttribute('hidden');
-      } else {
-        compare.textContent = '';
-        compare.setAttribute('hidden', '');
-      }
-    }
-
-    const pct = parseInt(radio.getAttribute('data-sticky-save-pct') || '0', 10) || 0;
-    if (badge) {
-      if (pct > 0 && fmt) {
-        badge.textContent = fmt.split('___PCT___').join(String(pct));
-        badge.removeAttribute('hidden');
-      } else {
-        badge.textContent = '';
-        badge.setAttribute('hidden', '');
-      }
-    }
-
-    if (priceRoot) {
-      priceRoot.classList.toggle('price--on-sale', Boolean(cmp || pct > 0));
-    }
-
-    const imgUrl = radio.getAttribute('data-sticky-image');
-    if (thumb && imgUrl) {
-      thumb.src = imgUrl;
-    }
-
-    const available = radio.getAttribute('data-variant-available') === 'true';
-    if (stickyBtn) {
-      stickyBtn.disabled = !available;
-      const la = stickyBtn.dataset.labelAvailable;
-      const ls = stickyBtn.dataset.labelSold;
-      stickyBtn.textContent = available ? la || '' : ls || '';
-    }
-  };
-
   const packWrap = document.querySelector('[data-product-pack-form]');
   if (packWrap) {
     const hiddenId = packWrap.querySelector('[data-variant-input]');
-    const submitBtn = packWrap.querySelector('[data-pack-submit]');
     const qtyInput = packWrap.querySelector('[data-pack-qty-input]');
     const qtyMode = Boolean(packWrap.querySelector('[data-pack-qty-mode]'));
     const radios = qtyMode
@@ -114,22 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (hiddenId) {
         hiddenId.value = radio.value;
       }
-      const available = radio.getAttribute('data-variant-available') === 'true';
-      const buyNowBtn = packWrap.querySelector('[data-buy-now]');
-      if (submitBtn) {
-        submitBtn.disabled = !available;
-        const la = submitBtn.getAttribute('data-label-available');
-        const ls = submitBtn.getAttribute('data-label-sold');
-        if (la && ls) submitBtn.textContent = available ? la : ls;
-      }
-      if (buyNowBtn) {
-        buyNowBtn.disabled = !available;
-      }
       packWrap.querySelectorAll('[data-pack-card]').forEach((card) => {
         const input = card.querySelector('[data-pack-qty-radio], [data-pack-variant-radio]');
         card.classList.toggle('is-selected', Boolean(input && input.checked));
       });
-      syncStickyProductBar(radio);
       if (!qtyMode) {
         try {
           const base = window.location.pathname;
@@ -147,100 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
       qtyMode ? '[data-pack-qty-radio]:checked' : '[data-pack-variant-radio]:checked'
     );
     if (initial) applyPack(initial);
-  }
-
-  const stickyBar = document.querySelector('[data-product-sticky-bar]');
-  const stickySentinel = document.querySelector('[data-product-sticky-sentinel]');
-  const setProductStickyBarVisible = (show) => {
-    if (!stickyBar) return;
-    stickyBar.toggleAttribute('hidden', !show);
-    document.body.classList.toggle('product-sticky-bar-on', Boolean(show));
-  };
-  const syncProductStickyBarFromLayout = () => {
-    if (!stickyBar || !stickySentinel) return;
-    const rect = stickySentinel.getBoundingClientRect();
-    const vh = window.innerHeight || document.documentElement.clientHeight;
-    const sentinelVisible = rect.top < vh && rect.bottom > 0;
-    setProductStickyBarVisible(!sentinelVisible);
-  };
-  if (stickyBar && stickySentinel) {
-    syncProductStickyBarFromLayout();
-    if (typeof IntersectionObserver !== 'undefined') {
-      const io = new IntersectionObserver(
-        (entries) => {
-          const entry = entries && entries[0];
-          if (!entry) return;
-          setProductStickyBarVisible(!entry.isIntersecting);
-        },
-        { root: null, threshold: 0, rootMargin: '0px' }
-      );
-      io.observe(stickySentinel);
-    }
-    window.addEventListener('scroll', syncProductStickyBarFromLayout, { passive: true });
-    window.addEventListener('resize', syncProductStickyBarFromLayout, { passive: true });
-  }
-
-  document.querySelector('[data-sticky-submit]')?.addEventListener('click', () => {
-    const mainBtn = document.querySelector('#MainProduct button[type="submit"][name="add"]');
-    if (mainBtn && !mainBtn.disabled) mainBtn.click();
-  });
-
-  const mainProduct = document.querySelector('#MainProduct[data-cart-add-url]');
-  if (mainProduct) {
-    const cartAddUrl = mainProduct.getAttribute('data-cart-add-url') || '/cart/add.js';
-    const cartClearUrl = cartAddUrl.replace('add.js', 'clear.js');
-    let checkoutRoot = mainProduct.getAttribute('data-shop-checkout-root') || '/';
-    if (checkoutRoot === '/') checkoutRoot = '';
-    else checkoutRoot = checkoutRoot.replace(/\/$/, '');
-    const checkoutUrl = checkoutRoot ? `${checkoutRoot}/checkout` : '/checkout';
-    const loadingLabel = mainProduct.getAttribute('data-buy-now-loading') || '…';
-    const errorLabel = mainProduct.getAttribute('data-buy-now-error') || 'Error';
-
-    mainProduct.querySelectorAll('[data-buy-now]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (btn.disabled) return;
-        const form = btn.closest('form');
-        if (!form) return;
-        const idEl = form.querySelector('[name="id"]');
-        const qtyEl = form.querySelector('[name="quantity"]');
-        const id = idEl ? parseInt(idEl.value, 10) : NaN;
-        const qtyRaw = qtyEl ? parseInt(qtyEl.value, 10) : 1;
-        const qty = Number.isFinite(qtyRaw) && qtyRaw >= 1 ? qtyRaw : 1;
-        if (!Number.isFinite(id) || id < 1) return;
-
-        const origText = btn.textContent;
-        btn.disabled = true;
-        btn.textContent = loadingLabel;
-        try {
-          const clearRes = await fetch(cartClearUrl, {
-            method: 'POST',
-            headers: { Accept: 'application/json' },
-          });
-          if (!clearRes.ok) {
-            throw new Error(errorLabel);
-          }
-
-          const res = await fetch(cartAddUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ items: [{ id, quantity: qty }] }),
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok) {
-            const msg =
-              (data && (data.description || data.message)) ||
-              (typeof data === 'string' ? data : '') ||
-              errorLabel;
-            throw new Error(msg);
-          }
-          window.location.href = checkoutUrl;
-        } catch (e) {
-          btn.disabled = false;
-          btn.textContent = origText;
-          window.alert(typeof e.message === 'string' ? e.message : errorLabel);
-        }
-      });
-    });
   }
 
   const galleryRoot = document.querySelector('[data-product-gallery]');

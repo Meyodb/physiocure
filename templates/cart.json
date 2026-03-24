@@ -1,10 +1,9 @@
 {
   "sections": {
     "main": {
-      "type": "main-cart",
+      "type": "cart-disabled",
       "settings": {
-        "show_note": true,
-        "tax_text": "Taxes et frais de livraison calculés à l’étape suivante."
+        "message": "La commande en ligne n’est pas disponible sur ce site pour le moment."
       }
     }
   },

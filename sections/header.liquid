@@ -57,12 +57,6 @@
           <path d="M16 16l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </a>
-      <a href="{{ routes.cart_url }}" class="header-cart" id="cart-icon-bubble">
-        {% render 'icon-cart' %}
-        {%- if cart.item_count > 0 -%}
-          <span class="cart-count">{{ cart.item_count }}</span>
-        {%- endif -%}
-      </a>
     </div>
   </div>
 </header>

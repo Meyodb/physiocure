@@ -1,0 +1,23 @@
+<section class="section-padding cart-disabled-page">
+  <div class="page-width" style="max-width: 36rem;">
+    <h1 class="cart-disabled-page__title">{{ 'cart.title' | t }}</h1>
+    <p class="cart-disabled-page__text">{{ section.settings.message }}</p>
+    <a href="{{ routes.root_url }}" class="btn">{{ 'general.continue_shopping' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Panier (désactivé)",
+  "tag": "section",
+  "class": "section-cart-disabled",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "message",
+      "label": "Message",
+      "default": "La commande en ligne n’est pas disponible sur ce site pour le moment."
+    }
+  ]
+}
+{% endschema %}
