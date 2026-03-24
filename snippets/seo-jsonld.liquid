@@ -11,11 +11,13 @@
   assign org_logo_url = ''
   if org_logo_src != blank
     assign org_logo_url = org_logo_src | image_url: width: 512
-    if org_logo_url contains '//'
-      unless org_logo_url contains 'https:' or org_logo_url contains 'http:'
-        assign org_logo_url = org_logo_url | replace_first: '//', 'https://'
-      endunless
-    endif
+  else
+    assign org_logo_url = 'favicon.png' | asset_url
+  endif
+  if org_logo_url contains '//'
+    unless org_logo_url contains 'https:' or org_logo_url contains 'http:'
+      assign org_logo_url = org_logo_url | replace_first: '//', 'https://'
+    endunless
   endif
 -%}
 <script type="application/ld+json">
