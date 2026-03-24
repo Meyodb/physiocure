@@ -1,4 +1,7 @@
-<section class="section-home-cta-banner{% if section.settings.image != blank %} section-home-cta-banner--has-bg{% endif %}">
+<section
+  class="section-home-cta-banner{% if section.settings.image != blank %} section-home-cta-banner--has-bg{% endif %}"
+  aria-labelledby="home-cta-heading-{{ section.id }}"
+>
   <div class="section-home-cta-banner__bg" aria-hidden="true">
     {%- if section.settings.image != blank -%}
       {{
@@ -16,7 +19,7 @@
   <div class="page-width section-home-cta-banner__inner">
     <div class="section-home-cta-banner__card">
       {%- if section.settings.heading != blank -%}
-        <h2 style="font-size: clamp(1.4rem, 3vw, 1.85rem); margin: 0 0 0.65rem;">{{ section.settings.heading }}</h2>
+        <h2 id="home-cta-heading-{{ section.id }}" style="font-size: clamp(1.4rem, 3vw, 1.85rem); margin: 0 0 0.65rem;">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
         <p style="margin: 0 0 1.25rem; color: var(--color-muted); max-width: 32rem;">{{ section.settings.text }}</p>

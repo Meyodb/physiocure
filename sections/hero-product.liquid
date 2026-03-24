@@ -1,9 +1,13 @@
 {%- assign featured = section.settings.product -%}
-<section class="section-padding" style="padding-top: clamp(2rem, 5vw, 3.5rem);">
+<section
+  class="section-padding section-hero-product"
+  style="padding-top: clamp(2rem, 5vw, 3.5rem);"
+  aria-labelledby="hero-heading-{{ section.id }}"
+>
   <div class="page-width">
     <div class="grid-2">
       <div>
-        <div style="border-radius: 20px; overflow: hidden; background: var(--color-surface); border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 24px 60px rgba(0,0,0,0.08);">
+        <div class="hero-product__visual" style="border-radius: 20px; overflow: hidden; background: var(--color-surface); border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 24px 60px rgba(0,0,0,0.08);">
           {%- liquid
             assign hero_alt = section.settings.hero_alt | default: section.settings.heading | default: 'Femme détendue dans un salon lumineux, appareil de bien-être pour les jambes'
           -%}
@@ -13,19 +17,24 @@
               | image_url: width: 1200
               | image_tag:
                 loading: 'eager',
-                sizes: '(min-width: 900px) 50vw, 100vw',
+                fetchpriority: 'high',
+                decoding: 'async',
+                sizes: '(min-width: 900px) min(50vw, 36rem), 100vw',
                 widths: '400, 600, 800, 1000, 1200',
-                alt: section.settings.hero_image.alt | default: hero_alt
+                alt: section.settings.hero_image.alt | default: hero_alt,
+                width: section.settings.hero_image.width,
+                height: section.settings.hero_image.height
             }}
           {%- else -%}
             <img
               src="{{ 'physiocure-home-hero.png' | asset_url }}"
               alt="{{ hero_alt | escape }}"
               loading="eager"
+              fetchpriority="high"
               decoding="async"
               width="650"
               height="582"
-              sizes="(min-width: 900px) 50vw, 100vw"
+              sizes="(min-width: 900px) min(50vw, 36rem), 100vw"
               style="width: 100%; height: auto; display: block;"
             >
           {%- endif -%}
@@ -45,6 +54,7 @@
                   | image_url: width: 700
                   | image_tag:
                     loading: 'lazy',
+                    decoding: 'async',
                     sizes: '(min-width: 900px) 25vw, 50vw',
                     widths: '300, 450, 700',
                     alt: section.settings.hero_image_secondary.alt | default: hero_alt
@@ -62,6 +72,7 @@
                   | image_url: width: 700
                   | image_tag:
                     loading: 'lazy',
+                    decoding: 'async',
                     sizes: '(min-width: 900px) 25vw, 50vw',
                     widths: '300, 450, 700',
                     alt: section.settings.hero_image_tertiary.alt | default: hero_alt
@@ -79,7 +90,7 @@
         {%- if section.settings.badge != blank -%}
           <span class="badge">{{ section.settings.badge }}</span>
         {%- endif -%}
-        <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-top: 0.75rem;">
+        <h1 id="hero-heading-{{ section.id }}" style="font-size: clamp(2rem, 5vw, 3rem); margin-top: 0.75rem;">
           {{ section.settings.heading | default: featured.title | default: "Retrouvez la légèreté de vos jambes en 15 minutes." }}
         </h1>
         <p style="font-size: 1.1rem; color: var(--color-muted); max-width: 36rem;">
@@ -87,7 +98,7 @@
         </p>
         {%- if section.settings.show_product_excerpt and featured != blank and featured.description != blank -%}
           <p style="font-size: 1rem; color: var(--color-muted); max-width: 36rem; margin-top: 1rem;">
-            {{ featured.description | strip_html | truncatewords: 48 }}
+            {{ featured.description | strip_html | truncatewords: 34 }}
           </p>
         {%- endif -%}
 
@@ -167,8 +178,8 @@
       "type": "checkbox",
       "id": "show_product_excerpt",
       "label": "Afficher un extrait de la description produit",
-      "default": true,
-      "info": "Sous le sous-titre, si un produit vedette est sélectionné."
+      "default": false,
+      "info": "Désactivé par défaut pour éviter de dupliquer la fiche « Détail produit » plus bas sur l’accueil."
     },
     {
       "type": "text",

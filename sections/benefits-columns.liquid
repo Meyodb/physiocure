@@ -1,7 +1,11 @@
-<section class="section-padding" style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);">
+<section
+  class="section-padding section-benefits-columns"
+  style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);"
+  aria-labelledby="home-benefits-heading-{{ section.id }}"
+>
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
-      <h2 style="text-align:center; max-width:40rem; margin: 0 auto 2.5rem; font-size: clamp(1.5rem, 3vw, 2rem);">
+      <h2 id="home-benefits-heading-{{ section.id }}" style="text-align:center; max-width:40rem; margin: 0 auto clamp(1.5rem, 4vw, 2.25rem); font-size: clamp(1.5rem, 3vw, 2rem);">
         {{ section.settings.heading }}
       </h2>
     {%- endif -%}

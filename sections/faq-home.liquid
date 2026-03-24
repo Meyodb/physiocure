@@ -1,7 +1,7 @@
-<section class="section-padding" style="background: var(--color-surface); border-top: 1px solid rgba(0,0,0,0.06);">
+<section class="section-padding section-faq-home" style="background: var(--color-surface); border-top: 1px solid rgba(0,0,0,0.06);" aria-labelledby="home-faq-heading-{{ section.id }}">
   <div class="page-width" style="max-width: 42rem;">
     {%- if section.settings.heading != blank -%}
-      <h2 style="margin: 0 0 1.5rem; font-size: clamp(1.5rem, 3vw, 2rem);">{{ section.settings.heading }}</h2>
+      <h2 id="home-faq-heading-{{ section.id }}" style="margin: 0 0 1.25rem; font-size: clamp(1.5rem, 3vw, 2rem);">{{ section.settings.heading }}</h2>
     {%- endif -%}
     <div>
       {%- for block in section.blocks -%}

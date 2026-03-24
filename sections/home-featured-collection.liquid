@@ -1,12 +1,16 @@
 {%- assign coll = section.settings.collection -%}
-<section class="section-padding section-home-featured-collection" style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);">
+<section
+  class="section-padding section-home-featured-collection"
+  style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);"
+  aria-labelledby="home-featured-heading-{{ section.id }}"
+>
   <div class="page-width">
-    <header class="home-section-header" style="text-align: center; max-width: 40rem; margin: 0 auto 2.5rem;">
+    <header class="home-section-header" style="text-align: center; max-width: 40rem; margin: 0 auto clamp(1.5rem, 4vw, 2.25rem);">
       {%- if section.settings.eyebrow != blank -%}
         <p class="home-section-eyebrow">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
       {%- if section.settings.heading != blank -%}
-        <h2 style="font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.75rem;">{{ section.settings.heading }}</h2>
+        <h2 id="home-featured-heading-{{ section.id }}" style="font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.75rem;">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.subheading != blank -%}
         <p style="margin: 0; color: var(--color-muted); font-size: 1.05rem;">{{ section.settings.subheading }}</p>
@@ -14,14 +18,23 @@
     </header>
 
     {%- if coll != blank and coll.products_count > 0 -%}
-      <ul class="collection-grid collection-grid--home" role="list">
+      <ul class="collection-grid collection-grid--home collection-grid--home-balanced" role="list">
         {%- for product in coll.products limit: section.settings.products_to_show -%}
           <li>
             <article class="card-product">
               <a href="{{ product.url }}" class="card-product__media">
                 {%- if product.featured_media -%}
                   {%- assign card_alt = product.featured_media.alt | default: product.title -%}
-                  {{ product.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', alt: card_alt }}
+                  {{
+                    product.featured_media
+                    | image_url: width: 600
+                    | image_tag:
+                      loading: 'lazy',
+                      decoding: 'async',
+                      sizes: '(min-width: 900px) min(22rem, 28vw), min(92vw, 24rem)',
+                      widths: '240, 360, 480, 600',
+                      alt: card_alt
+                  }}
                 {%- endif -%}
               </a>
               <div class="card-product__info">

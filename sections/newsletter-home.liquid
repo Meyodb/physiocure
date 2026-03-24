@@ -1,7 +1,7 @@
-<section class="section-padding" style="background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));">
+<section class="section-padding section-newsletter-home" style="background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));" aria-labelledby="home-newsletter-heading-{{ section.id }}">
   <div class="page-width" style="text-align:center; max-width: 36rem;">
     {%- if section.settings.heading != blank -%}
-      <h2 style="margin: 0 0 0.5rem; font-size: clamp(1.35rem, 3vw, 1.75rem);">{{ section.settings.heading }}</h2>
+      <h2 id="home-newsletter-heading-{{ section.id }}" style="margin: 0 0 0.5rem; font-size: clamp(1.35rem, 3vw, 1.75rem);">{{ section.settings.heading }}</h2>
     {%- endif -%}
     {%- if section.settings.text != blank -%}
       <p style="margin: 0 0 1.5rem; color: var(--color-muted);">{{ section.settings.text }}</p>

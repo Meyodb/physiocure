@@ -1,7 +1,7 @@
-<section class="section-padding">
+<section class="section-padding section-testimonials" aria-labelledby="home-testimonials-heading-{{ section.id }}">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
-      <h2 style="text-align:center; margin: 0 0 2rem; font-size: clamp(1.5rem, 3vw, 2rem);">{{ section.settings.heading }}</h2>
+      <h2 id="home-testimonials-heading-{{ section.id }}" style="text-align:center; margin: 0 0 clamp(1.25rem, 3vw, 1.75rem); font-size: clamp(1.5rem, 3vw, 2rem);">{{ section.settings.heading }}</h2>
     {%- endif -%}
     <div style="display:grid; gap:1.25rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
       {%- for block in section.blocks -%}

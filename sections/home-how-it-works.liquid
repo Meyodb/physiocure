@@ -1,7 +1,11 @@
-<section class="section-padding section-home-how-it-works" style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);">
+<section
+  class="section-padding section-home-how-it-works"
+  style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);"
+  aria-labelledby="home-how-heading-{{ section.id }}"
+>
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
-      <h2 style="text-align: center; font-size: clamp(1.45rem, 3vw, 2rem); margin: 0 0 0.5rem;">{{ section.settings.heading }}</h2>
+      <h2 id="home-how-heading-{{ section.id }}" style="text-align: center; font-size: clamp(1.45rem, 3vw, 2rem); margin: 0 0 0.5rem;">{{ section.settings.heading }}</h2>
     {%- endif -%}
     {%- if section.settings.subheading != blank -%}
       <p style="text-align: center; color: var(--color-muted); max-width: 34rem; margin: 0 auto 2.5rem;">{{ section.settings.subheading }}</p>

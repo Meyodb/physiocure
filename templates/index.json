@@ -41,12 +41,12 @@
         "hero_image_secondary": "",
         "hero_image_tertiary": "",
         "show_thumb_row": false,
-        "show_product_excerpt": true,
+        "show_product_excerpt": false,
         "hero_alt": "Femme détendue dans un salon lumineux, appareil de bien-être pour les jambes",
         "product": "",
         "badge": "Bien-être & récupération",
         "heading": "Retrouvez la légèreté de vos jambes en 15 minutes.",
-        "subheading": "Soulagez la sensation de jambes lourdes et retrouvez la légèreté — quelques minutes par jour, confortablement installé chez vous.",
+        "subheading": "Soulagez la sensation de jambes lourdes en quelques minutes par jour — confortablement installé chez vous.",
         "primary_cta_page": "",
         "primary_cta_label": "Soulager mes jambes maintenant",
         "secondary_cta_label": "Voir les détails"
@@ -92,79 +92,6 @@
       ],
       "settings": {}
     },
-    "featured_collection": {
-      "type": "home-featured-collection",
-      "settings": {
-        "eyebrow": "Notre sélection",
-        "heading": "Produits pour votre routine bien-être",
-        "subheading": "Choisissez la collection à mettre en avant dans l’éditeur de thème (ex. « Tous les produits » ou une collection dédiée).",
-        "collection": "",
-        "products_to_show": 2,
-        "show_view_all": true,
-        "view_all_label": "Voir toute la gamme",
-        "empty_state": "Dans Shopify : personnaliser le thème → accueil → cette section → sélectionnez une collection."
-      }
-    },
-    "product_specs": {
-      "type": "home-product-specs",
-      "blocks": {
-        "spec_1": {
-          "type": "spec",
-          "settings": {
-            "label": "Intensité",
-            "value": "15 niveaux ajustables pour adapter la séance"
-          }
-        },
-        "spec_2": {
-          "type": "spec",
-          "settings": {
-            "label": "Chaleur",
-            "value": "Diffusion progressive, réglable selon votre confort"
-          }
-        },
-        "spec_3": {
-          "type": "spec",
-          "settings": {
-            "label": "Zones",
-            "value": "Jambes, pieds et voûte plantaire"
-          }
-        },
-        "spec_4": {
-          "type": "spec",
-          "settings": {
-            "label": "Essai",
-            "value": "Garantie satisfait ou remboursé 90 jours"
-          }
-        },
-        "spec_5": {
-          "type": "spec",
-          "settings": {
-            "label": "Utilisation",
-            "value": "Séances courtes à la maison, interface simple"
-          }
-        }
-      },
-      "block_order": [
-        "spec_1",
-        "spec_2",
-        "spec_3",
-        "spec_4",
-        "spec_5"
-      ],
-      "settings": {
-        "product": "",
-        "eyebrow": "Spécificités",
-        "heading": "Conçu pour le confort au quotidien",
-        "intro": "",
-        "image_main": "",
-        "show_extra_images": false,
-        "image_secondary": "",
-        "image_tertiary": "",
-        "cta_label": "Découvrir le produit",
-        "cta_custom_link": "",
-        "cta_secondary_label": "Acheter maintenant"
-      }
-    },
     "how_it_works": {
       "type": "home-how-it-works",
       "blocks": {
@@ -200,7 +127,7 @@
       ],
       "settings": {
         "heading": "Comment ça marche",
-        "subheading": "Trois étapes simples — sans contrainte, chez vous.",
+        "subheading": "Trois étapes simples, sans contrainte — chez vous.",
         "show_step_images": false
       }
     },
@@ -241,7 +168,72 @@
         "b3"
       ],
       "settings": {
-        "heading": "Pourquoi s’y intégrer à votre routine"
+        "heading": "Pourquoi l’adopter au quotidien"
+      }
+    },
+    "product_specs": {
+      "type": "home-product-specs",
+      "blocks": {
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "label": "Intensité",
+            "value": "15 niveaux ajustables pour adapter la séance"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "label": "Chaleur",
+            "value": "Diffusion progressive, réglable selon votre confort"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "label": "Zones",
+            "value": "Jambes, pieds et voûte plantaire"
+          }
+        },
+        "spec_4": {
+          "type": "spec",
+          "settings": {
+            "label": "Essai",
+            "value": "Garantie satisfait ou remboursé 90 jours"
+          }
+        }
+      },
+      "block_order": [
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4"
+      ],
+      "settings": {
+        "product": "",
+        "eyebrow": "Spécificités",
+        "heading": "Conçu pour le confort au quotidien",
+        "intro": "",
+        "image_main": "",
+        "show_extra_images": false,
+        "image_secondary": "",
+        "image_tertiary": "",
+        "cta_label": "Découvrir le produit",
+        "cta_custom_link": "",
+        "cta_secondary_label": "Acheter maintenant"
+      }
+    },
+    "featured_collection": {
+      "type": "home-featured-collection",
+      "settings": {
+        "eyebrow": "Notre sélection",
+        "heading": "Les produits les plus demandés",
+        "subheading": "Récupération et confort des jambes — qualité et simplicité d’usage.",
+        "collection": "",
+        "products_to_show": 2,
+        "show_view_all": true,
+        "view_all_label": "Voir toute la gamme",
+        "empty_state": "Dans l’éditeur de thème, choisissez une collection pour afficher vos produits ici."
       }
     },
     "testimonials": {
@@ -286,7 +278,7 @@
       "type": "home-cta-banner",
       "settings": {
         "heading": "Prêt à soulager vos jambes ?",
-        "text": "Livraison suivie, SAV réactif et informations claires sur les retours — commandez en toute confiance.",
+        "text": "Livraison suivie, SAV réactif et politique de retour claire.",
         "button_label": "Voir les produits",
         "button_link": "",
         "button_page": "",
@@ -346,10 +338,10 @@
   "order": [
     "hero_product",
     "trust_strip",
-    "featured_collection",
-    "product_specs",
     "how_it_works",
     "benefits",
+    "product_specs",
+    "featured_collection",
     "testimonials",
     "cta_banner",
     "faq_home",

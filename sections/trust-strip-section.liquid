@@ -1,10 +1,10 @@
-<section class="section-padding" style="padding-block: clamp(2rem, 4vw, 3rem);">
+<section class="section-padding section-trust-strip" style="padding-block: clamp(1.5rem, 3.5vw, 2.5rem);">
   <div class="page-width">
-    <div class="trust-strip">
+    <ul class="trust-strip" role="list">
       {%- for block in section.blocks -%}
-        <span {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> — {{ block.settings.detail }}</span>
+        <li {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> — {{ block.settings.detail }}</li>
       {%- endfor -%}
-    </div>
+    </ul>
   </div>
 </section>
 
