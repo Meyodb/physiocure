@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="{{ settings.colors_primary | default: '#1A365D' }}">
     <link rel="canonical" href="{{ canonical_url }}">
+    {%- if template.name == 'cart'
+      or template.name == 'search'
+      or template.name == '404'
+      or template.name == 'password'
+      or template.directory == 'customers'
+    -%}
+      <meta name="robots" content="noindex, follow">
+    {%- endif -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
     {%- if settings.favicon != blank -%}
@@ -23,6 +31,7 @@
     {% endif %}
 
     {% render 'meta-tags' %}
+    {% render 'seo-jsonld' %}
 
     {{ content_for_header }}
 

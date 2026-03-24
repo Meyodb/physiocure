@@ -56,6 +56,69 @@
   </div>
 </section>
 
+{%- assign article_canonical = request.origin | append: article.url -%}
+{%- assign article_ld_image = '' -%}
+{%- if article.image -%}
+  {%- assign article_ld_image = article.image | image_url: width: 1200 -%}
+  {%- if article_ld_image contains '//' -%}
+    {%- unless article_ld_image contains 'https:' or article_ld_image contains 'http:' -%}
+      {%- assign article_ld_image = article_ld_image | replace_first: '//', 'https://' -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endif -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ article.title | json }},
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | default: shop.name | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }}
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ article_canonical | json }}
+    }
+    {%- if article_ld_image != blank -%}
+      ,"image": [{{ article_ld_image | json }}]
+    {%- endif -%}
+    ,"description": {{ article.content | strip_html | truncate: 500 | json }}
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": {{ 'general.breadcrumbs.home' | t | json }},
+        "item": {{ shop.url | json }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": {{ blog.title | json }},
+        "item": {{ request.origin | append: blog.url | json }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": {{ article.title | json }},
+        "item": {{ article_canonical | json }}
+      }
+    ]
+  }
+</script>
+
 {% schema %}
 {
   "name": "Article",

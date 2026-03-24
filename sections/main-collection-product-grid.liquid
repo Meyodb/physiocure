@@ -49,6 +49,49 @@
             {%- endif -%}
           </nav>
         {%- endif -%}
+
+        {%- assign list_offset = paginate.current_page | minus: 1 | times: paginate.page_size -%}
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": {{ collection.title | json }},
+            "numberOfItems": {{ collection.all_products_count | default: collection.products_count }},
+            "itemListElement": [
+              {%- assign list_first = true -%}
+              {%- for product in collection.products -%}
+                {%- unless list_first -%},{%- endunless -%}
+                {
+                  "@type": "ListItem",
+                  "position": {{ list_offset | plus: forloop.index }},
+                  "name": {{ product.title | json }},
+                  "url": {{ request.origin | append: product.url | json }}
+                }
+                {%- assign list_first = false -%}
+              {%- endfor -%}
+            ]
+          }
+        </script>
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": {{ 'general.breadcrumbs.home' | t | json }},
+                "item": {{ shop.url | json }}
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ collection.title | json }},
+                "item": {{ request.origin | append: collection.url | json }}
+              }
+            ]
+          }
+        </script>
       {%- endif -%}
     {%- endpaginate -%}
   </div>

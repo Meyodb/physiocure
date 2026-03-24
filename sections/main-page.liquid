@@ -9,6 +9,45 @@
   </div>
 </section>
 
+{%- assign page_canonical = request.origin | append: page.url -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": {{ page_canonical | json }},
+    "name": {{ page.title | json }},
+    "url": {{ page_canonical | json }},
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }}
+    }
+    {%- if page.content != blank -%}
+      ,"description": {{ page.content | strip_html | truncate: 500 | json }}
+    {%- endif -%}
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": {{ 'general.breadcrumbs.home' | t | json }},
+        "item": {{ shop.url | json }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": {{ page.title | json }},
+        "item": {{ page_canonical | json }}
+      }
+    ]
+  }
+</script>
+
 {% schema %}
 {
   "name": "Page",

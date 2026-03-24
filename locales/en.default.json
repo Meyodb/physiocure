@@ -4,6 +4,9 @@
       "tags": "Tagged \"{{ tags }}\"",
       "page": "Page {{ page }}"
     },
+    "breadcrumbs": {
+      "home": "Home"
+    },
     "search": { "search": "Search" },
     "continue_shopping": "Continue shopping",
     "pagination": { "label": "Pagination", "page": "Page {{ number }}" }

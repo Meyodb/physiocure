@@ -1,0 +1,74 @@
+{%- comment -%}
+  Données structurées globales : Organization (+ WebSite + SearchAction sur l’accueil).
+{%- endcomment -%}
+{%- liquid
+  assign org_logo_src = blank
+  if shop.brand != blank and shop.brand.logo != blank
+    assign org_logo_src = shop.brand.logo
+  elsif settings.favicon != blank
+    assign org_logo_src = settings.favicon
+  endif
+  assign org_logo_url = ''
+  if org_logo_src != blank
+    assign org_logo_url = org_logo_src | image_url: width: 512
+    if org_logo_url contains '//'
+      unless org_logo_url contains 'https:' or org_logo_url contains 'http:'
+        assign org_logo_url = org_logo_url | replace_first: '//', 'https://'
+      endunless
+    endif
+  endif
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+    {%- if shop.description != blank -%}
+      ,"description": {{ shop.description | strip_html | truncate: 500 | json }}
+    {%- endif -%}
+    {%- if shop.email != blank -%}
+      ,"email": {{ shop.email | json }}
+    {%- endif -%}
+    {%- if settings.social_instagram != blank or settings.social_facebook != blank or settings.social_youtube != blank -%}
+      ,"sameAs": [
+        {%- if settings.social_instagram != blank -%}
+          {{ settings.social_instagram | strip | json }}
+        {%- endif -%}
+        {%- if settings.social_facebook != blank -%}
+          {%- if settings.social_instagram != blank -%},{%- endif -%}
+          {{ settings.social_facebook | strip | json }}
+        {%- endif -%}
+        {%- if settings.social_youtube != blank -%}
+          {%- if settings.social_instagram != blank or settings.social_facebook != blank -%},{%- endif -%}
+          {{ settings.social_youtube | strip | json }}
+        {%- endif -%}
+      ]
+    {%- endif -%}
+    {%- if org_logo_url != blank -%}
+      ,"logo": {
+        "@type": "ImageObject",
+        "url": {{ org_logo_url | json }}
+      }
+    {%- endif -%}
+  }
+</script>
+{%- if request.page_type == 'index' -%}
+  {%- assign search_template = shop.url | append: routes.search_url | append: '?q={search_term_string}' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": {{ search_template | json }}
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+{%- endif -%}

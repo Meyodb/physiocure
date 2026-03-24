@@ -4,6 +4,9 @@
       "tags": "Étiqueté « {{ tags }} »",
       "page": "Page {{ page }}"
     },
+    "breadcrumbs": {
+      "home": "Accueil"
+    },
     "search": { "search": "Rechercher" },
     "continue_shopping": "Continuer les achats",
     "pagination": { "label": "Pagination", "page": "Page {{ number }}" }
