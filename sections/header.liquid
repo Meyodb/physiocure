@@ -41,6 +41,15 @@
 
     <nav id="MainNav" class="main-nav" data-main-nav aria-label="Principal">
       {%- if section.settings.menu != blank -%}
+        {%- assign suivi_commande_link = false -%}
+        {%- for link in section.settings.menu.links -%}
+          {%- if link.title == 'Suivi de commande' -%}
+            {%- assign suivi_commande_link = link -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- assign suivi_commande_shown = false -%}
         {%- for link in section.settings.menu.links -%}
           {%- liquid
             assign hide_suivi = false
@@ -50,11 +59,23 @@
             if link.type == 'page' and link.object != blank and link.object.handle == 'suivi'
               assign hide_suivi = true
             endif
+
+            assign skip_suivi_commande = false
+            if suivi_commande_link and link.title == 'Suivi de commande'
+              assign skip_suivi_commande = true
+            endif
           -%}
-          {%- unless hide_suivi -%}
+          {%- unless hide_suivi or skip_suivi_commande -%}
             <a href="{{ link.url }}">{{ link.title }}</a>
           {%- endunless -%}
+          {%- if link.title == 'PhysioCure' and suivi_commande_link -%}
+            <a href="{{ suivi_commande_link.url }}">{{ suivi_commande_link.title }}</a>
+            {%- assign suivi_commande_shown = true -%}
+          {%- endif -%}
         {%- endfor -%}
+        {%- if suivi_commande_link and suivi_commande_shown == false -%}
+          <a href="{{ suivi_commande_link.url }}">{{ suivi_commande_link.title }}</a>
+        {%- endif -%}
       {%- else -%}
         <a href="{{ routes.all_products_collection_url }}">{{ 'collections.title' | t }}</a>
         <a href="{{ pages.contact.url | default: '#' }}">Contact</a>
