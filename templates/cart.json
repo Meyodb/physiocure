@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "show_note": true,
+        "tax_text": "Taxes et frais de livraison calculés à l’étape suivante."
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "PhysioCure Mono",
+    "theme_version": "1.0.0",
+    "theme_author": "PhysioCure",
+    "theme_documentation_url": "https://help.shopify.com/",
+    "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "color",
+        "id": "colors_background",
+        "label": "Fond principal",
+        "default": "#F7F5F2"
+      },
+      {
+        "type": "color",
+        "id": "colors_surface",
+        "label": "Surfaces (cartes)",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "colors_text",
+        "label": "Texte",
+        "default": "#1C1C1E"
+      },
+      {
+        "type": "color",
+        "id": "colors_muted",
+        "label": "Texte secondaire",
+        "default": "#5C5C5C"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent",
+        "label": "Accent",
+        "default": "#2D6A4F"
+      },
+      {
+        "type": "color",
+        "id": "colors_button",
+        "label": "Bouton",
+        "default": "#1B4332"
+      },
+      {
+        "type": "color",
+        "id": "colors_button_label",
+        "label": "Texte des boutons",
+        "default": "#FFFFFF"
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "default": "instrument_sans_n4",
+        "label": "Police des titres"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "inter_n4",
+        "label": "Police du corps de texte"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Réseaux sociaux",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram (URL)"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook (URL)"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube (URL)"
+      }
+    ]
+  }
+]

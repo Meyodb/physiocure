@@ -1,0 +1,70 @@
+<section class="section-padding">
+  <div class="page-width" style="max-width: 42rem;">
+    <h1>{{ 'customer.addresses.title' | t }}</h1>
+    <p><a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a></p>
+
+    {%- for address in customer.addresses -%}
+      <div style="padding:1.5rem 0; border-bottom:1px solid rgba(0,0,0,0.08);">
+        {%- if address == customer.default_address -%}
+          <span class="badge" style="margin-bottom:0.5rem;">{{ 'customer.addresses.default' | t }}</span>
+        {%- endif -%}
+        <p>{{ address | format_address }}</p>
+        <p style="margin:0;">
+          <a href="{{ address.url }}">{{ 'customer.addresses.edit' | t }}</a>
+        </p>
+      </div>
+    {%- endfor -%}
+
+    <h2 style="margin-top:2rem;">{{ 'customer.addresses.add_new' | t }}</h2>
+    {% form 'customer_address', customer.new_address %}
+      {{ form.errors | default_errors }}
+      <div class="field">
+        <label for="AddressFirstName">{{ 'customer.addresses.first_name' | t }}</label>
+        <input type="text" id="AddressFirstName" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="AddressLastName">{{ 'customer.addresses.last_name' | t }}</label>
+        <input type="text" id="AddressLastName" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+      </div>
+      <div class="field">
+        <label for="AddressCompany">{{ 'customer.addresses.company' | t }}</label>
+        <input type="text" id="AddressCompany" name="address[company]" value="{{ form.company }}">
+      </div>
+      <div class="field">
+        <label for="Address1">{{ 'customer.addresses.address1' | t }}</label>
+        <input type="text" id="Address1" name="address[address1]" value="{{ form.address1 }}" autocomplete="street-address" required>
+      </div>
+      <div class="field">
+        <label for="Address2">{{ 'customer.addresses.address2' | t }}</label>
+        <input type="text" id="Address2" name="address[address2]" value="{{ form.address2 }}">
+      </div>
+      <div class="field">
+        <label for="AddressCity">{{ 'customer.addresses.city' | t }}</label>
+        <input type="text" id="AddressCity" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" required>
+      </div>
+      <div class="field">
+        <label for="AddressCountry">{{ 'customer.addresses.country' | t }}</label>
+        <select id="AddressCountry" name="address[country]" autocomplete="country">
+          {{ all_country_option_tags }}
+        </select>
+      </div>
+      <div class="field">
+        <label for="AddressProvince">{{ 'customer.addresses.province' | t }}</label>
+        <input type="text" id="AddressProvince" name="address[province]" value="{{ form.province }}" autocomplete="address-level1">
+      </div>
+      <div class="field">
+        <label for="AddressZip">{{ 'customer.addresses.zip' | t }}</label>
+        <input type="text" id="AddressZip" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code" required>
+      </div>
+      <div class="field">
+        <label for="AddressPhone">{{ 'customer.addresses.phone' | t }}</label>
+        <input type="tel" id="AddressPhone" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+      </div>
+      <label style="display:flex; gap:0.5rem; align-items:center; margin-bottom:1rem;">
+        <input type="checkbox" name="address[default]" value="1">
+        {{ 'customer.addresses.set_default' | t }}
+      </label>
+      <button type="submit" class="btn">{{ 'customer.addresses.add' | t }}</button>
+    {% endform %}
+  </div>
+</section>

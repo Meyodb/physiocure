@@ -1,0 +1,163 @@
+{
+  "sections": {
+    "hero_product": {
+      "type": "hero-product",
+      "settings": {
+        "badge": "Bien-être & récupération",
+        "heading": "",
+        "subheading": "Soulagez la tension plantaire et retrouvez une sensation de légèreté après la journée. Design pensé pour un usage quotidien, finitions soignées et expérience de marque transparente.",
+        "primary_cta_label": "Découvrir le produit",
+        "secondary_cta_label": "Voir les détails"
+      },
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "text": "Pressions ajustables pour un confort personnalisé"
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "text": "Chaleur douce en option pour détendre les muscles"
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "text": "Livraison suivie et emballage soigné"
+          }
+        }
+      },
+      "block_order": ["point_1", "point_2", "point_3"]
+    },
+    "trust_strip": {
+      "type": "trust-strip-section",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "label": "Livraison",
+            "detail": "Suivi d’expédition fourni"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "label": "SAV",
+            "detail": "Réponse sous 24–48 h ouvrées"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "label": "Transparence",
+            "detail": "Fiche produit détaillée & politique de retour"
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"]
+    },
+    "benefits": {
+      "type": "benefits-columns",
+      "settings": {
+        "heading": "Pourquoi ce masseur s’intègre à votre routine"
+      },
+      "blocks": {
+        "b1": {
+          "type": "column",
+          "settings": {
+            "title": "Récupération",
+            "text": "Idéal après une longue journée debout ou une séance d’entraînement."
+          }
+        },
+        "b2": {
+          "type": "column",
+          "settings": {
+            "title": "Usage simple",
+            "text": "Interface claire : choisissez un programme et installez-vous confortablement."
+          }
+        },
+        "b3": {
+          "type": "column",
+          "settings": {
+            "title": "Qualité perçue",
+            "text": "Matériaux et finitions pensés pour durer — pas d’effet « gadget »."
+          }
+        }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "heading": "Ils ont intégré la routine bien-être",
+        "disclaimer": "Avis recueillis auprès de clients ayant laissé un retour après achat."
+      },
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "quote": "Design sobre, bruit maîtrisé — on sent l’effort sur la qualité.",
+            "author": "Marc L.",
+            "role": "Paris"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "quote": "La chaleur est progressive, pas agressive. Très agréable en soirée.",
+            "author": "Élodie T.",
+            "role": "Lyon"
+          }
+        }
+      },
+      "block_order": ["q1", "q2"]
+    },
+    "faq_home": {
+      "type": "faq-home",
+      "settings": {
+        "heading": "Questions fréquentes"
+      },
+      "blocks": {
+        "faq1": {
+          "type": "qa",
+          "settings": {
+            "question": "Quand vais-je recevoir ma commande ?",
+            "answer": "<p>Les délais affichés à la caisse tiennent compte de la préparation et du transport. Vous recevrez un e-mail de confirmation avec le suivi dès l’expédition.</p>"
+          }
+        },
+        "faq2": {
+          "type": "qa",
+          "settings": {
+            "question": "Proposez-vous des retours ?",
+            "answer": "<p>Oui : consultez notre politique de remboursement dans le pied de page pour les conditions et délais.</p>"
+          }
+        },
+        "faq3": {
+          "type": "qa",
+          "settings": {
+            "question": "Le produit convient-il à tous les pieds ?",
+            "answer": "<p>Les dimensions et programmes sont pensés pour la majorité des morphologies adultes. En cas de pathologie, demandez l’avis d’un professionnel de santé.</p>"
+          }
+        }
+      },
+      "block_order": ["faq1", "faq2", "faq3"]
+    },
+    "newsletter": {
+      "type": "newsletter-home",
+      "settings": {
+        "heading": "Conseils bien-être & nouveautés",
+        "text": "Une à deux fois par mois, sans spam. Désinscription en un clic."
+      }
+    }
+  },
+  "order": [
+    "hero_product",
+    "trust_strip",
+    "benefits",
+    "testimonials",
+    "faq_home",
+    "newsletter"
+  ]
+}

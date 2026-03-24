@@ -1,0 +1,55 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ gift_card.balance | money }} — {{ shop.name }}</title>
+    {{ content_for_header }}
+    {% style %}
+      body {
+        font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: {{ settings.colors_background }};
+        color: {{ settings.colors_text }};
+      }
+      .gift-card {
+        background: {{ settings.colors_surface }};
+        padding: 2rem;
+        border-radius: 16px;
+        max-width: 420px;
+        text-align: center;
+        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+      }
+      .gift-card__amount { font-size: 2rem; font-weight: 700; color: {{ settings.colors_accent }}; margin: 0.5rem 0; }
+      .gift-card__code {
+        font-family: ui-monospace, monospace;
+        letter-spacing: 0.08em;
+        padding: 0.75rem 1rem;
+        background: {{ settings.colors_background }};
+        border-radius: 8px;
+        margin: 1rem 0;
+        word-break: break-all;
+      }
+      a { color: {{ settings.colors_accent }}; }
+    {% endstyle %}
+  </head>
+  <body>
+    <div class="gift-card">
+      <p style="margin:0; font-size:0.9rem; opacity:0.8;">{{ shop.name }}</p>
+      <p class="gift-card__amount">{{ gift_card.balance | money }}</p>
+      <p style="margin:0 0 0.5rem;">{{ gift_card.initial_value | money }} {{ 'customer.order.subtotal' | t }}</p>
+      <p style="margin:0; font-size:0.85rem;">Code :</p>
+      <div class="gift-card__code">{{ gift_card.code | format_code }}</div>
+      {%- if gift_card.expired -%}
+        <p style="color:#b42318;">Expiré</p>
+      {%- endif -%}
+      <p style="margin-top:1.5rem;"><a href="{{ shop.url }}">{{ shop.name }}</a></p>
+    </div>
+  </body>
+</html>

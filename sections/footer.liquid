@@ -1,0 +1,86 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid page-width" style="width:min(100% - 2rem, 72rem);">
+    <div>
+      <p class="footer-heading">{{ shop.name }}</p>
+      <p style="margin:0; line-height:1.6; max-width:28rem;">
+        {{ section.settings.bio | default: "Soins du pied et récupération au quotidien. Conçu pour le confort durable, sans compromis sur la qualité." }}
+      </p>
+      <div style="display:flex; gap:1rem; margin-top:1.25rem; flex-wrap:wrap;">
+        {%- if settings.social_instagram != blank -%}
+          <a href="{{ settings.social_instagram }}" rel="noopener" target="_blank">Instagram</a>
+        {%- endif -%}
+        {%- if settings.social_facebook != blank -%}
+          <a href="{{ settings.social_facebook }}" rel="noopener" target="_blank">Facebook</a>
+        {%- endif -%}
+        {%- if settings.social_youtube != blank -%}
+          <a href="{{ settings.social_youtube }}" rel="noopener" target="_blank">YouTube</a>
+        {%- endif -%}
+      </div>
+    </div>
+    <div>
+      <p class="footer-heading">Boutique</p>
+      <nav style="display:flex; flex-direction:column; gap:0.5rem;">
+        <a href="{{ routes.root_url }}">Accueil</a>
+        <a href="{{ routes.all_products_collection_url }}">Produit</a>
+        <a href="{{ routes.cart_url }}">Panier</a>
+        {%- if section.settings.menu_footer != blank -%}
+          {%- for link in section.settings.menu_footer.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- endif -%}
+      </nav>
+    </div>
+    <div>
+      <p class="footer-heading">Confiance</p>
+      <nav style="display:flex; flex-direction:column; gap:0.5rem;">
+        {%- if shop.policies.refund_policy -%}
+          <a href="{{ shop.policies.refund_policy.url }}">{{ shop.policies.refund_policy.title }}</a>
+        {%- endif -%}
+        {%- if shop.policies.shipping_policy -%}
+          <a href="{{ shop.policies.shipping_policy.url }}">{{ shop.policies.shipping_policy.title }}</a>
+        {%- endif -%}
+        {%- if shop.policies.privacy_policy -%}
+          <a href="{{ shop.policies.privacy_policy.url }}">{{ shop.policies.privacy_policy.title }}</a>
+        {%- endif -%}
+        {%- if shop.policies.terms_of_service -%}
+          <a href="{{ shop.policies.terms_of_service.url }}">{{ shop.policies.terms_of_service.title }}</a>
+        {%- endif -%}
+      </nav>
+    </div>
+  </div>
+  <div class="footer-bottom page-width" style="width:min(100% - 2rem, 72rem);">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.legal_note }}</span>
+    <div class="payment-icons" aria-hidden="true">
+      <span>Visa</span>
+      <span>Mastercard</span>
+      <span>Amex</span>
+      <span>PayPal</span>
+      <span>Apple Pay</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "bio",
+      "label": "Texte de présentation courte"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_footer",
+      "label": "Menu pied de page (Contact, À propos…)"
+    },
+    {
+      "type": "text",
+      "id": "legal_note",
+      "label": "Mention légale courte",
+      "default": "Tous droits réservés."
+    }
+  ]
+}
+{% endschema %}

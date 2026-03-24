@@ -1,0 +1,66 @@
+<section class="section-padding" style="background: var(--color-surface); border-top: 1px solid rgba(0,0,0,0.06);">
+  <div class="page-width" style="max-width: 42rem;">
+    {%- if section.settings.heading != blank -%}
+      <h2 style="margin: 0 0 1.5rem; font-size: clamp(1.5rem, 3vw, 2rem);">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div>
+      {%- for block in section.blocks -%}
+        <div class="faq-item" data-faq-item data-open="false" {{ block.shopify_attributes }}>
+          <button type="button" data-faq-toggle aria-expanded="false" id="faq-{{ block.id }}">
+            {{ block.settings.question }}
+            <span class="faq-chevron" aria-hidden="true">▼</span>
+          </button>
+          <div data-faq-body role="region" aria-labelledby="faq-{{ block.id }}">
+            {{ block.settings.answer }}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Questions fréquentes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question / réponse",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Quand vais-je recevoir ma commande ?" },
+        { "type": "richtext", "id": "answer", "label": "Réponse", "default": "<p>Les délais affichés à la caisse tiennent compte de la préparation et du transport. Vous recevrez un e-mail de confirmation avec le suivi dès l’expédition.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Proposez-vous des retours ?",
+            "answer": "<p>Oui : consultez notre politique de remboursement dans le pied de page pour les conditions et délais.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Le produit convient-il à tous les pieds ?",
+            "answer": "<p>Les dimensions et programmes sont pensés pour la majorité des morphologies adultes. En cas de pathologie, demandez l’avis d’un professionnel de santé.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

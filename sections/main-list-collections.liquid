@@ -1,0 +1,39 @@
+<section class="section-padding">
+  <div class="page-width">
+    <header class="page-header">
+      <h1>{{ 'collections.title' | t }}</h1>
+    </header>
+    <ul class="collection-grid" role="list">
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' -%}
+          <li>
+            <article class="card-product">
+              <a href="{{ collection.url }}" class="card-product__media">
+                {%- if collection.featured_image -%}
+                  {%- assign col_alt = collection.featured_image.alt | default: collection.title -%}
+                  {{ collection.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: col_alt }}
+                {%- endif -%}
+              </a>
+              <div class="card-product__info">
+                <h2 class="card-product__title">
+                  <a href="{{ collection.url }}">{{ collection.title }}</a>
+                </h2>
+                <p style="margin:0; font-size:0.9rem; color: var(--color-muted);">
+                  {{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}
+                </p>
+              </div>
+            </article>
+          </li>
+        {%- endunless -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste des collections",
+  "tag": "section",
+  "class": "section-main-list-collections"
+}
+{% endschema %}

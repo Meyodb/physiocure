@@ -1,0 +1,62 @@
+<section class="section-padding">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 style="text-align:center; margin: 0 0 2rem; font-size: clamp(1.5rem, 3vw, 2rem);">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div style="display:grid; gap:1.25rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+      {%- for block in section.blocks -%}
+        <blockquote style="margin:0; padding:1.5rem; background: var(--color-surface); border-radius:14px; border: 1px solid rgba(0,0,0,0.06);" {{ block.shopify_attributes }}>
+          <p style="margin:0 0 1rem; font-size:1rem; line-height:1.55;">“{{ block.settings.quote }}”</p>
+          <footer style="font-size:0.9rem; color: var(--color-muted);">
+            <strong style="color: var(--color-text);">{{ block.settings.author }}</strong>
+            {%- if block.settings.role != blank -%} — {{ block.settings.role }}{%- endif -%}
+          </footer>
+        </blockquote>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.disclaimer != blank -%}
+      <p style="text-align:center; font-size:0.8rem; color: var(--color-muted); margin-top:1.5rem;">{{ section.settings.disclaimer }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Témoignages",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Ils ont intégré la routine bien-être"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Mention (ex. avis sincères)",
+      "default": "Avis recueillis auprès de clients ayant laissé un retour après achat."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Citation",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Citation", "default": "Après mes journées en clinique, 15 minutes suffisent pour détendre la voûte plantaire." },
+        { "type": "text", "id": "author", "label": "Auteur", "default": "Camille R." },
+        { "type": "text", "id": "role", "label": "Profil (optionnel)", "default": "Kinésithérapeute" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Témoignages",
+      "blocks": [
+        { "type": "quote", "settings": { "quote": "Design sobre, bruit maîtrisé — on sent l’effort sur la qualité.", "author": "Marc L.", "role": "Paris" } },
+        { "type": "quote", "settings": { "quote": "La chaleur est progressive, pas agressive. Très agréable en soirée.", "author": "Élodie T.", "role": "Lyon" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,98 @@
+{%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
+  <div class="header-announcement">{{ section.settings.announcement_text }}</div>
+{%- endif -%}
+
+<header class="site-header" data-header role="banner">
+  <div class="header-inner page-width" style="width:min(100% - 2rem, 72rem); margin-inline:auto;">
+    <a href="{{ routes.root_url }}" class="header-logo">
+      {%- if section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 400 }}"
+          alt="{{ shop.name | escape }}"
+          width="{{ section.settings.logo.width }}"
+          height="{{ section.settings.logo.height }}"
+          loading="eager"
+        >
+      {%- else -%}
+        {{ section.settings.logo_text | default: shop.name }}
+      {%- endif -%}
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle"
+      aria-expanded="false"
+      aria-controls="MainNav"
+      data-menu-toggle
+    >
+      <span class="visually-hidden">{{ 'accessibility.menu' | t }}</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="MainNav" class="main-nav" data-main-nav aria-label="Principal">
+      {%- if section.settings.menu != blank -%}
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <a href="{{ routes.all_products_collection_url }}">{{ 'collections.title' | t }}</a>
+        <a href="{{ pages.contact.url | default: '#' }}">Contact</a>
+      {%- endif -%}
+    </nav>
+
+    <div class="header-actions">
+      <a href="{{ routes.search_url }}" class="header-cart" aria-label="{{ 'general.search.search' | t }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 16l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <a href="{{ routes.cart_url }}" class="header-cart" id="cart-icon-bubble">
+        {% render 'icon-cart' %}
+        {%- if cart.item_count > 0 -%}
+          <span class="cart-count">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Afficher la bandeau d'annonce",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Texte d'annonce",
+      "default": "Livraison suivie · Paiement sécurisé · Service client réactif"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texte du logo (si pas d'image)",
+      "default": "PhysioCure"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

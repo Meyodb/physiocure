@@ -1,0 +1,37 @@
+<section class="section-padding" style="padding-block: clamp(2rem, 4vw, 3rem);">
+  <div class="page-width">
+    <div class="trust-strip">
+      {%- for block in section.blocks -%}
+        <span {{ block.shopify_attributes }}><strong>{{ block.settings.label }}</strong> — {{ block.settings.detail }}</span>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bandeau confiance",
+  "tag": "section",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Élément",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé court", "default": "Paiement sécurisé" },
+        { "type": "text", "id": "detail", "label": "Détail", "default": "Transactions chiffrées (SSL)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bandeau confiance",
+      "blocks": [
+        { "type": "item", "settings": { "label": "Livraison", "detail": "Suivi d’expédition fourni" } },
+        { "type": "item", "settings": { "label": "SAV", "detail": "Réponse sous 24–48 h ouvrées" } },
+        { "type": "item", "settings": { "label": "Transparence", "detail": "Fiche produit détaillée & politique de retour" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

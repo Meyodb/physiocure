@@ -1,0 +1,56 @@
+<section class="section-padding" style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 style="text-align:center; max-width:40rem; margin: 0 auto 2.5rem; font-size: clamp(1.5rem, 3vw, 2rem);">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    <div style="display:grid; gap:1.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+      {%- for block in section.blocks -%}
+        <div style="padding:1.5rem; border-radius:14px; background: var(--color-bg); border: 1px solid rgba(0,0,0,0.05);" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <h3 style="font-size:1.05rem; margin:0 0 0.5rem;">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p style="margin:0; color: var(--color-muted); font-size:0.95rem;">{{ block.settings.text }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Avantages (colonnes)",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Pourquoi ce masseur s’intègre à votre routine"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Colonne",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Confort ciblé" },
+        { "type": "textarea", "id": "text", "label": "Texte", "default": "Zones réflexes et muscles sollicités par la marche ou le sport." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avantages (colonnes)",
+      "blocks": [
+        { "type": "column", "settings": { "title": "Récupération", "text": "Idéal après une longue journée debout ou une séance d’entraînement." } },
+        { "type": "column", "settings": { "title": "Usage simple", "text": "Interface claire : choisissez un programme et installez-vous confortablement." } },
+        { "type": "column", "settings": { "title": "Qualité perçue", "text": "Matériaux et finitions pensés pour durer — pas d’effet « gadget »." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
