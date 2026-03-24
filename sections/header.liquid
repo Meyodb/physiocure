@@ -12,9 +12,18 @@
           width="{{ section.settings.logo.width }}"
           height="{{ section.settings.logo.height }}"
           loading="eager"
+          decoding="async"
         >
       {%- else -%}
-        {{ section.settings.logo_text | default: shop.name }}
+        <img
+          src="{{ 'logo-physiocure.png' | asset_url }}"
+          alt="{{ section.settings.logo_text | default: 'PhysioCure' | escape }}"
+          width="200"
+          height="64"
+          loading="eager"
+          decoding="async"
+          class="header-logo__default"
+        >
       {%- endif -%}
     </a>
 

@@ -81,6 +81,139 @@ button, input, select, textarea { font: inherit; }
 @media (min-width: 900px) {
   .grid-2 { grid-template-columns: 1fr 1fr; align-items: center; }
 }
+/* Page produit : image alignée en haut à gauche, pas centrée sur toute la colonne description */
+.product-page-grid {
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .product-page-grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    gap: clamp(1.75rem, 4vw, 3.25rem);
+  }
+}
+.product-media-stack {
+  position: relative;
+}
+@media (min-width: 900px) {
+  .product-media-stack {
+    position: sticky;
+    top: calc(4.5rem + 1rem);
+    align-self: start;
+  }
+}
+.product-gallery__main {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.product-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+.product-gallery__thumb {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  display: block;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.product-gallery__thumb:hover,
+.product-gallery__thumb:focus-visible {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-primary));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  outline: none;
+}
+.product-gallery__thumb.is-active {
+  border-color: var(--color-primary);
+}
+.product-buy-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+.product-buy-card__vendor {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+.product-buy-card__title {
+  font-size: clamp(1.65rem, 3.5vw, 2.25rem);
+  margin-bottom: 0.35rem;
+}
+.product-buy-card__price {
+  margin: 0.85rem 0 1.25rem;
+}
+.product-buy-card__excerpt {
+  margin: 0 0 1.35rem;
+  color: var(--color-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+.product-buy-card__qty {
+  max-width: 6rem;
+}
+.product-buy-card__submit {
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 0.25rem;
+}
+.product-trust-micro {
+  list-style: none;
+  padding: 1rem 0 0;
+  margin: 1.25rem 0 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+.product-trust-micro li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.product-trust-micro li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+.product-description-full {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding-top: clamp(1.75rem, 4vw, 2.5rem);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  max-width: 48rem;
+}
+.product-description-full__heading {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  margin-bottom: 1rem;
+}
+.product-description-full .product-description-full__heading + * {
+  margin-top: 0;
+}
 .trust-strip {
   display: flex; flex-wrap: wrap; gap: 1rem 2rem;
   justify-content: center;
@@ -88,10 +221,20 @@ button, input, select, textarea { font: inherit; }
   background: var(--color-surface);
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,0.06);
-  font-size: 0.9rem;
+  font-size: clamp(0.95rem, 3.2vw, 1rem);
+  line-height: 1.45;
   color: var(--color-muted);
 }
 .trust-strip strong { color: var(--color-text); }
+@media (max-width: 600px) {
+  .trust-strip {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.65rem;
+    padding: 1rem 1.15rem;
+  }
+}
 .field { margin-bottom: 1rem; }
 .field label { display: block; margin-bottom: 0.35rem; font-weight: 600; font-size: 0.9rem; }
 .field input, .field textarea, .field select {
@@ -138,7 +281,8 @@ button, input, select, textarea { font: inherit; }
   color: var(--color-primary);
   text-decoration: none;
 }
-.header-logo img { max-height: 40px; width: auto; }
+.header-logo img { max-height: 44px; width: auto; height: auto; }
+.header-logo__default { max-height: 48px; width: auto; }
 .menu-toggle {
   display: flex;
   align-items: center;

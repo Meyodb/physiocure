@@ -3,7 +3,13 @@
     "main": {
       "type": "main-product",
       "settings": {
-        "show_vendor": false
+        "show_vendor": false,
+        "description_heading": "En savoir plus",
+        "show_trust_bar": true,
+        "trust_bar_label": "Avantages commande",
+        "trust_text_1": "Livraison suivie",
+        "trust_text_2": "Paiement sécurisé",
+        "trust_text_3": "Service client réactif"
       }
     }
   },

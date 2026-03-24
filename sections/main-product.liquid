@@ -1,24 +1,31 @@
-<section id="MainProduct" class="section-padding" data-section-type="product">
+<section id="MainProduct" class="section-padding section-main-product" data-section-type="product">
   <div class="page-width">
     <div class="grid-2 product-page-grid">
       <div class="product-media-stack">
         {%- if product.media.size > 0 -%}
           {%- assign primary_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
-          <div style="border-radius: 16px; overflow: hidden; background: var(--color-surface); border: 1px solid rgba(0,0,0,0.06);">
+          <div class="product-gallery__main">
             {{
               primary_media
               | image_url: width: 1400
               | image_tag:
                 loading: 'eager',
-                sizes: '(min-width: 900px) 45vw, 100vw',
+                class: 'product-gallery__img',
+                sizes: '(min-width: 900px) min(52vw, 640px), 100vw',
                 widths: '400, 600, 800, 1000, 1200, 1400',
                 alt: primary_media.alt | default: product.title
             }}
           </div>
           {%- if product.media.size > 1 -%}
-            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap:0.5rem; margin-top:0.75rem;">
+            <div class="product-gallery__thumbs" role="list">
               {%- for media in product.media limit: 8 -%}
-                <a href="{{ media | image_url: width: 1400 }}" target="_blank" rel="noopener" style="border-radius:8px; overflow:hidden; aspect-ratio:1; border:1px solid rgba(0,0,0,0.08); display:block;">
+                <a
+                  href="{{ media | image_url: width: 1400 }}"
+                  class="product-gallery__thumb{% if media == primary_media %} is-active{% endif %}"
+                  target="_blank"
+                  rel="noopener"
+                  role="listitem"
+                >
                   {%- assign thumb_alt = media.alt | default: product.title -%}
                   {{ media | image_url: width: 200 | image_tag: loading: 'lazy', alt: thumb_alt }}
                 </a>
@@ -28,19 +35,19 @@
         {%- endif -%}
       </div>
 
-      <div class="product-info-stack">
+      <div class="product-info-stack product-buy-card">
         {%- if section.settings.show_vendor and product.vendor != blank -%}
-          <p style="margin:0 0 0.35rem; font-size:0.85rem; color: var(--color-muted);">{{ product.vendor }}</p>
+          <p class="product-buy-card__vendor">{{ product.vendor }}</p>
         {%- endif -%}
-        <h1 style="font-size: clamp(1.75rem, 4vw, 2.35rem);">{{ product.title }}</h1>
-        <div style="margin: 1rem 0 1.5rem;">
+        <h1 class="product-buy-card__title">{{ product.title }}</h1>
+        <div class="product-buy-card__price">
           {% render 'price', product: product %}
         </div>
 
         {%- if product.description != blank -%}
-          <div class="rte product-short-desc" style="color: var(--color-muted); margin-bottom:1.5rem;">
-            {{ product.description | strip_html | truncatewords: 40 }}
-          </div>
+          <p class="product-buy-card__excerpt">
+            {{ product.description | strip_html | truncatewords: 42 }}
+          </p>
         {%- endif -%}
 
         {% capture product_form_id %}product-form-{{ section.id }}{% endcapture %}
@@ -78,15 +85,14 @@
               name="quantity"
               value="1"
               min="1"
-              style="max-width: 6rem;"
+              class="product-buy-card__qty"
             >
           </div>
 
           <button
             type="submit"
             name="add"
-            class="btn"
-            style="width:100%; max-width: 22rem;"
+            class="btn product-buy-card__submit"
             {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
           >
             {%- if product.selected_or_first_available_variant.available -%}
@@ -97,11 +103,24 @@
           </button>
         {% endform %}
 
-        <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid rgba(0,0,0,0.08);" class="rte">
-          {{ product.description }}
-        </div>
+        {%- if section.settings.show_trust_bar -%}
+          <ul class="product-trust-micro" aria-label="{{ section.settings.trust_bar_label | escape }}">
+            <li>{{ section.settings.trust_text_1 }}</li>
+            <li>{{ section.settings.trust_text_2 }}</li>
+            <li>{{ section.settings.trust_text_3 }}</li>
+          </ul>
+        {%- endif -%}
       </div>
     </div>
+
+    {%- if product.description != blank -%}
+      <div class="product-description-full rte">
+        {%- if section.settings.description_heading != blank -%}
+          <h2 class="product-description-full__heading">{{ section.settings.description_heading }}</h2>
+        {%- endif -%}
+        {{ product.description }}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -142,6 +161,42 @@
       "id": "show_vendor",
       "label": "Afficher la marque (vendor)",
       "default": false
+    },
+    {
+      "type": "text",
+      "id": "description_heading",
+      "label": "Titre au-dessus de la description détaillée",
+      "default": "En savoir plus"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_bar",
+      "label": "Afficher les repères de confiance sous le bouton",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_bar_label",
+      "label": "Libellé accessibilité (repères de confiance)",
+      "default": "Avantages commande"
+    },
+    {
+      "type": "text",
+      "id": "trust_text_1",
+      "label": "Repère 1",
+      "default": "Livraison suivie"
+    },
+    {
+      "type": "text",
+      "id": "trust_text_2",
+      "label": "Repère 2",
+      "default": "Paiement sécurisé"
+    },
+    {
+      "type": "text",
+      "id": "trust_text_3",
+      "label": "Repère 3",
+      "default": "Service client réactif"
     }
   ]
 }
