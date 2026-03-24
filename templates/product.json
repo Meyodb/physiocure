@@ -16,7 +16,7 @@
           "type": "pack_offer",
           "settings": {
             "pack_quantity": 1,
-            "compare_at_price_cents_override": 8999,
+            "line_price_cents_override": 0,
             "option_value": "1 unité",
             "card_title": "Pack solo",
             "subtitle": "Idéal pour essayer",
@@ -25,10 +25,8 @@
             "savings_label": "",
             "bundle_1_label": "",
             "bundle_1_compare": "",
-            "bundle_1_image": "",
             "bundle_2_label": "",
-            "bundle_2_compare": "",
-            "bundle_2_image": ""
+            "bundle_2_compare": ""
           }
         },
         "pack_2": {
@@ -36,7 +34,6 @@
           "settings": {
             "pack_quantity": 2,
             "line_price_cents_override": 9999,
-            "compare_at_price_cents_override": 12999,
             "option_value": "2 unités",
             "card_title": "Pack duo",
             "subtitle": "✅ Idéal pour une action bilatérale simultanée ou pour équiper un proche.",
@@ -45,10 +42,8 @@
             "savings_label": "",
             "bundle_1_label": "",
             "bundle_1_compare": "",
-            "bundle_1_image": "",
             "bundle_2_label": "",
-            "bundle_2_compare": "",
-            "bundle_2_image": ""
+            "bundle_2_compare": ""
           }
         },
         "review_1": {
@@ -78,7 +73,6 @@
         "howto_vis_1": {
           "type": "visual_howto_step",
           "settings": {
-            "image": "",
             "image_alt": "Pose du bandage autour de la cheville",
             "title": "Enroulez autour des pieds",
             "text": "<p>Glissez vos pieds dans l’appareil et ajustez les sangles pour un maintien confortable.</p>"
@@ -87,7 +81,6 @@
         "howto_vis_2": {
           "type": "visual_howto_step",
           "settings": {
-            "image": "",
             "image_alt": "Réglage du boîtier de contrôle",
             "title": "Choisissez vos réglages",
             "text": "<p>Utilisez le panneau simple pour régler l’intensité du massage et la chaleur.</p>"
@@ -96,7 +89,6 @@
         "howto_vis_3": {
           "type": "visual_howto_step",
           "settings": {
-            "image": "",
             "image_alt": "Utilisation détendue à la maison",
             "title": "Asseyez-vous et détendez-vous",
             "text": "<p>En quelques minutes, ressentez chaleur, impulsions de massage et pression légère pour apaiser les tensions.</p>"
@@ -156,7 +148,7 @@
         "testimonials_layout": "grid",
         "testimonials_heading": "Ils en parlent",
         "details_toggle_label": "Afficher tous les détails",
-        "media_strip_label": "Galerie produit",
+        "media_strip_label": "",
         "steps_heading": "3 étapes simples",
         "visual_howto_heading": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
         "visual_howto_fallback_ext": "gif",
