@@ -26,9 +26,12 @@
 
     {{ content_for_header }}
 
-    {% style %}
+    {%- comment -%} Balises <style> HTML : le filtre font_face ne doit pas passer par {% style %}, sinon le @font-face peut s'afficher en texte brut. {%- endcomment -%}
+    <style id="theme-font-faces">
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
       {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+    </style>
+    {% style %}
       :root {
         --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
         --font-heading: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
