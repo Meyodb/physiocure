@@ -39,6 +39,10 @@
   class="section-padding section-main-product product-layout-neuro"
   data-section-type="product"
   data-section-id="{{ section.id }}"
+  data-cart-add-url="{{ routes.cart_add_url }}.js"
+  data-shop-checkout-root="{{ routes.root_url }}"
+  data-buy-now-loading="{{ 'accessibility.loading' | t | escape }}"
+  data-buy-now-error="{{ 'cart.cart_error' | t | escape }}"
 >
   <div class="page-width">
     <div class="product-neuro-top">
@@ -213,21 +217,33 @@
               </div>
             {%- endif -%}
 
-            <button
-              type="submit"
-              name="add"
-              class="btn product-neuro-form__submit product-neuro-form__submit--pack"
-              data-pack-submit
-              data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
-              data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
-              {% unless current_variant.available %}disabled{% endunless %}
-            >
-              {%- if current_variant.available -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- else -%}
-                {{ 'products.product.sold_out' | t }}
+            <div class="product-neuro-form__actions">
+              <button
+                type="submit"
+                name="add"
+                class="btn product-neuro-form__submit product-neuro-form__submit--pack"
+                data-pack-submit
+                data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
+                data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </button>
+              {%- if section.settings.show_buy_now -%}
+                <button
+                  type="button"
+                  class="btn product-neuro-form__submit product-neuro-form__submit--pack product-neuro-form__submit--buynow"
+                  data-buy-now
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {{ 'products.product.buy_it_now' | t }}
+                </button>
               {%- endif -%}
-            </button>
+            </div>
             {% endform %}
           </div>
         {%- else -%}
@@ -279,18 +295,30 @@
                 >
               </div>
 
-              <button
-                type="submit"
-                name="add"
-                class="btn product-neuro-form__submit"
-                {% unless current_variant.available %}disabled{% endunless %}
-              >
-                {%- if current_variant.available -%}
-                  {{ 'products.product.add_to_cart' | t }}
-                {%- else -%}
-                  {{ 'products.product.sold_out' | t }}
+              <div class="product-neuro-form__actions">
+                <button
+                  type="submit"
+                  name="add"
+                  class="btn product-neuro-form__submit"
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {%- if current_variant.available -%}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {%- else -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </button>
+                {%- if section.settings.show_buy_now -%}
+                  <button
+                    type="button"
+                    class="btn product-neuro-form__submit product-neuro-form__submit--buynow"
+                    data-buy-now
+                    {% unless current_variant.available %}disabled{% endunless %}
+                  >
+                    {{ 'products.product.buy_it_now' | t }}
+                  </button>
                 {%- endif -%}
-              </button>
+              </div>
             {% endform %}
           </div>
         {%- endif -%}
@@ -690,6 +718,13 @@
       "id": "hide_qty_pack_cards",
       "label": "Masquer la quantité avec les cartes d’offre",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buy_now",
+      "label": "Bouton achat direct (paiement)",
+      "default": true,
+      "info": "Ajoute « Acheter maintenant » sous le panier : ajoute la ligne au panier puis ouvre le tunnel de commande."
     },
     {
       "type": "header",

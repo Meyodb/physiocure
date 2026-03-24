@@ -79,6 +79,7 @@
   "products": {
     "product": {
       "add_to_cart": "Ajouter au panier",
+      "buy_it_now": "Acheter maintenant",
       "sold_out": "Rupture de stock",
       "unavailable": "Indisponible",
       "value_unavailable": "{{ option_value }} — Indisponible",

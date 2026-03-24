@@ -115,11 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
         hiddenId.value = radio.value;
       }
       const available = radio.getAttribute('data-variant-available') === 'true';
+      const buyNowBtn = packWrap.querySelector('[data-buy-now]');
       if (submitBtn) {
         submitBtn.disabled = !available;
         const la = submitBtn.getAttribute('data-label-available');
         const ls = submitBtn.getAttribute('data-label-sold');
         if (la && ls) submitBtn.textContent = available ? la : ls;
+      }
+      if (buyNowBtn) {
+        buyNowBtn.disabled = !available;
       }
       packWrap.querySelectorAll('[data-pack-card]').forEach((card) => {
         const input = card.querySelector('[data-pack-qty-radio], [data-pack-variant-radio]');
@@ -180,6 +184,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainBtn = document.querySelector('#MainProduct button[type="submit"][name="add"]');
     if (mainBtn && !mainBtn.disabled) mainBtn.click();
   });
+
+  const mainProduct = document.querySelector('#MainProduct[data-cart-add-url]');
+  if (mainProduct) {
+    const cartAddUrl = mainProduct.getAttribute('data-cart-add-url') || '/cart/add.js';
+    let checkoutRoot = mainProduct.getAttribute('data-shop-checkout-root') || '/';
+    if (checkoutRoot === '/') checkoutRoot = '';
+    else checkoutRoot = checkoutRoot.replace(/\/$/, '');
+    const checkoutUrl = checkoutRoot ? `${checkoutRoot}/checkout` : '/checkout';
+    const loadingLabel = mainProduct.getAttribute('data-buy-now-loading') || '…';
+    const errorLabel = mainProduct.getAttribute('data-buy-now-error') || 'Error';
+
+    mainProduct.querySelectorAll('[data-buy-now]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (btn.disabled) return;
+        const form = btn.closest('form');
+        if (!form) return;
+        const idEl = form.querySelector('[name="id"]');
+        const qtyEl = form.querySelector('[name="quantity"]');
+        const id = idEl ? parseInt(idEl.value, 10) : NaN;
+        const qtyRaw = qtyEl ? parseInt(qtyEl.value, 10) : 1;
+        const qty = Number.isFinite(qtyRaw) && qtyRaw >= 1 ? qtyRaw : 1;
+        if (!Number.isFinite(id) || id < 1) return;
+
+        const origText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = loadingLabel;
+        try {
+          const res = await fetch(cartAddUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items: [{ id, quantity: qty }] }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            const msg =
+              (data && (data.description || data.message)) ||
+              (typeof data === 'string' ? data : '') ||
+              errorLabel;
+            throw new Error(msg);
+          }
+          window.location.href = checkoutUrl;
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = origText;
+          window.alert(typeof e.message === 'string' ? e.message : errorLabel);
+        }
+      });
+    });
+  }
 
   const galleryRoot = document.querySelector('[data-product-gallery]');
   if (galleryRoot) {

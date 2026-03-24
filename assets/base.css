@@ -678,9 +678,38 @@ button, input, select, textarea { font: inherit; }
   background: color-mix(in srgb, #b42318 12%, var(--color-surface));
   color: #b42318;
 }
+.product-neuro-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+.product-neuro-form--pack .product-neuro-form__actions {
+  margin-top: 0.5rem;
+}
+.product-neuro-form__actions .product-neuro-form__submit {
+  margin-top: 0;
+}
 .product-neuro-form__submit {
   width: 100%;
   margin-top: 0.35rem;
+}
+.product-neuro-form__submit--buynow {
+  background: var(--color-primary);
+  color: #fff;
+  border: 2px solid var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+}
+.product-neuro-form__submit--buynow:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.product-neuro-form__submit--buynow:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 .product-neuro-form__qty {
   max-width: 6rem;

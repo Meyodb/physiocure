@@ -17,6 +17,7 @@
         "pack_option_index": "1",
         "pack_divider_text": "Choisissez votre formule",
         "hide_qty_pack_cards": true,
+        "show_buy_now": true,
         "testimonials_layout": "grid",
         "testimonials_heading": "Ils en parlent",
         "visual_howto_heading": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
