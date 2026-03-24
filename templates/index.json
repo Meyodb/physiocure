@@ -170,68 +170,6 @@
         "heading": "Pourquoi l’adopter au quotidien"
       }
     },
-    "product_specs": {
-      "type": "home-product-specs",
-      "blocks": {
-        "spec_1": {
-          "type": "spec",
-          "settings": {
-            "label": "Intensité",
-            "value": "15 niveaux pour un drainage sur-mesure"
-          }
-        },
-        "spec_2": {
-          "type": "spec",
-          "settings": {
-            "label": "Chaleur",
-            "value": "Technologie apaisante, réglable selon votre confort"
-          }
-        },
-        "spec_3": {
-          "type": "spec",
-          "settings": {
-            "label": "Zones",
-            "value": "Bas des jambes, mollet et cheville (ajustable)"
-          }
-        },
-        "spec_4": {
-          "type": "spec",
-          "settings": {
-            "label": "Essai",
-            "value": "Soulagement garanti : 90 jours pour tester sans risque"
-          }
-        }
-      },
-      "block_order": [
-        "spec_1",
-        "spec_2",
-        "spec_3",
-        "spec_4"
-      ],
-      "settings": {
-        "product": "",
-        "eyebrow": "Spécificités",
-        "heading": "Conçu pour le confort au quotidien",
-        "intro": "",
-        "show_extra_images": false,
-        "cta_label": "Découvrir le produit",
-        "cta_custom_link": "",
-        "cta_secondary_label": "Acheter maintenant"
-      }
-    },
-    "featured_collection": {
-      "type": "home-featured-collection",
-      "settings": {
-        "eyebrow": "Notre sélection",
-        "heading": "Les produits les plus demandés",
-        "subheading": "Récupération et confort des jambes — qualité et simplicité d’usage.",
-        "collection": "",
-        "products_to_show": 2,
-        "show_view_all": true,
-        "view_all_label": "Voir toute la gamme",
-        "empty_state": "Dans l’éditeur de thème, choisissez une collection pour afficher vos produits ici."
-      }
-    },
     "cta_banner": {
       "type": "home-cta-banner",
       "settings": {
@@ -297,8 +235,6 @@
     "trust_strip",
     "how_it_works",
     "benefits",
-    "product_specs",
-    "featured_collection",
     "cta_banner",
     "faq_home",
     "newsletter"
