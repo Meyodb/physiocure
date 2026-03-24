@@ -25,6 +25,10 @@
       {%- if v.compare_at_price > v.price and v.compare_at_price > 0 -%}
         {%- assign line_compare = v.compare_at_price | times: qty -%}
       {%- endif -%}
+      {%- assign price_cents_ov = block.settings.line_price_cents_override | default: 0 | plus: 0 -%}
+      {%- if price_cents_ov > 0 -%}
+        {%- assign line_price = price_cents_ov -%}
+      {%- endif -%}
 
       {%- assign can_buy = v.available -%}
       {%- if can_buy and v.inventory_management and v.inventory_quantity != nil -%}

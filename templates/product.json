@@ -60,6 +60,7 @@
           "type": "pack_offer",
           "settings": {
             "pack_quantity": 2,
+            "line_price_cents_override": 9999,
             "option_value": "2 unités",
             "card_title": "Pack duo",
             "subtitle": "Pour les deux jambes ou un proche",
