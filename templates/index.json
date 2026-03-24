@@ -236,44 +236,6 @@
         "empty_state": "Dans l’éditeur de thème, choisissez une collection pour afficher vos produits ici."
       }
     },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "q1": {
-          "type": "quote",
-          "settings": {
-            "quote": "Design sobre, bruit maîtrisé — on sent l’effort sur la qualité.",
-            "author": "Marc L.",
-            "role": "Paris"
-          }
-        },
-        "q2": {
-          "type": "quote",
-          "settings": {
-            "quote": "La chaleur est progressive, pas agressive. Très agréable en soirée.",
-            "author": "Élodie T.",
-            "role": "Lyon"
-          }
-        },
-        "q3": {
-          "type": "quote",
-          "settings": {
-            "quote": "Après mes journées debout, 15 minutes suffisent pour sentir la différence.",
-            "author": "Sophie M.",
-            "role": "Infirmière"
-          }
-        }
-      },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3"
-      ],
-      "settings": {
-        "heading": "Ils ont intégré la routine bien-être",
-        "disclaimer": "Avis recueillis auprès de clients ayant laissé un retour après achat."
-      }
-    },
     "cta_banner": {
       "type": "home-cta-banner",
       "settings": {
@@ -342,7 +304,6 @@
     "benefits",
     "product_specs",
     "featured_collection",
-    "testimonials",
     "cta_banner",
     "faq_home",
     "newsletter"
