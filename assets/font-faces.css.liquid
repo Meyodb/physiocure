@@ -1,0 +1,10 @@
+{%- comment -%}
+  @font-face générés ici (fichier CSS servi par Shopify) pour éviter qu’ils
+  s’affichent en texte brut dans le layout HTML.
+{%- endcomment -%}
+{%- unless settings.type_body_font.system? -%}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+{%- endunless -%}
+{%- unless settings.type_heading_font.system? -%}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+{%- endunless -%}
