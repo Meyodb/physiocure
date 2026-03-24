@@ -4,16 +4,26 @@
   @param blocks {Array} blocs type visual_howto_step
   @param section_id {String}
   @param fallback_ext {String} extension des fichiers theme (png | gif), ex. howto-step-1.gif
+  @param embedded {Boolean} défaut true — false sur l’accueil (pas de marge type « bloc produit »)
+  @param root_tag {String} défaut section — div sur l’accueil si la section parente est déjà un <section>
 {%- endcomment -%}
 {%- assign howto_ext = fallback_ext | default: 'png' | strip | downcase -%}
 {%- if howto_ext != 'gif' -%}
   {%- assign howto_ext = 'png' -%}
 {%- endif -%}
+{%- liquid
+  assign howto_root = root_tag | default: 'section'
+  assign howto_embedded = true
+  if embedded == false
+    assign howto_embedded = false
+  endif
+-%}
 {%- if blocks.size > 0 -%}
-  <section
-    class="section-howto-visual section-howto-visual--embedded"
+  <{{ howto_root }}
+    class="section-howto-visual{% if howto_embedded %} section-howto-visual--embedded{% endif %}"
     id="HowTo-{{ section_id }}"
     aria-labelledby="HowToHeading-{{ section_id }}"
+    {%- if howto_root == 'div' %} role="region"{% endif %}
   >
     {%- if heading != blank -%}
       <h2 class="section-howto-visual__heading" id="HowToHeading-{{ section_id }}">
@@ -75,5 +85,5 @@
         </article>
       {%- endfor -%}
     </div>
-  </section>
+  </{{ howto_root }}>
 {%- endif -%}

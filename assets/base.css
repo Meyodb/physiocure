@@ -1350,6 +1350,18 @@ body.product-sticky-bar-on {
   margin-bottom: 0;
 }
 
+.section-home-howto-visual__empty {
+  margin: 0;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+@media (max-width: 749px) {
+  .section-home-howto-visual .section-howto-visual__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .trust-strip-marquee__empty {
   margin: 0;
   padding: 1rem 1.25rem;
