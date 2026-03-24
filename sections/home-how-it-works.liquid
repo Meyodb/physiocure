@@ -33,20 +33,13 @@
             </div>
           {%- endif -%}
           <div class="home-how-steps__body">
-            <div class="home-how-steps__visual">
-              <span class="home-how-steps__num" aria-hidden="true">{{ forloop.index }}</span>
-              <span class="home-how-steps__picto">
-                {% render 'home-how-step-icon', index: forloop.index %}
-              </span>
-            </div>
-            <div class="home-how-steps__copy">
-              {%- if block.settings.title != blank -%}
-                <h3 class="home-how-steps__title">{{ block.settings.title }}</h3>
-              {%- endif -%}
-              {%- if block.settings.text != blank -%}
-                <p class="home-how-steps__text">{{ block.settings.text }}</p>
-              {%- endif -%}
-            </div>
+            <span class="home-how-steps__num" aria-hidden="true">{{ forloop.index }}</span>
+            {%- if block.settings.title != blank -%}
+              <h3 style="font-size: 1.15rem; margin: 0 0 0.5rem;">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p style="margin: 0; color: var(--color-muted); font-size: 0.98rem;">{{ block.settings.text }}</p>
+            {%- endif -%}
           </div>
         </li>
       {%- endfor -%}
