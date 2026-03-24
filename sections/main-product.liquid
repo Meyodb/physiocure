@@ -341,7 +341,8 @@
       {% render 'howto-visual-steps',
         heading: section.settings.visual_howto_heading,
         blocks: visual_howto_blocks,
-        section_id: section.id
+        section_id: section.id,
+        fallback_ext: section.settings.visual_howto_fallback_ext
       %}
     {%- endif -%}
 
@@ -714,6 +715,17 @@
       "info": "S’affiche après le bandeau de miniatures, si vous ajoutez des blocs « Étape visuelle »."
     },
     {
+      "type": "select",
+      "id": "visual_howto_fallback_ext",
+      "label": "Fichiers par défaut dans le thème (sans image dans le bloc)",
+      "options": [
+        { "value": "png", "label": "PNG — howto-step-1.png, -2, -3" },
+        { "value": "gif", "label": "GIF animé — howto-step-1.gif, -2, -3" }
+      ],
+      "default": "png",
+      "info": "Sans image sur le bloc : le thème charge howto-step-1 puis 2 puis 3 dans assets/. Mettez l’extension choisie (PNG ou GIF)."
+    },
+    {
       "type": "text",
       "id": "carousel_heading",
       "label": "Titre carrousel (secours si titre témoignages vide)",
@@ -930,8 +942,8 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image",
-          "info": "Carré recommandé. Si vide : howto-step-1.png … 3 du thème selon l’ordre."
+          "label": "Image ou GIF",
+          "info": "GIF : l’animation est conservée. Si vide : fichiers howto-step-1…3 dans assets/ (voir réglage d’extension de la section)."
         },
         {
           "type": "text",
