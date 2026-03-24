@@ -522,7 +522,8 @@ button, input, select, textarea { font: inherit; }
   padding: 0.35rem 0.65rem;
   border-radius: 999px;
   background: var(--color-primary);
-  color: var(--color-button-label);
+  /* Toujours clair sur le fond primaire (évite texte bouton = même bleu que le fond → pilule « vide ») */
+  color: #fff;
   text-align: center;
   line-height: 1.2;
   pointer-events: none;

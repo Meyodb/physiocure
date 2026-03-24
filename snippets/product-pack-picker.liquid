@@ -80,8 +80,9 @@
           {% endunless %}
         >
 
-        {%- if block.settings.popular_badge != blank -%}
-          <span class="product-pack-card__ribbon" aria-hidden="true">{{ block.settings.popular_badge }}</span>
+        {%- assign ribbon_txt = block.settings.popular_badge | strip -%}
+        {%- if ribbon_txt != blank -%}
+          <span class="product-pack-card__ribbon" aria-hidden="true">{{ ribbon_txt }}</span>
         {%- endif -%}
 
         <span class="product-pack-card__shell">
@@ -222,8 +223,9 @@
           {% endunless %}
         >
 
-        {%- if block.settings.popular_badge != blank -%}
-          <span class="product-pack-card__ribbon" aria-hidden="true">{{ block.settings.popular_badge }}</span>
+        {%- assign ribbon_txt = block.settings.popular_badge | strip -%}
+        {%- if ribbon_txt != blank -%}
+          <span class="product-pack-card__ribbon" aria-hidden="true">{{ ribbon_txt }}</span>
         {%- endif -%}
 
         <span class="product-pack-card__shell">
