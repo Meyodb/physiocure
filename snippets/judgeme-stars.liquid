@@ -1,12 +1,17 @@
 {% comment %}
-  Judge.me — étoiles + lien vers les avis (Preview Badge).
-  Nécessite l’app Judge.me et le bloc d’app judgeme_core (chargement des scripts).
+  Judge.me — étoiles (Preview Badge).
+  Le metafield judgeme.badge est rempli par l’app (HTML des étoiles). Le widget JS peut l’enrichir.
+  Si le produit n’a aucun avis publié, Judge.me cache souvent le badge (comportement par défaut).
 {% endcomment %}
 {% if product != blank %}
   <div
     class="jdgm-widget jdgm-preview-badge"
     data-id="{{ product.id }}"
-    data-template="__product__"
-    data-auto-install="false"
-  ></div>
+    data-product-id="{{ product.id }}"
+    data-product-title="{{ product.title | escape }}"
+    data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
+    data-auto-install="true"
+  >
+    {{- product.metafields.judgeme.badge -}}
+  </div>
 {% endif %}
