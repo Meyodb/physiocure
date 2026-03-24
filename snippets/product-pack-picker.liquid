@@ -192,27 +192,33 @@
         {%- assign card_selected = true -%}
       {%- endif -%}
 
+      {%- comment -%} Prix affiché sur la carte (override possible) puis comparé, comme en mode quantité {%- endcomment -%}
+      {%- assign card_price = v.price -%}
       {%- assign v_compare_display = 0 -%}
       {%- if v.compare_at_price > v.price and v.compare_at_price > 0 -%}
         {%- assign v_compare_display = v.compare_at_price -%}
       {%- endif -%}
+      {%- assign price_cents_ov = block.settings.line_price_cents_override | default: 0 | plus: 0 -%}
+      {%- if price_cents_ov > 0 -%}
+        {%- assign card_price = price_cents_ov -%}
+      {%- endif -%}
       {%- assign compare_cents_ov = block.settings.compare_at_price_cents_override | default: 0 | plus: 0 -%}
-      {%- if compare_cents_ov > v.price -%}
+      {%- if compare_cents_ov > card_price -%}
         {%- assign v_compare_display = compare_cents_ov -%}
-      {%- elsif v_compare_display <= v.price -%}
+      {%- elsif v_compare_display <= card_price -%}
         {%- assign v_compare_display = 0 -%}
       {%- endif -%}
 
       {%- assign sticky_save_pct = 0 -%}
-      {%- if v_compare_display > v.price and v_compare_display > 0 -%}
-        {%- assign sticky_save_pct = v_compare_display | minus: v.price | times: 100.0 | divided_by: v_compare_display | round -%}
+      {%- if v_compare_display > card_price and v_compare_display > 0 -%}
+        {%- assign sticky_save_pct = v_compare_display | minus: card_price | times: 100.0 | divided_by: v_compare_display | round -%}
       {%- endif -%}
       {%- assign sticky_img = v.featured_image | default: product.featured_media.preview_image | default: product.featured_image -%}
 
       {%- assign title_line = block.settings.card_title | default: v.title -%}
       {%- assign save_label = block.settings.savings_label | strip -%}
-      {%- if save_label == blank and v_compare_display > v.price -%}
-        {%- assign save_money = v_compare_display | minus: v.price | money -%}
+      {%- if save_label == blank and v_compare_display > card_price -%}
+        {%- assign save_money = v_compare_display | minus: card_price | money -%}
         {%- assign save_label = 'products.product.save_amount' | t: amount: save_money -%}
       {%- endif -%}
 
@@ -228,8 +234,8 @@
           value="{{ v.id }}"
           data-pack-variant-radio
           data-variant-available="{{ v.available }}"
-          data-sticky-price="{{ v.price | money | escape }}"
-          data-sticky-compare="{% if v_compare_display > v.price %}{{ v_compare_display | money | escape }}{% endif %}"
+          data-sticky-price="{{ card_price | money | escape }}"
+          data-sticky-compare="{% if v_compare_display > card_price %}{{ v_compare_display | money | escape }}{% endif %}"
           data-sticky-save-pct="{{ sticky_save_pct }}"
           data-sticky-image="{% if sticky_img != blank %}{{ sticky_img | image_url: width: 200 | escape }}{% endif %}"
           {% if card_selected %}
@@ -260,10 +266,10 @@
               {%- endif -%}
             </span>
             <span class="product-pack-card__price-col">
-              {%- if v_compare_display > v.price -%}
+              {%- if v_compare_display > card_price -%}
                 <span class="product-pack-card__price-compare">{{ v_compare_display | money }}</span>
               {%- endif -%}
-              <span class="product-pack-card__price-current">{{ v.price | money }}</span>
+              <span class="product-pack-card__price-current">{{ card_price | money }}</span>
             </span>
           </span>
 
