@@ -23,10 +23,15 @@
     assign show_testimonial_carousel = true
   endif
   assign visual_howto_blocks = section.blocks | where: 'type', 'visual_howto_step'
-  assign product_display_title = product.title
-  if section.settings.product_title_override != blank
-    assign product_display_title = section.settings.product_title_override | strip
+  assign show_product_sticky_bar = true
+  if section.settings.show_sticky_bar == false
+    assign show_product_sticky_bar = false
   endif
+  assign sticky_bar_btn_add = section.settings.sticky_bar_cta_label | strip
+  if sticky_bar_btn_add == blank
+    assign sticky_bar_btn_add = 'Ajouter au panier'
+  endif
+  assign sticky_bar_btn_sold = 'Rupture de stock'
 -%}
 
 <section
@@ -124,11 +129,15 @@
           <p class="product-neuro-buy__vendor">{{ product.vendor }}</p>
         {%- endif -%}
 
-        <h1 class="product-neuro-buy__title">{{ product_display_title }}</h1>
+        <h1 class="product-neuro-buy__title">{{ product.title }}</h1>
 
-        <div class="product-neuro-buy__judgeme-stars">
-          {% render 'judgeme-stars', product: product %}
-        </div>
+        {%- comment -%} Judge.me — badge étoiles (installer l’app Judge.me pour les scripts) {%- endcomment -%}
+       <!-- Start of Judge.me code --> 
+         <div style='{{ jm_style }}' class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}' data-auto-install='false'> 
+        {{ product.metafields.judgeme.badge }} 
+        </div> 
+        <!-- End of Judge.me code -->
+
 
         {%- if section.settings.usp_text != blank -%}
           <div class="product-neuro-buy__usp rte">{{ section.settings.usp_text }}</div>
@@ -163,6 +172,8 @@
           <p class="product-neuro-urgency{% if section.settings.urgency_use_dot %} product-neuro-urgency--dot{% endif %}">{{ urgency_out }}</p>
         {%- endif -%}
 
+        {% capture product_form_id %}product-form-{{ section.id }}{% endcapture %}
+
         {%- if use_pack_picker and section.settings.pack_divider_text != blank -%}
           <p class="product-neuro-pack-divider" role="presentation">
             <span>{{ section.settings.pack_divider_text }}</span>
@@ -171,52 +182,77 @@
 
         {%- if use_pack_picker -%}
           <div class="product-neuro-pack-form-wrap" data-product-pack-form>
-            <form class="product-neuro-form product-neuro-form--pack" id="product-buy-form-pack-{{ section.id }}" novalidate>
+            {% form 'product', product, class: 'product-neuro-form product-neuro-form--pack', id: product_form_id %}
+            <input
+              type="hidden"
+              name="id"
+              id="VariantId-{{ section.id }}"
+              value="{{ current_variant.id }}"
+              data-variant-input
+            >
+            {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks, use_pack_qty_mode: use_pack_qty_mode %}
+
+            {%- liquid
+              assign pack_default_qty = 1
+              if use_pack_qty_mode
+                for b in pack_blocks limit: 1
+                  assign pack_default_qty = b.settings.pack_quantity | default: 1 | plus: 0
+                endfor
+                if pack_default_qty < 1
+                  assign pack_default_qty = 1
+                endif
+              endif
+            -%}
+            {%- if use_pack_qty_mode -%}
               <input
                 type="hidden"
-                name="id"
-                id="VariantId-{{ section.id }}"
-                value="{{ current_variant.id }}"
-                data-variant-input
+                name="quantity"
+                id="Quantity-{{ section.id }}"
+                value="{{ pack_default_qty }}"
+                data-pack-qty-input
               >
-              {% render 'product-pack-picker', product: product, section: section, current_variant: current_variant, pack_blocks: pack_blocks, use_pack_qty_mode: use_pack_qty_mode %}
-
-              {%- liquid
-                assign pack_default_qty = 1
-                if use_pack_qty_mode
-                  for b in pack_blocks limit: 1
-                    assign pack_default_qty = b.settings.pack_quantity | default: 1 | plus: 0
-                  endfor
-                  if pack_default_qty < 1
-                    assign pack_default_qty = 1
-                  endif
-                endif
-              -%}
-              {%- if use_pack_qty_mode -%}
+            {%- elsif section.settings.hide_qty_pack_cards == false -%}
+              <div class="field product-neuro-form__field product-neuro-form__qty-row">
+                <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
                 <input
-                  type="hidden"
-                  name="quantity"
+                  type="number"
                   id="Quantity-{{ section.id }}"
-                  value="{{ pack_default_qty }}"
-                  data-pack-qty-input
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  class="product-neuro-form__qty"
                 >
-              {%- else -%}
-                <input type="hidden" name="quantity" value="1">
-              {%- endif -%}
+              </div>
+            {%- endif -%}
 
+            <div class="product-neuro-form__actions">
+              <button
+                type="submit"
+                name="add"
+                class="btn product-neuro-form__submit product-neuro-form__submit--pack"
+                data-pack-submit
+                data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
+                data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </button>
               {%- if section.settings.show_buy_now -%}
-                <div class="product-neuro-form__actions">
-                  <button
-                    type="button"
-                    class="btn product-neuro-form__submit product-neuro-form__submit--buynow"
-                    data-buy-now
-                    {% unless current_variant.available %}disabled{% endunless %}
-                  >
-                    {{ 'products.product.buy_it_now' | t }}
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  class="btn product-neuro-form__submit product-neuro-form__submit--pack product-neuro-form__submit--buynow"
+                  data-buy-now
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {{ 'products.product.buy_it_now' | t }}
+                </button>
               {%- endif -%}
-            </form>
+            </div>
+            {% endform %}
           </div>
         {%- else -%}
           <div class="product-neuro-price-card">
@@ -229,7 +265,7 @@
               {%- endunless -%}
             </div>
 
-            <form class="product-neuro-form" id="product-buy-form-{{ section.id }}" novalidate>
+            {% form 'product', product, class: 'product-neuro-form', id: product_form_id %}
               {%- unless product.has_only_default_variant -%}
                 <div class="field product-neuro-form__field">
                   <label for="Variant-{{ section.id }}">{{ 'products.product.variant_option_label' | t }}</label>
@@ -254,10 +290,33 @@
               {%- else -%}
                 <input type="hidden" name="id" value="{{ current_variant.id }}">
               {%- endunless -%}
-              <input type="hidden" name="quantity" value="1">
 
-              {%- if section.settings.show_buy_now -%}
-                <div class="product-neuro-form__actions">
+              <div class="field product-neuro-form__field product-neuro-form__qty-row">
+                <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
+                <input
+                  type="number"
+                  id="Quantity-{{ section.id }}"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  class="product-neuro-form__qty"
+                >
+              </div>
+
+              <div class="product-neuro-form__actions">
+                <button
+                  type="submit"
+                  name="add"
+                  class="btn product-neuro-form__submit"
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {%- if current_variant.available -%}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {%- else -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </button>
+                {%- if section.settings.show_buy_now -%}
                   <button
                     type="button"
                     class="btn product-neuro-form__submit product-neuro-form__submit--buynow"
@@ -266,117 +325,81 @@
                   >
                     {{ 'products.product.buy_it_now' | t }}
                   </button>
-                </div>
-              {%- endif -%}
-            </form>
+                {%- endif -%}
+              </div>
+            {% endform %}
           </div>
         {%- endif -%}
 
         {%- if section.settings.show_trust_bar -%}
           <ul class="product-neuro-trust" aria-label="{{ section.settings.trust_bar_label | escape }}">
             <li class="product-neuro-trust__item">
-              {%- if section.settings.trust_icon_1 != blank -%}
-                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_1 }}</span>
-              {%- endif -%}
+              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_1 }}</span>
               <span class="product-neuro-trust__text">{{ section.settings.trust_text_1 }}</span>
             </li>
             <li class="product-neuro-trust__item">
-              {%- if section.settings.trust_icon_2 != blank -%}
-                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_2 }}</span>
-              {%- endif -%}
+              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_2 }}</span>
               <span class="product-neuro-trust__text">{{ section.settings.trust_text_2 }}</span>
             </li>
             <li class="product-neuro-trust__item">
-              {%- if section.settings.trust_icon_3 != blank -%}
-                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_3 }}</span>
-              {%- endif -%}
+              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_3 }}</span>
               <span class="product-neuro-trust__text">{{ section.settings.trust_text_3 }}</span>
             </li>
           </ul>
         {%- endif -%}
-
-        {%- if section.settings.show_sticky_bar and section.settings.show_buy_now -%}
-          <div class="product-sticky-sentinel" data-product-sticky-sentinel aria-hidden="true"></div>
-        {%- endif -%}
       </div>
     </div>
 
-    {%- liquid
-      assign desc_lead = section.settings.product_summary_text
-      assign d1h = section.settings.desc_category_1_heading | strip
-      assign d1t = section.settings.desc_category_1_text
-      assign d2h = section.settings.desc_category_2_heading | strip
-      assign d2t = section.settings.desc_category_2_text
-      assign d3h = section.settings.desc_category_3_heading | strip
-      assign d3t = section.settings.desc_category_3_text
-      assign show_desc_cat_1 = false
-      assign show_desc_cat_2 = false
-      assign show_desc_cat_3 = false
-      if d1h != blank or d1t != blank
-        assign show_desc_cat_1 = true
-      endif
-      if d2h != blank or d2t != blank
-        assign show_desc_cat_2 = true
-      endif
-      if d3h != blank or d3t != blank
-        assign show_desc_cat_3 = true
-      endif
-      assign show_product_desc_zone = false
-      if desc_lead != blank or show_desc_cat_1 or show_desc_cat_2 or show_desc_cat_3
-        assign show_product_desc_zone = true
-      endif
-    -%}
-    {%- if show_product_desc_zone -%}
-      <section
-        class="product-neuro-desc-summary"
-        id="ProductDetails-{{ section.id }}"
-        {% if section.settings.product_summary_heading != blank -%}
-          aria-labelledby="ProductDescSummaryHeading-{{ section.id }}"
-        {%- endif %}
-      >
-        {%- if section.settings.product_summary_heading != blank -%}
-          <h2 class="product-neuro-desc-summary__heading" id="ProductDescSummaryHeading-{{ section.id }}">
-            {{ section.settings.product_summary_heading }}
-          </h2>
+    {%- if show_product_sticky_bar -%}
+      <div class="product-sticky-sentinel" data-product-sticky-sentinel aria-hidden="true"></div>
+    {%- endif -%}
+
+    {%- comment -%} Témoignages : grille OU carrousel (pas les deux) {%- endcomment -%}
+    {%- if show_testimonial_grid -%}
+      <div class="product-neuro-reviews">
+        {%- if testimonials_heading != blank -%}
+          <h2 class="product-neuro-reviews__heading">{{ testimonials_heading }}</h2>
         {%- endif -%}
-        {%- if desc_lead != blank -%}
-          <div class="product-neuro-desc-summary__lead rte">{{ desc_lead }}</div>
-        {%- endif -%}
-        {%- if show_desc_cat_1 or show_desc_cat_2 or show_desc_cat_3 -%}
-          <div class="product-neuro-desc-summary__grid">
-            {%- if show_desc_cat_1 -%}
-              <article class="product-neuro-desc-summary__card">
-                {%- if d1h != blank -%}
-                  <h3 class="product-neuro-desc-summary__card-title">{{ d1h }}</h3>
-                {%- endif -%}
-                {%- if d1t != blank -%}
-                  <div class="product-neuro-desc-summary__card-body rte">{{ d1t }}</div>
-                {%- endif -%}
-              </article>
+        {%- for block in review_blocks -%}
+          <blockquote class="product-neuro-review" {{ block.shopify_attributes }}>
+            <div class="product-neuro-review__stars" aria-hidden="true">
+              {%- assign r = block.settings.rating | default: 5 | at_most: 5 | at_least: 1 -%}
+              {%- for i in (1..r) -%}★{%- endfor -%}
+            </div>
+            <p class="product-neuro-review__quote">{{ block.settings.quote }}</p>
+            {%- if block.settings.author != blank -%}
+              <footer class="product-neuro-review__author">{{ block.settings.author }}</footer>
             {%- endif -%}
-            {%- if show_desc_cat_2 -%}
-              <article class="product-neuro-desc-summary__card">
-                {%- if d2h != blank -%}
-                  <h3 class="product-neuro-desc-summary__card-title">{{ d2h }}</h3>
-                {%- endif -%}
-                {%- if d2t != blank -%}
-                  <div class="product-neuro-desc-summary__card-body rte">{{ d2t }}</div>
-                {%- endif -%}
-              </article>
-            {%- endif -%}
-            {%- if show_desc_cat_3 -%}
-              <article class="product-neuro-desc-summary__card">
-                {%- if d3h != blank -%}
-                  <h3 class="product-neuro-desc-summary__card-title">{{ d3h }}</h3>
-                {%- endif -%}
-                {%- if d3t != blank -%}
-                  <div class="product-neuro-desc-summary__card-body rte">{{ d3t }}</div>
-                {%- endif -%}
-              </article>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
-      </section>
+          </blockquote>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Détails repliables + bandeau images {%- endcomment -%}
+    {%- if product.description != blank -%}
+      <details class="product-neuro-details" id="ProductDetails-{{ section.id }}">
+        <summary class="product-neuro-details__summary">{{ section.settings.details_toggle_label }}</summary>
+        <div class="product-neuro-details__body rte">
+          {{ product.description }}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if product.media.size > 1 -%}
+      <div class="product-neuro-strip-wrap">
+        <div class="product-neuro-strip" role="list" aria-label="{{ section.settings.media_strip_label | escape }}">
+          {%- for media in product.media -%}
+            <div class="product-neuro-strip__cell" role="listitem">
+              {{
+                media.preview_image
+                | default: media
+                | image_url: width: 400
+                | image_tag: loading: 'lazy', alt: media.alt | default: product.title, class: 'product-neuro-strip__img'
+              }}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
     {%- endif -%}
 
     {%- if visual_howto_blocks.size > 0 -%}
@@ -407,27 +430,6 @@
           {%- endfor -%}
         </ol>
       </section>
-    {%- endif -%}
-
-    {%- comment -%} Témoignages : grille OU carrousel (pas les deux) {%- endcomment -%}
-    {%- if show_testimonial_grid -%}
-      <div class="product-neuro-reviews">
-        {%- if testimonials_heading != blank -%}
-          <h2 class="product-neuro-reviews__heading">{{ testimonials_heading }}</h2>
-        {%- endif -%}
-        {%- for block in review_blocks -%}
-          <blockquote class="product-neuro-review" {{ block.shopify_attributes }}>
-            <div class="product-neuro-review__stars" aria-hidden="true">
-              {%- assign r = block.settings.rating | default: 5 | at_most: 5 | at_least: 1 -%}
-              {%- for i in (1..r) -%}★{%- endfor -%}
-            </div>
-            <p class="product-neuro-review__quote">{{ block.settings.quote }}</p>
-            {%- if block.settings.author != blank -%}
-              <footer class="product-neuro-review__author">{{ block.settings.author }}</footer>
-            {%- endif -%}
-          </blockquote>
-        {%- endfor -%}
-      </div>
     {%- endif -%}
 
     {%- if show_testimonial_carousel -%}
@@ -475,8 +477,42 @@
       {%- endif -%}
     {%- endfor -%}
 
-    <div class="product-neuro-judgeme">
-      {% render 'judgeme-product-reviews' %}
+    {%- comment -%} Judge.me — widget avis produit (app + scripts requis) {%- endcomment -%}
+    <div class="product-neuro-jdgm-reviews">
+      <!-- Start of Judge.me code -->
+      {%- liquid
+        assign has_legacy = false
+        if product.metafields.judgeme.widget.size > 20
+          assign has_legacy = true
+        endif
+      -%}
+      <div style="clear: both"></div>
+      <div
+        id="judgeme_product_reviews"
+        class="jdgm-widget jdgm-review-widget"
+        data-product-title="{{ product.title | escape }}"
+        data-id="{{ product.id }}"
+        data-product-id="{{ product.id }}"
+        data-widget="review"
+        data-auto-install="false"
+        data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
+        data-entry-point="review_widget.js"
+        data-entry-key="review-widget/main.js"
+      >
+        {%- if has_legacy -%}
+          <div class="jdgm-legacy-widget-content" style="display: none;">
+            {{ product.metafields.judgeme.widget }}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if product.metafields.judgeme.review_widget_data -%}
+        <script>
+          jdgm.data ||= {};
+          jdgm.data.reviewWidget ||= {};
+          jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }};
+        </script>
+      {%- endif -%}
+      <!-- End of Judge.me code -->
     </div>
 
     {%- assign faq_only = section.blocks | where: 'type', 'faq_item' -%}
@@ -510,59 +546,106 @@
     {%- endif -%}
   </div>
 
-  {%- liquid
-    assign sticky_cta_label = section.settings.sticky_bar_cta_label | strip
-    if sticky_cta_label == blank
-      assign sticky_cta_label = 'products.product.buy_it_now' | t
-    endif
-  -%}
-  {%- if section.settings.show_sticky_bar and section.settings.show_buy_now -%}
+  {%- if show_product_sticky_bar -%}
+    {%- liquid
+      assign sticky_cv = product.selected_or_first_available_variant
+      assign sticky_on_sale = false
+      if sticky_cv.compare_at_price > sticky_cv.price
+        assign sticky_on_sale = true
+      endif
+      assign sticky_save_pct = 0
+      if sticky_on_sale and sticky_cv.compare_at_price > 0
+        assign sticky_save_pct = sticky_cv.compare_at_price | minus: sticky_cv.price | times: 100.0 | divided_by: sticky_cv.compare_at_price | round
+      endif
+      assign sticky_thumb = sticky_cv.featured_image | default: primary_media.preview_image | default: product.featured_image
+      if sticky_thumb == blank and primary_media != blank
+        assign sticky_thumb = primary_media.preview_image | default: primary_media
+      endif
+    -%}
     <div
-      id="ProductStickyBar-{{ section.id }}"
-      class="product-sticky-bar"
+      class="product-sticky-bar{% if section.settings.show_buy_now %} product-sticky-bar--with-buynow{% endif %}"
       data-product-sticky-bar
+      data-save-label-fmt="−___PCT___ %"
       hidden
-      role="region"
-      aria-label="{{ sticky_cta_label | escape }}"
     >
-      <div class="product-sticky-bar__inner page-width" style="width:min(100% - 2rem, 72rem); margin-inline:auto; padding-inline:clamp(1rem, 3vw, 1.5rem);">
+      <div class="page-width product-sticky-bar__inner">
         <div class="product-sticky-bar__info">
-          {%- if primary_media -%}
-            {%- assign sticky_thumb = primary_media.preview_image | default: primary_media -%}
-            {%- if sticky_thumb != blank -%}
-              {{
-                sticky_thumb
-                | image_url: width: 120
-                | image_tag:
-                  loading: 'lazy',
-                  class: 'product-sticky-bar__thumb',
-                  alt: product_display_title
-              }}
-            {%- else -%}
-              <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
-            {%- endif -%}
+          {%- if sticky_thumb != blank -%}
+            {{
+              sticky_thumb
+              | image_url: width: 160
+              | image_tag: loading: 'lazy', class: 'product-sticky-bar__thumb', alt: product.title
+            }}
           {%- else -%}
             <span class="product-sticky-bar__thumb product-sticky-bar__thumb--placeholder" aria-hidden="true"></span>
           {%- endif -%}
           <div class="product-sticky-bar__text">
-            <p class="product-sticky-bar__title">{{ product_display_title }}</p>
-            <div class="product-sticky-bar__price">
-              {% render 'price', product: product, show_save_badge: true %}
+            <p class="product-sticky-bar__title">{{ product.title }}</p>
+            <div
+              class="price{% if sticky_on_sale %} price--on-sale{% endif %} product-sticky-bar__price"
+              data-sticky-prices
+            >
+              <span class="price__sale-row">
+                <span class="price__current product-sticky-bar__price-current" data-sticky-current>{{ sticky_cv.price | money }}</span>
+                <span
+                  class="price__compare product-sticky-bar__price-compare"
+                  data-sticky-compare
+                  {% unless sticky_on_sale %}
+                    hidden
+                  {% endunless %}
+                >
+                  {%- if sticky_on_sale -%}
+                    {{- sticky_cv.compare_at_price | money -}}
+                  {%- endif -%}
+                </span>
+                <span
+                  class="price__save-badge product-sticky-bar__save"
+                  data-sticky-save-badge
+                  {% unless sticky_on_sale and sticky_save_pct > 0 %}
+                    hidden
+                  {% endunless %}
+                >
+                  {%- if sticky_on_sale and sticky_save_pct > 0 -%}
+                    −{{ sticky_save_pct }} %
+                  {%- endif -%}
+                </span>
+              </span>
             </div>
           </div>
         </div>
-        <button
-          type="button"
-          class="btn product-neuro-form__submit product-neuro-form__submit--buynow product-sticky-bar__cta"
-          data-sticky-mirror-buy
-          {% unless current_variant.available %}disabled{% endunless %}
-        >
-          {{ sticky_cta_label }}
-        </button>
+        <div class="product-sticky-bar__ctas">
+          <button
+            type="button"
+            class="btn product-sticky-bar__cta"
+            data-sticky-submit
+            data-label-available="{{ sticky_bar_btn_add | escape }}"
+            data-label-sold="{{ sticky_bar_btn_sold | escape }}"
+            {% unless sticky_cv.available %}
+              disabled
+            {% endunless %}
+          >
+            {%- if sticky_cv.available -%}
+              {{ sticky_bar_btn_add }}
+            {%- else -%}
+              {{ sticky_bar_btn_sold }}
+            {%- endif -%}
+          </button>
+          {%- if section.settings.show_buy_now -%}
+            <button
+              type="button"
+              class="btn product-sticky-bar__cta product-sticky-bar__cta--buynow"
+              data-buy-now
+              {% unless sticky_cv.available %}
+                disabled
+              {% endunless %}
+            >
+              {{ 'products.product.buy_it_now' | t }}
+            </button>
+          {%- endif -%}
+        </div>
       </div>
     </div>
   {%- endif -%}
-
 </section>
 
 {%- liquid
@@ -691,21 +774,29 @@
   "settings": [
     {
       "type": "checkbox",
+      "id": "show_sticky_bar",
+      "label": "Barre d’achat fixe en bas (mobile & desktop)",
+      "default": true,
+      "info": "S’affiche quand la zone d’achat principal n’est plus visible. Le bouton déclenche le même formulaire que sur la fiche."
+    },
+    {
+      "type": "text",
+      "id": "sticky_bar_cta_label",
+      "label": "Texte du bouton (barre fixe)",
+      "default": "Ajouter au panier",
+      "info": "Libellé du bouton quand le produit est disponible. « Rupture de stock » s’affiche si épuisé. Laissez vide pour utiliser « Ajouter au panier »."
+    },
+    {
+      "type": "checkbox",
       "id": "show_vendor",
       "label": "Afficher la marque (vendor)",
       "default": false
     },
     {
-      "type": "text",
-      "id": "product_title_override",
-      "label": "Titre affiché sur la fiche (optionnel)",
-      "info": "Remplace le nom du produit Shopify pour le titre principal (H1). Laisser vide pour utiliser le titre catalogue. Les données structurées (SEO) conservent le nom produit Shopify."
-    },
-    {
       "type": "richtext",
       "id": "usp_text",
       "label": "Accroche sous le titre (promesse forte)",
-      "default": "<p>Soulagez la sensation de jambes lourdes en quelques minutes par jour — chez vous : drainage sur-mesure sur 15 niveaux, chaleur apaisante pour relancer le flux sanguin, et 90 jours pour tester sans risque.</p>"
+      "default": "<p><strong>Votre produit</strong> — décrivez en une phrase le bénéfice principal pour le client.</p>"
     },
     {
       "type": "textarea",
@@ -783,23 +874,9 @@
     {
       "type": "checkbox",
       "id": "show_buy_now",
-      "label": "Bouton « Acheter maintenant »",
+      "label": "Bouton achat direct (paiement)",
       "default": true,
-      "info": "Ouvre le tunnel de commande : le panier est vidé puis une ligne avec la variante et la quantité choisies y est ajoutée."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_sticky_bar",
-      "label": "Barre d’achat fixe en bas (après défilement)",
-      "default": true,
-      "info": "S’affiche quand la zone d’achat n’est plus visible. Nécessite « Acheter maintenant »."
-    },
-    {
-      "type": "text",
-      "id": "sticky_bar_cta_label",
-      "label": "Libellé du bouton (barre fixe)",
-      "default": "Acheter maintenant",
-      "info": "Laisser vide pour réutiliser la traduction du bouton principal."
+      "info": "Ajoute « Acheter maintenant » sous le panier : vide le panier, n’y met que cette ligne, puis ouvre le tunnel de commande."
     },
     {
       "type": "header",
@@ -824,56 +901,16 @@
       "info": "Remplace l’ancien titre « carrousel » si renseigné."
     },
     {
-      "type": "header",
-      "content": "Résumé produit (remplace l’ancien repliable)"
+      "type": "text",
+      "id": "details_toggle_label",
+      "label": "Libellé du repliable description",
+      "default": "Afficher tous les détails"
     },
     {
       "type": "text",
-      "id": "product_summary_heading",
-      "label": "Titre de la zone",
-      "default": "En savoir plus"
-    },
-    {
-      "type": "richtext",
-      "id": "product_summary_text",
-      "label": "Texte synthétique (introduction)",
-      "default": "<p>Résumez en quelques phrases l’essentiel : bénéfice principal, usage, public visé.</p>"
-    },
-    {
-      "type": "text",
-      "id": "desc_category_1_heading",
-      "label": "Catégorie 1 — titre",
-      "default": "Bienfaits"
-    },
-    {
-      "type": "richtext",
-      "id": "desc_category_1_text",
-      "label": "Catégorie 1 — texte",
-      "default": "<p>Décrivez les atouts perçus par le client (ton bien-être, sans promesse médicale non fondée).</p>"
-    },
-    {
-      "type": "text",
-      "id": "desc_category_2_heading",
-      "label": "Catégorie 2 — titre",
-      "default": "Utilisation"
-    },
-    {
-      "type": "richtext",
-      "id": "desc_category_2_text",
-      "label": "Catégorie 2 — texte",
-      "default": "<p>Mode d’emploi court : fréquence, durée, précautions simples.</p>"
-    },
-    {
-      "type": "text",
-      "id": "desc_category_3_heading",
-      "label": "Catégorie 3 — titre",
-      "default": "Contenu & entretien"
-    },
-    {
-      "type": "richtext",
-      "id": "desc_category_3_text",
-      "label": "Catégorie 3 — texte",
-      "default": "<p>Contenu de la boîte, entretien, garantie ou livraison selon votre politique.</p>"
+      "id": "media_strip_label",
+      "label": "Libellé accessibilité bandeau d’images",
+      "default": "Galerie produit"
     },
     {
       "type": "text",
@@ -886,8 +923,8 @@
       "type": "text",
       "id": "visual_howto_heading",
       "label": "Titre du bloc « 3 étapes visuelles »",
-      "default": "3 étapes pour soulager les jambes lourdes et retrouver la légèreté.",
-      "info": "S’affiche après le résumé produit (3 catégories), si vous ajoutez des blocs « Étape visuelle »."
+      "default": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
+      "info": "S’affiche après le bandeau de miniatures, si vous ajoutez des blocs « Étape visuelle »."
     },
     {
       "type": "select",
@@ -918,7 +955,7 @@
       "id": "show_secondary_description",
       "label": "Répéter la description complète sous la page",
       "default": false,
-      "info": "Affiche la description complète du produit Shopify en bas de page (SEO / détail). La zone « Résumé produit » ci-dessus reste visible sans repliable."
+      "info": "Désactivé par défaut : la description est dans le repliable « Afficher tous les détails »."
     },
     {
       "type": "text",
@@ -958,14 +995,13 @@
       "type": "text",
       "id": "trust_icon_2",
       "label": "Icône / emoji 2",
-      "default": "",
-      "info": "Laisser vide si le texte inclut déjà une icône (ex. ✅)."
+      "default": "🛡️"
     },
     {
       "type": "text",
       "id": "trust_text_2",
       "label": "Texte 2",
-      "default": "✅ 90 jours pour tester sans risque"
+      "default": "Garantie satisfait ou remboursé"
     },
     {
       "type": "text",
@@ -1000,7 +1036,7 @@
           "id": "line_price_cents_override",
           "label": "Prix affiché (centimes, optionnel)",
           "default": 0,
-          "info": "Fixe le prix montré sur la carte (ex. 9999 = 99,99 €). 0 = prix Shopify (ou unitaire × quantité si une seule variante). Le panier utilise toujours le prix catalogue de la variante."
+          "info": "Une seule variante : fixe le prix montré sur la carte (ex. 9999 = 99,99 €). 0 = prix unitaire × quantité. Le total au panier suit le prix catalogue Shopify × quantité sauf remise ou variante dédiée."
         },
         {
           "type": "text",
@@ -1037,7 +1073,7 @@
           "type": "text",
           "id": "savings_label",
           "label": "Texte du badge d’économie (optionnel)",
-          "info": "Ex. Meilleure offre. Laisser vide : aucun texte sur la pilule (plus de calcul automatique)."
+          "info": "Ex. ÉCONOMISEZ 119,99 €. Vide = calcul automatique si prix barré."
         },
         {
           "type": "header",
@@ -1148,13 +1184,13 @@
           "type": "text",
           "id": "title",
           "label": "Titre",
-          "default": "Enroulez autour de la jambe"
+          "default": "Enroulez autour des pieds"
         },
         {
           "type": "richtext",
           "id": "text",
           "label": "Description",
-          "default": "<p>Placez l’appareil autour du mollet et de la cheville, puis ajustez les sangles pour un maintien ferme et confortable.</p>"
+          "default": "<p>Glissez vos pieds dans l’appareil et ajustez les sangles pour un maintien confortable.</p>"
         }
       ]
     },
