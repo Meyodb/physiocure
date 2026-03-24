@@ -23,6 +23,15 @@
     assign show_testimonial_carousel = true
   endif
   assign visual_howto_blocks = section.blocks | where: 'type', 'visual_howto_step'
+  assign show_product_sticky_bar = true
+  if section.settings.show_sticky_bar == false
+    assign show_product_sticky_bar = false
+  endif
+  assign sticky_bar_btn_add = section.settings.sticky_bar_cta_label | strip
+  if sticky_bar_btn_add == blank
+    assign sticky_bar_btn_add = 'Ajouter au panier'
+  endif
+  assign sticky_bar_btn_sold = 'Rupture de stock'
 -%}
 
 <section
@@ -305,7 +314,7 @@
       </div>
     </div>
 
-    {%- if section.settings.show_sticky_bar -%}
+    {%- if show_product_sticky_bar -%}
       <div class="product-sticky-sentinel" data-product-sticky-sentinel aria-hidden="true"></div>
     {%- endif -%}
 
@@ -463,7 +472,7 @@
     {%- endif -%}
   </div>
 
-  {%- if section.settings.show_sticky_bar -%}
+  {%- if show_product_sticky_bar -%}
     {%- liquid
       assign sticky_cv = product.selected_or_first_available_variant
       assign sticky_on_sale = false
@@ -482,7 +491,7 @@
     <div
       class="product-sticky-bar"
       data-product-sticky-bar
-      data-save-label-fmt="{{ 'products.product.save_percent' | t: percent: '___PCT___' | escape }}"
+      data-save-label-fmt="−___PCT___ %"
       hidden
     >
       <div class="page-width product-sticky-bar__inner">
@@ -523,7 +532,7 @@
                   {% endunless %}
                 >
                   {%- if sticky_on_sale and sticky_save_pct > 0 -%}
-                    {{ 'products.product.save_percent' | t: percent: sticky_save_pct }}
+                    −{{ sticky_save_pct }} %
                   {%- endif -%}
                 </span>
               </span>
@@ -534,21 +543,16 @@
           type="button"
           class="btn product-sticky-bar__cta"
           data-sticky-submit
-          data-label-available="{{ 'products.product.add_to_cart' | t | escape }}"
-          data-label-sold="{{ 'products.product.sold_out' | t | escape }}"
-          {% if section.settings.sticky_bar_cta_label != blank %}
-            data-label-custom="{{ section.settings.sticky_bar_cta_label | escape }}"
-          {% endif %}
+          data-label-available="{{ sticky_bar_btn_add | escape }}"
+          data-label-sold="{{ sticky_bar_btn_sold | escape }}"
           {% unless sticky_cv.available %}
             disabled
           {% endunless %}
         >
-          {%- if section.settings.sticky_bar_cta_label != blank -%}
-            {{ section.settings.sticky_bar_cta_label }}
-          {%- elsif sticky_cv.available -%}
-            {{ 'products.product.add_to_cart' | t }}
+          {%- if sticky_cv.available -%}
+            {{ sticky_bar_btn_add }}
           {%- else -%}
-            {{ 'products.product.sold_out' | t }}
+            {{ sticky_bar_btn_sold }}
           {%- endif -%}
         </button>
       </div>
@@ -599,7 +603,8 @@
       "type": "text",
       "id": "sticky_bar_cta_label",
       "label": "Texte du bouton (barre fixe)",
-      "info": "Vide = « Ajouter au panier » ou « Épuisé » selon le stock."
+      "default": "Ajouter au panier",
+      "info": "Libellé du bouton quand le produit est disponible. « Rupture de stock » s’affiche si épuisé. Laissez vide pour utiliser « Ajouter au panier »."
     },
     {
       "type": "checkbox",

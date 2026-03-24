@@ -987,10 +987,11 @@ button, input, select, textarea { font: inherit; }
 
 /* Barre d’achat fixe (fiche produit) */
 .product-sticky-sentinel {
-  height: 1px;
+  height: 4px;
   margin: 0;
   padding: 0;
   pointer-events: none;
+  flex-shrink: 0;
 }
 body.product-sticky-bar-on {
   padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
@@ -1005,7 +1006,7 @@ body.product-sticky-bar-on {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 120;
+  z-index: 500;
   background: var(--color-surface);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);

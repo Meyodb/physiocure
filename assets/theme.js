@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const syncStickyProductBar = (radio) => {
     const bar = document.querySelector('[data-product-sticky-bar]');
-    if (!bar || !radio) return;
+    if (!bar || !radio || !radio.hasAttribute('data-sticky-price')) return;
     const fmt = bar.getAttribute('data-save-label-fmt') || '';
     const priceRoot = bar.querySelector('[data-sticky-prices]');
     const current = bar.querySelector('[data-sticky-current]');
@@ -91,10 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const available = radio.getAttribute('data-variant-available') === 'true';
     if (stickyBtn) {
       stickyBtn.disabled = !available;
-      const custom = stickyBtn.dataset.labelCustom;
       const la = stickyBtn.dataset.labelAvailable;
       const ls = stickyBtn.dataset.labelSold;
-      stickyBtn.textContent = available ? custom || la || '' : ls || '';
+      stickyBtn.textContent = available ? la || '' : ls || '';
     }
   };
 
@@ -148,16 +147,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const stickyBar = document.querySelector('[data-product-sticky-bar]');
   const stickySentinel = document.querySelector('[data-product-sticky-sentinel]');
-  if (stickyBar && stickySentinel && typeof IntersectionObserver !== 'undefined') {
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        const show = entry && !entry.isIntersecting;
-        stickyBar.toggleAttribute('hidden', !show);
-        document.body.classList.toggle('product-sticky-bar-on', Boolean(show));
-      },
-      { root: null, threshold: 0, rootMargin: '0px' }
-    );
-    io.observe(stickySentinel);
+  const setProductStickyBarVisible = (show) => {
+    if (!stickyBar) return;
+    stickyBar.toggleAttribute('hidden', !show);
+    document.body.classList.toggle('product-sticky-bar-on', Boolean(show));
+  };
+  const syncProductStickyBarFromLayout = () => {
+    if (!stickyBar || !stickySentinel) return;
+    const rect = stickySentinel.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const sentinelVisible = rect.top < vh && rect.bottom > 0;
+    setProductStickyBarVisible(!sentinelVisible);
+  };
+  if (stickyBar && stickySentinel) {
+    syncProductStickyBarFromLayout();
+    if (typeof IntersectionObserver !== 'undefined') {
+      const io = new IntersectionObserver(
+        (entries) => {
+          const entry = entries && entries[0];
+          if (!entry) return;
+          setProductStickyBarVisible(!entry.isIntersecting);
+        },
+        { root: null, threshold: 0, rootMargin: '0px' }
+      );
+      io.observe(stickySentinel);
+    }
+    window.addEventListener('scroll', syncProductStickyBarFromLayout, { passive: true });
+    window.addEventListener('resize', syncProductStickyBarFromLayout, { passive: true });
   }
 
   document.querySelector('[data-sticky-submit]')?.addEventListener('click', () => {

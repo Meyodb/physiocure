@@ -3,6 +3,8 @@
     "main": {
       "type": "main-product",
       "settings": {
+        "show_sticky_bar": true,
+        "sticky_bar_cta_label": "Ajouter au panier",
         "show_vendor": false,
         "usp_text": "<p><strong>Votre confort au quotidien</strong> — décrivez en une phrase le bénéfice principal pour vos clients.</p>",
         "benefits_list": "Bénéfice clé 1\nBénéfice clé 2\nBénéfice clé 3\nBénéfice clé 4",
