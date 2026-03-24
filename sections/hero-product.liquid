@@ -36,12 +36,14 @@
         </p>
 
         {%- liquid
-          if section.settings.primary_cta_page != blank
+          if featured != blank
+            assign primary_href = featured.url
+          elsif collections.all != blank and collections.all.products_count > 0
+            assign primary_href = collections.all.products.first.url
+          elsif section.settings.primary_cta_page != blank
             assign primary_href = section.settings.primary_cta_page.url
           elsif pages.physiocure != blank
             assign primary_href = pages.physiocure.url
-          elsif featured != blank
-            assign primary_href = featured.url
           else
             assign primary_href = routes.all_products_collection_url
           endif
@@ -108,14 +110,14 @@
       "type": "page",
       "id": "primary_cta_page",
       "label": "Page du bouton principal",
-      "info": "Optionnel. Si vide, la page dont le handle est « physiocure » est utilisée ; sinon le produit vedette."
+      "info": "Utilisé seulement s’il n’y a ni produit vedette ni produit dans le catalogue « Tous les produits ». Sinon le bouton mène d’abord à une fiche produit."
     },
     {
       "type": "text",
       "id": "primary_cta_label",
       "label": "Libellé bouton principal",
       "default": "Soulager mes jambes maintenant",
-      "info": "Ouvre la page configurée ci-dessus, ou /pages/physiocure si elle existe, sinon la fiche produit vedette."
+      "info": "Mène à la fiche du produit vedette, ou à la première fiche du catalogue « Tous les produits » si le vedette n’est pas défini — pas à la liste des produits."
     },
     {
       "type": "text",
