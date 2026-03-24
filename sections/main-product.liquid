@@ -562,7 +562,7 @@
       endif
     -%}
     <div
-      class="product-sticky-bar"
+      class="product-sticky-bar{% if section.settings.show_buy_now %} product-sticky-bar--with-buynow{% endif %}"
       data-product-sticky-bar
       data-save-label-fmt="−___PCT___ %"
       hidden
@@ -612,22 +612,36 @@
             </div>
           </div>
         </div>
-        <button
-          type="button"
-          class="btn product-sticky-bar__cta"
-          data-sticky-submit
-          data-label-available="{{ sticky_bar_btn_add | escape }}"
-          data-label-sold="{{ sticky_bar_btn_sold | escape }}"
-          {% unless sticky_cv.available %}
-            disabled
-          {% endunless %}
-        >
-          {%- if sticky_cv.available -%}
-            {{ sticky_bar_btn_add }}
-          {%- else -%}
-            {{ sticky_bar_btn_sold }}
+        <div class="product-sticky-bar__ctas">
+          <button
+            type="button"
+            class="btn product-sticky-bar__cta"
+            data-sticky-submit
+            data-label-available="{{ sticky_bar_btn_add | escape }}"
+            data-label-sold="{{ sticky_bar_btn_sold | escape }}"
+            {% unless sticky_cv.available %}
+              disabled
+            {% endunless %}
+          >
+            {%- if sticky_cv.available -%}
+              {{ sticky_bar_btn_add }}
+            {%- else -%}
+              {{ sticky_bar_btn_sold }}
+            {%- endif -%}
+          </button>
+          {%- if section.settings.show_buy_now -%}
+            <button
+              type="button"
+              class="btn product-sticky-bar__cta product-sticky-bar__cta--buynow"
+              data-buy-now
+              {% unless sticky_cv.available %}
+                disabled
+              {% endunless %}
+            >
+              {{ 'products.product.buy_it_now' | t }}
+            </button>
           {%- endif -%}
-        </button>
+        </div>
       </div>
     </div>
   {%- endif -%}
