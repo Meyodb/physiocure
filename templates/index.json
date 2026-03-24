@@ -44,7 +44,7 @@
         "show_product_excerpt": false,
         "hero_alt": "Femme détendue dans un salon lumineux, appareil de bien-être pour les jambes",
         "product": "",
-        "badge": "Bien-être & récupération",
+        "badge": "BIEN-ÊTRE & RÉCUPÉRATION",
         "heading": "Retrouvez la légèreté de vos jambes en 15 minutes.",
         "subheading": "Soulagez la sensation de jambes lourdes en quelques minutes par jour — confortablement installé chez vous.",
         "primary_cta_page": "",
@@ -107,8 +107,8 @@
           "type": "step",
           "settings": {
             "image": "",
-            "title": "Laissez agir 10 à 20 minutes",
-            "text": "Détente ciblée jambes et pieds, avec chaleur douce si vous le souhaitez."
+            "title": "Laissez agir environ 15 minutes",
+            "text": "Drainage et détente ciblés sur les jambes, avec la chaleur apaisante pour relancer le flux sanguin."
           }
         },
         "step_3": {
@@ -178,28 +178,28 @@
           "type": "spec",
           "settings": {
             "label": "Intensité",
-            "value": "15 niveaux ajustables pour adapter la séance"
+            "value": "15 niveaux pour un drainage sur-mesure"
           }
         },
         "spec_2": {
           "type": "spec",
           "settings": {
             "label": "Chaleur",
-            "value": "Diffusion progressive, réglable selon votre confort"
+            "value": "Technologie apaisante, réglable selon votre confort"
           }
         },
         "spec_3": {
           "type": "spec",
           "settings": {
             "label": "Zones",
-            "value": "Jambes, pieds et voûte plantaire"
+            "value": "Bas des jambes, mollet et cheville (ajustable)"
           }
         },
         "spec_4": {
           "type": "spec",
           "settings": {
             "label": "Essai",
-            "value": "Garantie satisfait ou remboursé 90 jours"
+            "value": "Soulagement garanti : 90 jours pour tester sans risque"
           }
         }
       },
@@ -267,15 +267,15 @@
         "faq3": {
           "type": "qa",
           "settings": {
-            "question": "Le produit convient-il à tous les pieds ?",
-            "answer": "<p>Les dimensions et programmes sont pensés pour la majorité des morphologies adultes. En cas de pathologie, demandez l’avis d’un professionnel de santé.</p>"
+            "question": "Le produit convient-il à toutes les morphologies ?",
+            "answer": "<p>Les dimensions et programmes sont pensés pour la majorité des morphologies adultes au niveau mollet et cheville. En cas de pathologie, demandez l’avis d’un professionnel de santé.</p>"
           }
         },
         "faq4": {
           "type": "qa",
           "settings": {
             "question": "Combien de temps dure une séance ?",
-            "answer": "<p>En général 10 à 20 minutes selon le programme choisi. Vous pouvez adapter la durée et l’intensité à votre confort.</p>"
+            "answer": "<p>Souvent autour de 15 minutes, en ligne avec une séance type pour retrouver la sensation de légèreté. Vous pouvez adapter la durée et l’une des 15 intensités à votre confort.</p>"
           }
         }
       },
