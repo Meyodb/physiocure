@@ -106,10 +106,10 @@
               {%- endif -%}
             </span>
             <span class="product-pack-card__price-col">
-              <span class="product-pack-card__price-current">{{ line_price | money }}</span>
               {%- if line_compare > line_price -%}
                 <span class="product-pack-card__price-compare">{{ line_compare | money }}</span>
               {%- endif -%}
+              <span class="product-pack-card__price-current">{{ line_price | money }}</span>
             </span>
           </span>
 
@@ -260,10 +260,10 @@
               {%- endif -%}
             </span>
             <span class="product-pack-card__price-col">
-              <span class="product-pack-card__price-current">{{ v.price | money }}</span>
               {%- if v_compare_display > v.price -%}
                 <span class="product-pack-card__price-compare">{{ v_compare_display | money }}</span>
               {%- endif -%}
+              <span class="product-pack-card__price-current">{{ v.price | money }}</span>
             </span>
           </span>
 

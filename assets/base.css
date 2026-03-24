@@ -597,10 +597,12 @@ button, input, select, textarea { font: inherit; }
 }
 .product-pack-card__price-compare {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--color-muted);
   text-decoration: line-through;
-  margin-top: 0.15rem;
+  text-decoration-thickness: 1px;
+  margin-bottom: 0.2rem;
 }
 .product-pack-card__bundles {
   display: flex;
