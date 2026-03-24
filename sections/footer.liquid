@@ -65,6 +65,10 @@
       {%- endif -%}
     </div>
 
+    {%- comment -%}
+      Liens « légaux » du menu : type policy, URL /policies/, ou titres habituels (FR).
+      Affichés uniquement sous « Informations légales », pas sous « Navigation ».
+    {%- endcomment -%}
     <div class="site-footer__columns">
       <div class="site-footer__block">
         <p class="footer-eyebrow" id="footer-nav-heading">Navigation</p>
@@ -74,7 +78,22 @@
             <li><a href="{{ routes.all_products_collection_url }}">Produits</a></li>
             {%- if section.settings.menu_footer != blank -%}
               {%- for link in section.settings.menu_footer.links -%}
-                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- liquid
+                  assign lt = link.title | downcase
+                  assign is_legal_link = false
+                  if link.type == 'policy'
+                    assign is_legal_link = true
+                  endif
+                  if link.url contains '/policies/'
+                    assign is_legal_link = true
+                  endif
+                  if lt contains 'remboursement' or lt contains 'confidentialit' or lt contains 'cgv' or lt contains 'conditions' and lt contains 'générales' or lt contains 'conditions' and lt contains 'generales' or lt contains 'mentions légales' or lt contains 'mentions legales' or lt contains 'mention légale' or lt contains 'mention legale' or lt contains 'politique de cookies'
+                    assign is_legal_link = true
+                  endif
+                -%}
+                {%- unless is_legal_link -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endunless -%}
               {%- endfor -%}
             {%- endif -%}
           </ul>
@@ -85,20 +104,59 @@
         <p class="footer-eyebrow" id="footer-legal-heading">Informations légales</p>
         <nav class="footer-nav" aria-labelledby="footer-legal-heading">
           <ul class="footer-nav__list" role="list">
+            {%- liquid
+              assign seen_legal_urls = '|'
+            -%}
             {%- if shop.policies.refund_policy != blank -%}
-              <li><a href="{{ shop.policies.refund_policy.url }}">{{ shop.policies.refund_policy.title }}</a></li>
+              {%- assign u = shop.policies.refund_policy.url -%}
+              <li><a href="{{ u }}">{{ shop.policies.refund_policy.title }}</a></li>
+              {%- assign seen_legal_urls = seen_legal_urls | append: u | append: '|' -%}
             {%- endif -%}
             {%- if shop.policies.shipping_policy != blank -%}
-              <li><a href="{{ shop.policies.shipping_policy.url }}">{{ shop.policies.shipping_policy.title }}</a></li>
+              {%- assign u = shop.policies.shipping_policy.url -%}
+              <li><a href="{{ u }}">{{ shop.policies.shipping_policy.title }}</a></li>
+              {%- assign seen_legal_urls = seen_legal_urls | append: u | append: '|' -%}
             {%- endif -%}
             {%- if shop.policies.privacy_policy != blank -%}
-              <li><a href="{{ shop.policies.privacy_policy.url }}">{{ shop.policies.privacy_policy.title }}</a></li>
+              {%- assign u = shop.policies.privacy_policy.url -%}
+              <li><a href="{{ u }}">{{ shop.policies.privacy_policy.title }}</a></li>
+              {%- assign seen_legal_urls = seen_legal_urls | append: u | append: '|' -%}
             {%- endif -%}
             {%- if shop.policies.terms_of_service != blank -%}
-              <li><a href="{{ shop.policies.terms_of_service.url }}">{{ shop.policies.terms_of_service.title }}</a></li>
+              {%- assign u = shop.policies.terms_of_service.url -%}
+              <li><a href="{{ u }}">{{ shop.policies.terms_of_service.title }}</a></li>
+              {%- assign seen_legal_urls = seen_legal_urls | append: u | append: '|' -%}
             {%- endif -%}
             {%- if shop.policies.legal_notice != blank -%}
-              <li><a href="{{ shop.policies.legal_notice.url }}">{{ shop.policies.legal_notice.title }}</a></li>
+              {%- assign u = shop.policies.legal_notice.url -%}
+              <li><a href="{{ u }}">{{ shop.policies.legal_notice.title }}</a></li>
+              {%- assign seen_legal_urls = seen_legal_urls | append: u | append: '|' -%}
+            {%- endif -%}
+            {%- if section.settings.menu_footer != blank -%}
+              {%- for link in section.settings.menu_footer.links -%}
+                {%- liquid
+                  assign lt = link.title | downcase
+                  assign is_legal_link = false
+                  if link.type == 'policy'
+                    assign is_legal_link = true
+                  endif
+                  if link.url contains '/policies/'
+                    assign is_legal_link = true
+                  endif
+                  if lt contains 'remboursement' or lt contains 'confidentialit' or lt contains 'cgv' or lt contains 'conditions' and lt contains 'générales' or lt contains 'conditions' and lt contains 'generales' or lt contains 'mentions légales' or lt contains 'mentions legales' or lt contains 'mention légale' or lt contains 'mention legale' or lt contains 'politique de cookies'
+                    assign is_legal_link = true
+                  endif
+                  assign needle = link.url | prepend: '|' | append: '|'
+                  assign seen = false
+                  if seen_legal_urls contains needle
+                    assign seen = true
+                  endif
+                -%}
+                {%- if is_legal_link and seen == false -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- assign seen_legal_urls = seen_legal_urls | append: link.url | append: '|' -%}
+                {%- endif -%}
+              {%- endfor -%}
             {%- endif -%}
           </ul>
         </nav>
@@ -163,7 +221,7 @@
       "type": "link_list",
       "id": "menu_footer",
       "label": "Menu pied de page",
-      "info": "Liens complémentaires (contact, à propos, etc.). Les pages légales sont listées automatiquement à côté."
+      "info": "Contact, à propos, etc. Les entrées reconnues comme légales (politiques Shopify, URL /policies/, titres CGV, confidentialité, mentions légales…) s’affichent dans la colonne Informations légales, pas ici."
     },
     {
       "type": "textarea",
