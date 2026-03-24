@@ -511,9 +511,10 @@ button, input, select, textarea { font: inherit; }
 }
 .product-pack-card__ribbon {
   position: absolute;
-  top: -0.45rem;
-  right: 0.65rem;
+  top: 0.55rem;
+  right: 0.75rem;
   z-index: 2;
+  max-width: min(11rem, calc(100% - 7.5rem));
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -522,6 +523,13 @@ button, input, select, textarea { font: inherit; }
   border-radius: 999px;
   background: var(--color-primary);
   color: var(--color-button-label);
+  text-align: center;
+  line-height: 1.2;
+  pointer-events: none;
+}
+/* Réserve de l’espace sous le badge pour ne pas chevaucher le prix (colonne droite) */
+.product-pack-card:has(.product-pack-card__ribbon) .product-pack-card__price-col {
+  padding-top: 1.85rem;
 }
 .product-pack-card__header {
   display: grid;
