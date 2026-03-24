@@ -717,6 +717,18 @@ button, input, select, textarea { font: inherit; }
   opacity: 0.55;
   cursor: not-allowed;
 }
+
+/* Pas de vente en ligne : masquer tout CTA panier / achat direct sur la fiche (backup si ancien markup) */
+.template-product #MainProduct .product-neuro-form__actions,
+.template-product #MainProduct .product-neuro-form__submit,
+.template-product #MainProduct button[type="submit"][name="add"],
+.template-product #MainProduct [data-buy-now],
+.template-product #MainProduct [data-pack-submit],
+.template-product #MainProduct [data-sticky-submit],
+.template-product #MainProduct .product-sticky-bar {
+  display: none !important;
+}
+
 .product-neuro-form__qty {
   max-width: 6rem;
 }
