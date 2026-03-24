@@ -2246,11 +2246,50 @@ body.nav-open { overflow: hidden; }
 .home-how-steps__body {
   position: relative;
   padding-left: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
 }
 @media (min-width: 768px) {
   .home-how-steps__body {
     padding-left: 0.5rem;
   }
+}
+.home-how-steps__visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+.home-how-steps__picto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-accent) 22%, var(--color-bg));
+  color: var(--color-primary);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+.home-how-steps__picto-svg {
+  display: block;
+  width: 1.55rem;
+  height: 1.55rem;
+}
+.home-how-steps__copy {
+  min-width: 0;
+  flex: 1;
+}
+.home-how-steps__title {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+}
+.home-how-steps__text {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.98rem;
 }
 .home-how-steps__num {
   display: inline-flex;
@@ -2263,7 +2302,6 @@ body.nav-open { overflow: hidden; }
   color: var(--color-primary);
   font-weight: 800;
   font-size: 0.95rem;
-  margin-bottom: 0.5rem;
 }
 .section-home-cta-banner {
   position: relative;
