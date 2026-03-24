@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainProduct = document.querySelector('#MainProduct[data-cart-add-url]');
   if (mainProduct) {
     const cartAddUrl = mainProduct.getAttribute('data-cart-add-url') || '/cart/add.js';
+    const cartClearUrl = cartAddUrl.replace('add.js', 'clear.js');
     let checkoutRoot = mainProduct.getAttribute('data-shop-checkout-root') || '/';
     if (checkoutRoot === '/') checkoutRoot = '';
     else checkoutRoot = checkoutRoot.replace(/\/$/, '');
@@ -211,6 +212,14 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
         btn.textContent = loadingLabel;
         try {
+          const clearRes = await fetch(cartClearUrl, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+          });
+          if (!clearRes.ok) {
+            throw new Error(errorLabel);
+          }
+
           const res = await fetch(cartAddUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
