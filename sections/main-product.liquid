@@ -330,6 +330,16 @@
       </div>
     </div>
 
+    {%- comment -%} Description repliable : sous le bandeau produit, avant les étapes et les avis {%- endcomment -%}
+    {%- if product.description != blank -%}
+      <details class="product-neuro-details" id="ProductDetails-{{ section.id }}">
+        <summary class="product-neuro-details__summary">{{ section.settings.details_toggle_label }}</summary>
+        <div class="product-neuro-details__body rte">
+          {{ product.description }}
+        </div>
+      </details>
+    {%- endif -%}
+
     {%- if visual_howto_blocks.size > 0 -%}
       {% render 'howto-visual-steps',
         heading: section.settings.visual_howto_heading,
@@ -379,16 +389,6 @@
           </blockquote>
         {%- endfor -%}
       </div>
-    {%- endif -%}
-
-    {%- comment -%} Détails repliables {%- endcomment -%}
-    {%- if product.description != blank -%}
-      <details class="product-neuro-details" id="ProductDetails-{{ section.id }}">
-        <summary class="product-neuro-details__summary">{{ section.settings.details_toggle_label }}</summary>
-        <div class="product-neuro-details__body rte">
-          {{ product.description }}
-        </div>
-      </details>
     {%- endif -%}
 
     {%- if show_testimonial_carousel -%}
@@ -731,7 +731,7 @@
       "id": "visual_howto_heading",
       "label": "Titre du bloc « 3 étapes visuelles »",
       "default": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
-      "info": "S’affiche après le bandeau de miniatures, si vous ajoutez des blocs « Étape visuelle »."
+      "info": "S’affiche après la description repliable du produit, si vous ajoutez des blocs « Étape visuelle »."
     },
     {
       "type": "select",
