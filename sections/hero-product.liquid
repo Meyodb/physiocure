@@ -30,6 +30,50 @@
             >
           {%- endif -%}
         </div>
+        {%- liquid
+          assign show_thumbs = section.settings.show_thumb_row
+          if section.settings.hero_image_secondary != blank or section.settings.hero_image_tertiary != blank
+            assign show_thumbs = true
+          endif
+        -%}
+        {%- if show_thumbs -%}
+          <div class="hero-product__thumbs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-top: 0.75rem;">
+            {%- if section.settings.hero_image_secondary != blank -%}
+              <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+                {{
+                  section.settings.hero_image_secondary
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 900px) 25vw, 50vw',
+                    widths: '300, 450, 700',
+                    alt: section.settings.hero_image_secondary.alt | default: hero_alt
+                }}
+              </div>
+            {%- else -%}
+              <div style="border-radius: 12px; overflow: hidden;">
+                {% render 'home-image-placeholder', label: '2e photo — détail', ratio: '1 / 1' %}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.hero_image_tertiary != blank -%}
+              <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+                {{
+                  section.settings.hero_image_tertiary
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 900px) 25vw, 50vw',
+                    widths: '300, 450, 700',
+                    alt: section.settings.hero_image_tertiary.alt | default: hero_alt
+                }}
+              </div>
+            {%- else -%}
+              <div style="border-radius: 12px; overflow: hidden;">
+                {% render 'home-image-placeholder', label: '3e photo — lifestyle', ratio: '1 / 1' %}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
       <div>
         {%- if section.settings.badge != blank -%}
@@ -41,6 +85,11 @@
         <p style="font-size: 1.1rem; color: var(--color-muted); max-width: 36rem;">
           {{ section.settings.subheading }}
         </p>
+        {%- if section.settings.show_product_excerpt and featured != blank and featured.description != blank -%}
+          <p style="font-size: 1rem; color: var(--color-muted); max-width: 36rem; margin-top: 1rem;">
+            {{ featured.description | strip_html | truncatewords: 48 }}
+          </p>
+        {%- endif -%}
 
         {%- liquid
           if featured != blank
@@ -95,6 +144,31 @@
       "id": "hero_image",
       "label": "Image hero",
       "info": "Optionnel : remplace la photo d’accueil lifestyle incluse dans le thème."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_secondary",
+      "label": "Image secondaire (sous le hero)",
+      "info": "Active la rangée de vignettes : laissez vide pour afficher un emplacement réservé."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_tertiary",
+      "label": "Image tertiaire (sous le hero)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumb_row",
+      "label": "Afficher la rangée 2e / 3e photo (même vides)",
+      "default": true,
+      "info": "Utile pour voir les emplacements dans l’éditeur ; désactivez pour un hero plus compact."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_excerpt",
+      "label": "Afficher un extrait de la description produit",
+      "default": true,
+      "info": "Sous le sous-titre, si un produit vedette est sélectionné."
     },
     {
       "type": "text",

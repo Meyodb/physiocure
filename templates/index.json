@@ -37,9 +37,17 @@
         "point_3"
       ],
       "settings": {
+        "hero_image": "",
+        "hero_image_secondary": "",
+        "hero_image_tertiary": "",
+        "show_thumb_row": true,
+        "show_product_excerpt": true,
+        "hero_alt": "Femme détendue dans un salon lumineux, appareil de bien-être pour les jambes",
+        "product": "",
         "badge": "Bien-être & récupération",
         "heading": "Retrouvez la légèreté de vos jambes en 15 minutes.",
         "subheading": "Soulagez la sensation de jambes lourdes et retrouvez la légèreté — quelques minutes par jour, confortablement installé chez vous.",
+        "primary_cta_page": "",
         "primary_cta_label": "Soulager mes jambes maintenant",
         "secondary_cta_label": "Voir les détails"
       }
@@ -57,24 +65,180 @@
         "t2": {
           "type": "item",
           "settings": {
-            "label": "SAV",
-            "detail": "Sous 48 h ouvrées"
+            "label": "Paiement",
+            "detail": "Transactions sécurisées"
           }
         },
         "t3": {
           "type": "item",
           "settings": {
+            "label": "SAV",
+            "detail": "Réponse sous 48 h ouvrées"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
             "label": "Transparence",
-            "detail": "Retours & infos claires"
+            "detail": "Retours & politique claire"
           }
         }
       },
       "block_order": [
         "t1",
         "t2",
-        "t3"
+        "t3",
+        "t4"
       ],
       "settings": {}
+    },
+    "featured_collection": {
+      "type": "home-featured-collection",
+      "settings": {
+        "eyebrow": "Notre sélection",
+        "heading": "Produits pour votre routine bien-être",
+        "subheading": "Choisissez la collection à mettre en avant dans l’éditeur de thème (ex. « Tous les produits » ou une collection dédiée).",
+        "collection": "",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "Voir toute la gamme",
+        "empty_state": "Dans Shopify : personnaliser le thème → accueil → cette section → sélectionnez une collection."
+      }
+    },
+    "product_specs": {
+      "type": "home-product-specs",
+      "blocks": {
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "label": "Intensité",
+            "value": "15 niveaux ajustables pour adapter la séance"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "label": "Chaleur",
+            "value": "Diffusion progressive, réglable selon votre confort"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "label": "Zones",
+            "value": "Jambes, pieds et voûte plantaire"
+          }
+        },
+        "spec_4": {
+          "type": "spec",
+          "settings": {
+            "label": "Essai",
+            "value": "Garantie satisfait ou remboursé 90 jours"
+          }
+        },
+        "spec_5": {
+          "type": "spec",
+          "settings": {
+            "label": "Utilisation",
+            "value": "Séances courtes à la maison, interface simple"
+          }
+        }
+      },
+      "block_order": [
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4",
+        "spec_5"
+      ],
+      "settings": {
+        "product": "",
+        "eyebrow": "Spécificités",
+        "heading": "Conçu pour le confort au quotidien",
+        "intro": "",
+        "image_main": "",
+        "image_secondary": "",
+        "image_tertiary": "",
+        "cta_label": "Découvrir le produit",
+        "cta_custom_link": "",
+        "cta_secondary_label": "Acheter maintenant"
+      }
+    },
+    "how_it_works": {
+      "type": "home-how-it-works",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "image": "",
+            "title": "Branchez et choisissez votre programme",
+            "text": "Plusieurs intensités et modes pour adapter la séance à votre journée."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "image": "",
+            "title": "Laissez agir 10 à 20 minutes",
+            "text": "Détente ciblée jambes et pieds, avec chaleur douce si vous le souhaitez."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "image": "",
+            "title": "Ressentez la légèreté",
+            "text": "Intégrez la séance à votre routine du soir ou après l’effort."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "heading": "Comment ça marche",
+        "subheading": "Trois étapes simples — sans contrainte, chez vous."
+      }
+    },
+    "image_slots": {
+      "type": "home-image-slots",
+      "blocks": {
+        "slot_1": {
+          "type": "slot",
+          "settings": {
+            "image": "",
+            "placeholder_label": "Photo ambiance / salon",
+            "caption": ""
+          }
+        },
+        "slot_2": {
+          "type": "slot",
+          "settings": {
+            "image": "",
+            "placeholder_label": "Gros plan produit",
+            "caption": ""
+          }
+        },
+        "slot_3": {
+          "type": "slot",
+          "settings": {
+            "image": "",
+            "placeholder_label": "En situation d’usage",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "slot_1",
+        "slot_2",
+        "slot_3"
+      ],
+      "settings": {
+        "heading": "En images",
+        "subheading": "Remplacez chaque emplacement par vos visuels (lifestyle, détails, packaging) depuis l’éditeur."
+      }
     },
     "benefits": {
       "type": "benefits-columns",
@@ -82,6 +246,8 @@
         "b1": {
           "type": "column",
           "settings": {
+            "image": "",
+            "show_placeholder": true,
             "title": "Récupération",
             "text": "Idéal après une longue journée debout ou une séance d’entraînement."
           }
@@ -89,6 +255,8 @@
         "b2": {
           "type": "column",
           "settings": {
+            "image": "",
+            "show_placeholder": true,
             "title": "Usage simple",
             "text": "Interface claire : choisissez un programme et installez-vous confortablement."
           }
@@ -96,6 +264,8 @@
         "b3": {
           "type": "column",
           "settings": {
+            "image": "",
+            "show_placeholder": true,
             "title": "Qualité perçue",
             "text": "Matériaux et finitions pensés pour durer — pas d’effet « gadget »."
           }
@@ -107,7 +277,7 @@
         "b3"
       ],
       "settings": {
-        "heading": "Pourquoi ce masseur s’intègre à votre routine"
+        "heading": "Pourquoi s’y intégrer à votre routine"
       }
     },
     "testimonials": {
@@ -128,15 +298,35 @@
             "author": "Élodie T.",
             "role": "Lyon"
           }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "quote": "Après mes journées debout, 15 minutes suffisent pour sentir la différence.",
+            "author": "Sophie M.",
+            "role": "Infirmière"
+          }
         }
       },
       "block_order": [
         "q1",
-        "q2"
+        "q2",
+        "q3"
       ],
       "settings": {
         "heading": "Ils ont intégré la routine bien-être",
         "disclaimer": "Avis recueillis auprès de clients ayant laissé un retour après achat."
+      }
+    },
+    "cta_banner": {
+      "type": "home-cta-banner",
+      "settings": {
+        "heading": "Prêt à soulager vos jambes ?",
+        "text": "Livraison suivie, SAV réactif et informations claires sur les retours — commandez en toute confiance.",
+        "button_label": "Voir les produits",
+        "button_link": "",
+        "button_page": "",
+        "image": ""
       }
     },
     "faq_home": {
@@ -162,12 +352,20 @@
             "question": "Le produit convient-il à tous les pieds ?",
             "answer": "<p>Les dimensions et programmes sont pensés pour la majorité des morphologies adultes. En cas de pathologie, demandez l’avis d’un professionnel de santé.</p>"
           }
+        },
+        "faq4": {
+          "type": "qa",
+          "settings": {
+            "question": "Combien de temps dure une séance ?",
+            "answer": "<p>En général 10 à 20 minutes selon le programme choisi. Vous pouvez adapter la durée et l’intensité à votre confort.</p>"
+          }
         }
       },
       "block_order": [
         "faq1",
         "faq2",
-        "faq3"
+        "faq3",
+        "faq4"
       ],
       "settings": {
         "heading": "Questions fréquentes"
@@ -184,8 +382,13 @@
   "order": [
     "hero_product",
     "trust_strip",
+    "featured_collection",
+    "product_specs",
+    "how_it_works",
+    "image_slots",
     "benefits",
     "testimonials",
+    "cta_banner",
     "faq_home",
     "newsletter"
   ]

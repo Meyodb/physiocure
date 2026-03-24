@@ -1,0 +1,17 @@
+{%- comment -%}
+  Zone réservée pour une image (éditeur de thème).
+  @param label {String} texte affiché dans l’emplacement vide
+  @param ratio {String} ex. "4 / 3", "1 / 1", "16 / 9"
+{%- endcomment -%}
+{%- assign ph_ratio = ratio | default: '4 / 3' -%}
+<div
+  class="home-img-placeholder"
+  style="aspect-ratio: {{ ph_ratio }};"
+  role="img"
+  aria-label="{{ label | escape }}"
+>
+  <span class="home-img-placeholder__inner">
+    <span class="home-img-placeholder__icon" aria-hidden="true">+</span>
+    <span class="home-img-placeholder__label">{{ label | escape }}</span>
+  </span>
+</div>

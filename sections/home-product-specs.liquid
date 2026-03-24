@@ -1,0 +1,207 @@
+{%- assign p = section.settings.product -%}
+<section class="section-padding section-home-product-specs">
+  <div class="page-width">
+    <div class="home-product-specs__grid">
+      <div class="home-product-specs__media">
+        <div class="home-product-specs__media-main">
+          {%- if section.settings.image_main != blank -%}
+            {{
+              section.settings.image_main
+              | image_url: width: 1000
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 900px) 48vw, 100vw',
+                widths: '400, 600, 800, 1000',
+                alt: section.settings.image_main.alt | default: section.settings.heading
+            }}
+          {%- else -%}
+            {% render 'home-image-placeholder', label: 'Image principale — ajoutez-la ici', ratio: '4 / 5' %}
+          {%- endif -%}
+        </div>
+        <div class="home-product-specs__media-sub">
+          {%- if section.settings.image_secondary != blank -%}
+            {{
+              section.settings.image_secondary
+              | image_url: width: 600
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 900px) 24vw, 50vw',
+                widths: '300, 450, 600',
+                alt: section.settings.image_secondary.alt | default: section.settings.heading
+            }}
+          {%- else -%}
+            {% render 'home-image-placeholder', label: 'Photo détail / contexte', ratio: '1 / 1' %}
+          {%- endif -%}
+          {%- if section.settings.image_tertiary != blank -%}
+            {{
+              section.settings.image_tertiary
+              | image_url: width: 600
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 900px) 24vw, 50vw',
+                widths: '300, 450, 600',
+                alt: section.settings.image_tertiary.alt | default: section.settings.heading
+            }}
+          {%- else -%}
+            {% render 'home-image-placeholder', label: 'Lifestyle ou packaging', ratio: '1 / 1' %}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="home-product-specs__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="home-section-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 1rem;">
+          {%- if section.settings.heading != blank -%}
+            {{ section.settings.heading }}
+          {%- elsif p != blank -%}
+            {{ p.title }}
+          {%- else -%}
+            Fiche produit
+          {%- endif -%}
+        </h2>
+
+        {%- if section.settings.intro != blank -%}
+          <div class="rte" style="color: var(--color-muted); margin-bottom: 1.25rem;">{{ section.settings.intro }}</div>
+        {%- elsif p != blank and p.description != blank -%}
+          <div class="rte" style="color: var(--color-muted); margin-bottom: 1.25rem;">
+            {{ p.description | strip_html | truncatewords: 42 }}
+          </div>
+        {%- endif -%}
+
+        {%- if p != blank -%}
+          <div style="margin-bottom: 1.5rem;">
+            {% render 'price', product: p %}
+          </div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <dl class="home-spec-list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'spec' -%}
+                <div class="home-spec-list__row" {{ block.shopify_attributes }}>
+                  <dt>{{ block.settings.label }}</dt>
+                  <dd>{{ block.settings.value }}</dd>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </dl>
+        {%- endif -%}
+
+        {%- liquid
+          assign cta_url = section.settings.cta_custom_link
+          if cta_url == blank and p != blank
+            assign cta_url = p.url
+          elsif cta_url == blank
+            assign cta_url = routes.all_products_collection_url
+          endif
+        -%}
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem;">
+          <a href="{{ cta_url }}" class="btn">{{ section.settings.cta_label }}</a>
+          {%- if p != blank -%}
+            <a href="{{ p.url }}#MainProduct" class="btn btn--secondary">{{ section.settings.cta_secondary_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Détail produit accueil",
+  "tag": "section",
+  "class": "section-home-product-specs",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Produit de référence",
+      "info": "Utilisé pour le titre, le prix, l’extrait de description et les boutons."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "En détail"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre (optionnel)",
+      "info": "Si vide, le nom du produit est utilisé."
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Texte d’introduction",
+      "info": "Remplace l’extrait automatique de la description produit."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_main",
+      "label": "Image principale (grande)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_secondary",
+      "label": "Image secondaire (carré)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_tertiary",
+      "label": "Image tertiaire (carré)"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton principal",
+      "default": "Découvrir le produit"
+    },
+    {
+      "type": "url",
+      "id": "cta_custom_link",
+      "label": "Lien du bouton principal (optionnel)",
+      "info": "Par défaut : fiche du produit choisi, ou catalogue."
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Bouton secondaire",
+      "default": "Acheter maintenant"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Spécification",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "Programmes"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Valeur",
+          "default": "Plusieurs modes massage + chaleur"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Détail produit accueil",
+      "blocks": [
+        { "type": "spec", "settings": { "label": "Intensité", "value": "15 niveaux ajustables" } },
+        { "type": "spec", "settings": { "label": "Chaleur", "value": "Diffusion progressive, réglable" } },
+        { "type": "spec", "settings": { "label": "Zone", "value": "Jambes, pieds et voûte plantaire" } },
+        { "type": "spec", "settings": { "label": "Essai", "value": "Garantie satisfait ou remboursé 90 jours" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

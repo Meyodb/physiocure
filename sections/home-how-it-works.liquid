@@ -1,0 +1,117 @@
+<section class="section-padding section-home-how-it-works" style="background: var(--color-surface); border-block: 1px solid rgba(0,0,0,0.06);">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 style="text-align: center; font-size: clamp(1.45rem, 3vw, 2rem); margin: 0 0 0.5rem;">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p style="text-align: center; color: var(--color-muted); max-width: 34rem; margin: 0 auto 2.5rem;">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <ol class="home-how-steps" style="list-style: none; padding: 0; margin: 0;">
+      {%- for block in section.blocks -%}
+        <li class="home-how-steps__item" {{ block.shopify_attributes }}>
+          <div class="home-how-steps__media">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 700
+                | image_tag:
+                  loading: 'lazy',
+                  sizes: '(min-width: 900px) 280px, 100vw',
+                  widths: '300, 450, 700',
+                  alt: block.settings.image.alt | default: block.settings.title
+              }}
+            {%- else -%}
+              {%- assign step_ph_label = 'Étape ' | append: forloop.index | append: ' — ajoutez une image' -%}
+              {% render 'home-image-placeholder', label: step_ph_label, ratio: '1 / 1' %}
+            {%- endif -%}
+          </div>
+          <div class="home-how-steps__body">
+            <span class="home-how-steps__num" aria-hidden="true">{{ forloop.index }}</span>
+            {%- if block.settings.title != blank -%}
+              <h3 style="font-size: 1.15rem; margin: 0 0 0.5rem;">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p style="margin: 0; color: var(--color-muted); font-size: 0.98rem;">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Étapes clés accueil",
+  "tag": "section",
+  "class": "section-home-how-it-works",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "3 étapes pour votre routine"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Sous-titre",
+      "default": "Simple, rapide, sans contrainte — à la maison ou après le travail."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Étape",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optionnelle)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Installez-vous confortablement"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Asseyez-vous, choisissez un programme sur l’interface claire."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Étapes clés accueil",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Branchez et choisissez votre programme",
+            "text": "Plusieurs intensités et modes pour adapter la séance à votre journée."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Laissez agir 10 à 20 minutes",
+            "text": "Détente ciblée jambes et pieds, avec chaleur douce si vous le souhaitez."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Ressentez la légèreté",
+            "text": "Intégrez la séance à votre routine du soir ou après l’effort."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

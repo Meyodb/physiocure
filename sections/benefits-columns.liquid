@@ -7,7 +7,25 @@
     {%- endif -%}
     <div style="display:grid; gap:1.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
       {%- for block in section.blocks -%}
-        <div style="padding:1.5rem; border-radius:14px; background: var(--color-bg); border: 1px solid rgba(0,0,0,0.05);" {{ block.shopify_attributes }}>
+        <div class="benefits-column-card" style="padding:1.5rem; border-radius:14px; background: var(--color-bg); border: 1px solid rgba(0,0,0,0.05);" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="benefits-column-card__media" style="border-radius: 10px; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(0,0,0,0.06); aspect-ratio: 16/10; background: var(--color-surface);">
+              {{
+                block.settings.image
+                | image_url: width: 640
+                | image_tag:
+                  loading: 'lazy',
+                  sizes: '(min-width: 900px) min(28vw, 320px), 92vw',
+                  widths: '320, 480, 640',
+                  alt: block.settings.image.alt | default: block.settings.title,
+                  style: 'width:100%;height:100%;object-fit:cover;'
+              }}
+            </div>
+          {%- elsif block.settings.show_placeholder -%}
+            <div style="margin-bottom: 1rem;">
+              {% render 'home-image-placeholder', label: 'Image colonne', ratio: '16 / 10' %}
+            </div>
+          {%- endif -%}
           {%- if block.settings.title != blank -%}
             <h3 style="font-size:1.05rem; margin:0 0 0.5rem;">{{ block.settings.title }}</h3>
           {%- endif -%}
@@ -37,6 +55,18 @@
       "type": "column",
       "name": "Colonne",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optionnelle)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_placeholder",
+          "label": "Afficher un emplacement image vide",
+          "default": true,
+          "info": "Sans image : zone en pointillés pour guider l’ajout de visuels."
+        },
         { "type": "text", "id": "title", "label": "Titre", "default": "Confort ciblé" },
         { "type": "textarea", "id": "text", "label": "Texte", "default": "Zones réflexes et muscles sollicités par la marche ou le sport." }
       ]
