@@ -374,8 +374,9 @@ button, input, select, textarea { font: inherit; }
   margin: 0 0 0.75rem;
   line-height: 1.15;
 }
-.product-neuro-buy__jdgm-badge {
-  margin: 0 0 0.75rem;
+.product-neuro-buy__jdgm-widget {
+  margin: 0 0 1rem;
+  min-width: 0;
 }
 .product-neuro-buy__usp {
   margin: 0 0 1rem;
