@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="{{ settings.colors_accent }}">
+    <meta name="theme-color" content="{{ settings.colors_primary | default: '#1A365D' }}">
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
@@ -35,6 +35,7 @@
       :root {
         --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
         --font-heading: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+        --color-primary: {{ settings.colors_primary | default: '#1A365D' }};
         --color-bg: {{ settings.colors_background }};
         --color-surface: {{ settings.colors_surface }};
         --color-text: {{ settings.colors_text }};

@@ -1,13 +1,14 @@
 {
   "current": {
-    "colors_background": "#F7F5F2",
+    "colors_primary": "#1A365D",
+    "colors_background": "#F7FAFC",
     "colors_surface": "#FFFFFF",
-    "colors_text": "#1C1C1E",
-    "colors_muted": "#5C5C5C",
-    "colors_accent": "#2D6A4F",
-    "colors_button": "#1B4332",
-    "colors_button_label": "#FFFFFF",
-    "type_heading_font": "instrument_sans_n4",
+    "colors_text": "#2D3748",
+    "colors_muted": "#718096",
+    "colors_accent": "#4FD1C5",
+    "colors_button": "#4FD1C5",
+    "colors_button_label": "#1A365D",
+    "type_heading_font": "montserrat_n6",
     "type_body_font": "inter_n4",
     "sections": {}
   }

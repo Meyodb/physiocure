@@ -9,7 +9,7 @@
 
     {% form 'contact' %}
       {%- if form.posted_successfully? -%}
-        <p style="color: var(--color-accent); font-weight:600;">{{ 'contact.form.post_success' | t }}</p>
+        <p style="color: var(--color-primary); font-weight:600;">{{ 'contact.form.post_success' | t }}</p>
       {%- else -%}
         {{ form.errors | default_errors }}
         <div class="field">

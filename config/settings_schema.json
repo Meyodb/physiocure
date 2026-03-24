@@ -12,9 +12,16 @@
     "settings": [
       {
         "type": "color",
+        "id": "colors_primary",
+        "label": "Primaire (marque, titres, liens)",
+        "default": "#1A365D",
+        "info": "Bleu cobalt — confiance et expertise (charte PhysioCure)."
+      },
+      {
+        "type": "color",
         "id": "colors_background",
         "label": "Fond principal",
-        "default": "#F7F5F2"
+        "default": "#F7FAFC"
       },
       {
         "type": "color",
@@ -26,31 +33,32 @@
         "type": "color",
         "id": "colors_text",
         "label": "Texte",
-        "default": "#1C1C1E"
+        "default": "#2D3748"
       },
       {
         "type": "color",
         "id": "colors_muted",
         "label": "Texte secondaire",
-        "default": "#5C5C5C"
+        "default": "#718096"
       },
       {
         "type": "color",
         "id": "colors_accent",
-        "label": "Accent",
-        "default": "#2D6A4F"
+        "label": "Accent (menthe)",
+        "default": "#4FD1C5",
+        "info": "Mise en avant et actions — préférer le primaire pour le texte sur fond clair."
       },
       {
         "type": "color",
         "id": "colors_button",
         "label": "Bouton",
-        "default": "#1B4332"
+        "default": "#4FD1C5"
       },
       {
         "type": "color",
         "id": "colors_button_label",
         "label": "Texte des boutons",
-        "default": "#FFFFFF"
+        "default": "#1A365D"
       }
     ]
   },
@@ -60,7 +68,7 @@
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "instrument_sans_n4",
+        "default": "montserrat_n6",
         "label": "Police des titres"
       },
       {

@@ -15,8 +15,9 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-heading-weight, 600);
   line-height: 1.2;
   margin: 0 0 0.5em;
+  color: var(--color-primary);
 }
-a { color: var(--color-accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a { color: var(--color-primary); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { opacity: 0.88; }
 img, video { max-width: 100%; height: auto; vertical-align: middle; }
 button, input, select, textarea { font: inherit; }
@@ -63,8 +64,8 @@ button, input, select, textarea { font: inherit; }
   text-transform: uppercase;
   padding: 0.35rem 0.65rem;
   border-radius: 4px;
-  background: rgba(45, 106, 79, 0.12);
-  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 22%, var(--color-bg));
+  color: var(--color-primary);
 }
 .price { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
 .price__current { font-size: 1.35rem; font-weight: 700; }
@@ -134,7 +135,7 @@ button, input, select, textarea { font: inherit; }
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--color-text);
+  color: var(--color-primary);
   text-decoration: none;
 }
 .header-logo img { max-height: 40px; width: auto; }
@@ -197,7 +198,7 @@ body.nav-open { overflow: hidden; }
 .site-footer {
   margin-top: auto;
   padding-block: 3rem 2rem;
-  background: var(--color-text);
+  background: var(--color-primary);
   color: color-mix(in srgb, var(--color-surface) 88%, transparent);
 }
 .site-footer a { color: inherit; opacity: 0.95; }

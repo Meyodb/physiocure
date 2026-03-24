@@ -25,7 +25,7 @@
         <button type="submit" class="btn" name="commit">{{ 'newsletter.button_label' | t }}</button>
       </div>
       {%- if form.posted_successfully? -%}
-        <p style="margin-top:1rem; color: var(--color-accent); font-weight:600;">{{ 'newsletter.success' | t }}</p>
+        <p style="margin-top:1rem; color: var(--color-primary); font-weight:600;">{{ 'newsletter.success' | t }}</p>
       {%- endif -%}
     {% endform %}
   </div>
