@@ -7,9 +7,10 @@
   if marquee_seconds < 15
     assign marquee_seconds = 45
   endif
+  assign respect_reduced_motion = section.settings.respect_reduced_motion
 -%}
 <section
-  class="section-padding section-trust-strip trust-strip-marquee-section"
+  class="section-padding section-trust-strip trust-strip-marquee-section{% unless respect_reduced_motion %} trust-strip-marquee-section--force-auto-scroll{% endunless %}"
   style="--trust-marquee-duration: {{ marquee_seconds }}s; padding-block: clamp(1.5rem, 3.5vw, 2.5rem);"
   aria-label="{{ trust_aria | escape }}"
 >
@@ -75,6 +76,13 @@
       "id": "accessibility_label",
       "label": "Libellé accessibilité (lecteurs d’écran)",
       "default": "Nos engagements : livraison, paiement, SAV et transparence"
+    },
+    {
+      "type": "checkbox",
+      "id": "respect_reduced_motion",
+      "label": "Respecter « Réduire les animations » du navigateur",
+      "default": false,
+      "info": "Décoché (défaut) : défilement automatique pour tous. Coché : sans animation auto si le visiteur a activé moins d’animations (bandeau défilable au doigt)."
     }
   ],
   "blocks": [

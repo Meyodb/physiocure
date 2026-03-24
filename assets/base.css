@@ -1455,8 +1455,13 @@ body.product-sticky-bar-on {
     animation-play-state: paused;
   }
 }
+/* Pause au survol même si « Réduire les animations » est contourné (option thème) */
+.trust-strip-marquee-section--force-auto-scroll .trust-strip-marquee:hover .trust-strip-marquee__track,
+.trust-strip-marquee-section--force-auto-scroll .trust-strip-marquee:focus-within .trust-strip-marquee__track {
+  animation-play-state: paused;
+}
 @media (prefers-reduced-motion: reduce) {
-  .trust-strip-marquee__viewport {
+  .trust-strip-marquee-section:not(.trust-strip-marquee-section--force-auto-scroll) .trust-strip-marquee__viewport {
     mask-image: none;
     overflow-x: auto;
     overflow-y: hidden;
@@ -1464,7 +1469,7 @@ body.product-sticky-bar-on {
     scrollbar-width: thin;
     overscroll-behavior-x: contain;
   }
-  .trust-strip-marquee__track {
+  .trust-strip-marquee-section:not(.trust-strip-marquee-section--force-auto-scroll) .trust-strip-marquee__track {
     animation: none;
     width: max-content;
     min-width: max-content;
@@ -1472,22 +1477,23 @@ body.product-sticky-bar-on {
     justify-content: flex-start;
     padding: 0.35rem 0.75rem;
   }
-  .trust-strip-marquee__list {
+  .trust-strip-marquee-section:not(.trust-strip-marquee-section--force-auto-scroll) .trust-strip-marquee__list {
     flex-wrap: nowrap;
     justify-content: flex-start;
     padding: 0 1.5rem;
     max-width: none;
   }
-  .trust-strip-marquee__list--clone {
+  .trust-strip-marquee-section:not(.trust-strip-marquee-section--force-auto-scroll) .trust-strip-marquee__list--clone {
     display: none;
   }
-  .trust-strip-marquee__item {
+  .trust-strip-marquee-section:not(.trust-strip-marquee-section--force-auto-scroll) .trust-strip-marquee__item {
     white-space: nowrap;
     text-align: inherit;
     flex-wrap: nowrap;
     justify-content: flex-start;
   }
-  .trust-strip-marquee__item:not(:last-child) {
+  .trust-strip-marquee-section:not(.trust-strip-marquee-section--force-auto-scroll)
+    .trust-strip-marquee__item:not(:last-child) {
     padding-right: 2.25rem;
     margin-right: 2.25rem;
     border-right: 1px solid color-mix(in srgb, var(--color-muted) 35%, transparent);

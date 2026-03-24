@@ -96,7 +96,8 @@
       ],
       "settings": {
         "marquee_duration": 45,
-        "accessibility_label": "Nos engagements : livraison, paiement, SAV et transparence"
+        "accessibility_label": "Nos engagements : livraison, paiement, SAV et transparence",
+        "respect_reduced_motion": false
       }
     },
     "how_it_works": {
