@@ -253,7 +253,6 @@
               {%- endif -%}
             </div>
             {% endform %}
-            {% render 'payment-icons', extra_class: 'payment-icons--below-cta payment-icons--product' %}
           </div>
         {%- else -%}
           <div class="product-neuro-price-card">
@@ -329,7 +328,6 @@
                 {%- endif -%}
               </div>
             {% endform %}
-            {% render 'payment-icons', extra_class: 'payment-icons--below-cta payment-icons--product' %}
           </div>
         {%- endif -%}
 
@@ -349,6 +347,8 @@
             </li>
           </ul>
         {%- endif -%}
+
+        {% render 'payment-icons', extra_class: 'payment-icons--below-cta payment-icons--product payment-icons--after-trust' %}
       </div>
     </div>
 

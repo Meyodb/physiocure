@@ -771,10 +771,13 @@ button, input, select, textarea { font: inherit; }
   cursor: not-allowed;
 }
 
-/* Moyens de paiement (SVG boutique) sous les CTA */
+/* Moyens de paiement (SVG boutique) sous la barre de confiance / CTA */
 .payment-icons--below-cta {
   margin-top: 1rem;
   width: 100%;
+}
+.product-neuro-trust + .payment-icons--after-trust {
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
 }
 .payment-icons__list {
   display: flex;
