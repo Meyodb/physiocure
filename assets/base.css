@@ -1565,13 +1565,79 @@ body.product-sticky-bar-on {
 }
 .errors { color: #b42318; margin: 0 0 1rem; padding-left: 1.25rem; }
 
-/* Header */
+/* Header — bandeau d’annonce marquee (défilement gauche → droite) */
 .header-announcement {
-  text-align: center;
-  font-size: 0.85rem;
-  padding: 0.5rem 1rem;
   background: var(--color-button);
   color: var(--color-button-label);
+  overflow: hidden;
+}
+.header-announcement__viewport {
+  overflow: hidden;
+  padding-block: 0.5rem;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 2.5%,
+    #000 97.5%,
+    transparent
+  );
+}
+.header-announcement__track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: max-content;
+  animation-name: header-announcement-marquee;
+  animation-duration: var(--header-announcement-duration, 30s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+.header-announcement__segment {
+  flex-shrink: 0;
+  padding-inline: clamp(1.5rem, 4vw, 2.75rem);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+@keyframes header-announcement-marquee {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .header-announcement:hover .header-announcement__track,
+  .header-announcement:focus-within .header-announcement__track {
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header-announcement__viewport {
+    mask-image: none;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+    text-align: center;
+  }
+  .header-announcement__track {
+    animation: none;
+    width: max-content;
+    margin-inline: auto;
+  }
+  .header-announcement__segment[aria-hidden="true"] {
+    display: none;
+  }
+  .header-announcement__segment {
+    padding-inline: 1rem;
+  }
 }
 .site-header {
   position: sticky;

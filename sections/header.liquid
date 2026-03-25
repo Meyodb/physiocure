@@ -1,5 +1,25 @@
+{%- liquid
+  assign ann_seconds = section.settings.announcement_marquee_seconds | default: 30 | plus: 0
+  if ann_seconds < 12
+    assign ann_seconds = 30
+  elsif ann_seconds > 90
+    assign ann_seconds = 90
+  endif
+-%}
 {%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
-  <div class="header-announcement">{{ section.settings.announcement_text }}</div>
+  <div
+    class="header-announcement"
+    role="region"
+    aria-label="{{ 'sections.header.announcement' | t }}"
+    style="--header-announcement-duration: {{ ann_seconds }}s;"
+  >
+    <div class="header-announcement__viewport">
+      <div class="header-announcement__track">
+        <span class="header-announcement__segment">{{ section.settings.announcement_text }}</span>
+        <span class="header-announcement__segment" aria-hidden="true">{{ section.settings.announcement_text }}</span>
+      </div>
+    </div>
+  </div>
 {%- endif -%}
 
 <header class="site-header" data-header role="banner">
@@ -102,7 +122,17 @@
       "type": "text",
       "id": "announcement_text",
       "label": "Texte d'annonce",
-      "default": "Livraison suivie · Paiement sécurisé · Service client réactif"
+      "default": "📦 Livraison suivie · 🔒 Paiement sécurisé · 💬 Service client réactif"
+    },
+    {
+      "type": "range",
+      "id": "announcement_marquee_seconds",
+      "min": 15,
+      "max": 90,
+      "step": 5,
+      "unit": "s",
+      "label": "Durée d'un cycle de défilement",
+      "default": 30
     },
     {
       "type": "image_picker",
