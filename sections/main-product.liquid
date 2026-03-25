@@ -379,7 +379,7 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} Détails repliables + bandeau images {%- endcomment -%}
+    {%- comment -%} Description repliable {%- endcomment -%}
     {%- if product.description != blank -%}
       <details class="product-neuro-details" id="ProductDetails-{{ section.id }}">
         <summary class="product-neuro-details__summary">{{ section.settings.details_toggle_label }}</summary>
@@ -387,23 +387,6 @@
           {{ product.description }}
         </div>
       </details>
-    {%- endif -%}
-
-    {%- if product.media.size > 1 -%}
-      <div class="product-neuro-strip-wrap">
-        <div class="product-neuro-strip" role="list" aria-label="{{ section.settings.media_strip_label | escape }}">
-          {%- for media in product.media -%}
-            <div class="product-neuro-strip__cell" role="listitem">
-              {{
-                media.preview_image
-                | default: media
-                | image_url: width: 400
-                | image_tag: loading: 'lazy', alt: media.alt | default: product.title, class: 'product-neuro-strip__img'
-              }}
-            </div>
-          {%- endfor -%}
-        </div>
-      </div>
     {%- endif -%}
 
     {%- if visual_howto_blocks.size > 0 -%}
@@ -912,12 +895,6 @@
     },
     {
       "type": "text",
-      "id": "media_strip_label",
-      "label": "Libellé accessibilité bandeau d’images",
-      "default": "Galerie produit"
-    },
-    {
-      "type": "text",
       "id": "steps_heading",
       "label": "Titre bloc étapes (texte seul)",
       "default": "3 étapes simples",
@@ -928,7 +905,7 @@
       "id": "visual_howto_heading",
       "label": "Titre du bloc « 3 étapes visuelles »",
       "default": "3 étapes pour soulager des pieds fatigués et favoriser une vraie sensation de détente.",
-      "info": "S’affiche après le bandeau de miniatures, si vous ajoutez des blocs « Étape visuelle »."
+      "info": "S’affiche sous le repliable de description, si vous ajoutez des blocs « Étape visuelle »."
     },
     {
       "type": "select",
