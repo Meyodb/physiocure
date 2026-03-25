@@ -771,6 +771,40 @@ button, input, select, textarea { font: inherit; }
   cursor: not-allowed;
 }
 
+/* Moyens de paiement (SVG boutique) sous les CTA */
+.payment-icons--below-cta {
+  margin-top: 1rem;
+  width: 100%;
+}
+.payment-icons__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.payment-icons__item {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.payment-icons__svg,
+.payment-icons__item svg {
+  display: block;
+  width: auto;
+  height: 24px;
+  max-width: 52px;
+  vertical-align: middle;
+}
+.payment-icons--product .payment-icons__svg,
+.payment-icons--product .payment-icons__item svg {
+  height: 22px;
+  max-width: 48px;
+}
+
 /* Pas d’ajout au panier : masquer seuls les anciens CTA « Ajouter au panier » (Acheter maintenant reste visible) */
 .template-product #MainProduct button[type="submit"][name="add"],
 .template-product #MainProduct [data-pack-submit],

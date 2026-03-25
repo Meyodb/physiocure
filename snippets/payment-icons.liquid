@@ -1,0 +1,19 @@
+{%- comment -%}
+  Icônes SVG des moyens de paiement activés (Admin → Paramètres → Paiements).
+  @param {string} [extra_class] — classe additionnelle sur le conteneur
+{%- endcomment -%}
+{%- if shop.enabled_payment_types.size > 0 -%}
+  <div
+    class="payment-icons{% if extra_class != blank %} {{ extra_class }}{% endif %}"
+    role="group"
+    aria-label="{{ 'general.payment_methods_accepted' | t }}"
+  >
+    <ul class="payment-icons__list" role="list">
+      {%- for type in shop.enabled_payment_types -%}
+        <li class="payment-icons__item">
+          {{ type | payment_type_svg_tag: class: 'payment-icons__svg' }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}

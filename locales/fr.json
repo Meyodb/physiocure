@@ -23,7 +23,8 @@
     "pagination": {
       "label": "Pagination",
       "page": "Page {{ number }}"
-    }
+    },
+    "payment_methods_accepted": "Moyens de paiement acceptés"
   },
   "accessibility": {
     "skip_to_content": "Aller au contenu",

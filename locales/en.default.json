@@ -18,7 +18,8 @@
     },
     "search": { "search": "Search" },
     "continue_shopping": "Continue shopping",
-    "pagination": { "label": "Pagination", "page": "Page {{ number }}" }
+    "pagination": { "label": "Pagination", "page": "Page {{ number }}" },
+    "payment_methods_accepted": "Accepted payment methods"
   },
   "accessibility": {
     "skip_to_content": "Skip to content",
