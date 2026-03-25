@@ -1586,27 +1586,28 @@ body.product-sticky-bar-on {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
   width: max-content;
   min-width: max-content;
-  animation-name: header-announcement-marquee;
-  animation-duration: var(--header-announcement-duration, 30s);
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  /* Même principe que .trust-strip-marquee__track (0 → -50 % = boucle sans couture) */
+  animation: header-announcement-marquee var(--header-announcement-duration, 45s) linear infinite;
   will-change: transform;
+  backface-visibility: hidden;
 }
 .header-announcement__segment {
-  flex-shrink: 0;
+  flex: 0 0 auto;
   padding-inline: clamp(1.5rem, 4vw, 2.75rem);
   font-size: 0.85rem;
   line-height: 1.35;
+  font-weight: 500;
   white-space: nowrap;
 }
 @keyframes header-announcement-marquee {
   from {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 @media (prefers-reduced-motion: no-preference) {

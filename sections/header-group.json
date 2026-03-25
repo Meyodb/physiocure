@@ -4,7 +4,11 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "show_announcement": true,
+        "announcement_text": "📦 Expédition suivie — Votre colis, du départ à la livraison · 🔒 Paiement sécurisé — Cryptage SSL & transactions protégées · 💬 SAV réactif — Une réponse sous 48 h ouvrées · 🛡️ Transparence totale — Retours simples, politique claire",
+        "announcement_marquee_seconds": 45
+      }
     }
   },
   "order": ["header"]

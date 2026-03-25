@@ -1,7 +1,7 @@
 {%- liquid
   assign ann_seconds = section.settings.announcement_marquee_seconds | default: 30 | plus: 0
   if ann_seconds < 12
-    assign ann_seconds = 30
+    assign ann_seconds = 45
   elsif ann_seconds > 90
     assign ann_seconds = 90
   endif
@@ -119,10 +119,11 @@
       "default": true
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "announcement_text",
       "label": "Texte d'annonce",
-      "default": "📦 Livraison suivie · 🔒 Paiement sécurisé · 💬 Service client réactif"
+      "default": "📦 Expédition suivie — Votre colis, du départ à la livraison · 🔒 Paiement sécurisé — Cryptage SSL & transactions protégées · 💬 SAV réactif — Une réponse sous 48 h ouvrées · 🛡️ Transparence totale — Retours simples, politique claire",
+      "info": "Aligné sur le bandeau confiance de la page d’accueil. Dupliqué automatiquement pour le défilement."
     },
     {
       "type": "range",
@@ -132,7 +133,7 @@
       "step": 5,
       "unit": "s",
       "label": "Durée d'un cycle de défilement",
-      "default": 30
+      "default": 45
     },
     {
       "type": "image_picker",
