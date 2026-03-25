@@ -1565,7 +1565,7 @@ body.product-sticky-bar-on {
 }
 .errors { color: #b42318; margin: 0 0 1rem; padding-left: 1.25rem; }
 
-/* Header — bandeau d’annonce marquee (défilement gauche → droite) */
+/* Header — bandeau d’annonce marquee (défilement horizontal continu) */
 .header-announcement {
   background: var(--color-button);
   color: var(--color-button-label);
@@ -1573,7 +1573,7 @@ body.product-sticky-bar-on {
 }
 .header-announcement__viewport {
   overflow: hidden;
-  padding-block: 0.5rem;
+  padding-block: 0.4rem;
   mask-image: linear-gradient(
     90deg,
     transparent,
@@ -1596,8 +1596,8 @@ body.product-sticky-bar-on {
 }
 .header-announcement__segment {
   flex: 0 0 auto;
-  padding-inline: clamp(1.5rem, 4vw, 2.75rem);
-  font-size: 0.85rem;
+  padding-inline: clamp(1.25rem, 3.5vw, 2.25rem);
+  font-size: clamp(0.7rem, 2.15vw, 0.78rem);
   line-height: 1.35;
   font-weight: 500;
   white-space: nowrap;
@@ -1610,14 +1610,8 @@ body.product-sticky-bar-on {
     transform: translate3d(-50%, 0, 0);
   }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .header-announcement:hover .header-announcement__track,
-  .header-announcement:focus-within .header-announcement__track {
-    animation-play-state: paused;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
-  .header-announcement__viewport {
+  .header-announcement:not(.header-announcement--force-auto-scroll) .header-announcement__viewport {
     mask-image: none;
     display: flex;
     justify-content: center;
@@ -1628,15 +1622,15 @@ body.product-sticky-bar-on {
     overscroll-behavior-x: contain;
     text-align: center;
   }
-  .header-announcement__track {
+  .header-announcement:not(.header-announcement--force-auto-scroll) .header-announcement__track {
     animation: none;
     width: max-content;
     margin-inline: auto;
   }
-  .header-announcement__segment[aria-hidden="true"] {
+  .header-announcement:not(.header-announcement--force-auto-scroll) .header-announcement__segment[aria-hidden="true"] {
     display: none;
   }
-  .header-announcement__segment {
+  .header-announcement:not(.header-announcement--force-auto-scroll) .header-announcement__segment {
     padding-inline: 1rem;
   }
 }

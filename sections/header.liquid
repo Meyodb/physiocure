@@ -1,14 +1,18 @@
 {%- liquid
-  assign ann_seconds = section.settings.announcement_marquee_seconds | default: 30 | plus: 0
+  assign ann_seconds = section.settings.announcement_marquee_seconds | default: 45 | plus: 0
   if ann_seconds < 12
     assign ann_seconds = 45
   elsif ann_seconds > 90
     assign ann_seconds = 90
   endif
+  assign announcement_force_scroll = true
+  if section.settings.announcement_force_auto_scroll == false
+    assign announcement_force_scroll = false
+  endif
 -%}
 {%- if section.settings.show_announcement and section.settings.announcement_text != blank -%}
   <div
-    class="header-announcement"
+    class="header-announcement{% if announcement_force_scroll %} header-announcement--force-auto-scroll{% endif %}"
     role="region"
     aria-label="{{ 'sections.header.announcement' | t }}"
     style="--header-announcement-duration: {{ ann_seconds }}s;"
@@ -134,6 +138,13 @@
       "unit": "s",
       "label": "Durée d'un cycle de défilement",
       "default": 45
+    },
+    {
+      "type": "checkbox",
+      "id": "announcement_force_auto_scroll",
+      "label": "Défilement automatique en continu",
+      "default": true,
+      "info": "Décochez pour respecter « Réduire les animations » du système (texte fixe, défilement au doigt)."
     },
     {
       "type": "image_picker",
