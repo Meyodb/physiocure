@@ -109,5 +109,26 @@
         "label": "YouTube (URL)"
       }
     ]
+  },
+  {
+    "name": "Checkout",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Sans Shopify Plus, la page de paiement est gérée par Shopify : alignez couleurs, logo et polices dans Réglages → Paiement → Personnaliser le paiement. Avec Plus et checkout.liquid activé, les options ci‑dessous s’appliquent en plus."
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_custom_css",
+        "label": "Activer le design PhysioCure sur le checkout (Plus)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_trust_bar",
+        "label": "Afficher la barre de confiance (paiement, livraison, garantie)",
+        "default": true
+      }
+    ]
   }
 ]

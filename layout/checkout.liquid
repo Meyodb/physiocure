@@ -1,0 +1,100 @@
+{%- comment -%}
+  Checkout hébergé Shopify — layout pris en compte uniquement pour les boutiques
+  Shopify Plus disposant de checkout.liquid (sinon : Réglages → Paiement → Personnaliser).
+  Les étapes principales du tunnel utilisent souvent Checkout Extensibility : ce gabarit
+  et checkout-custom.css s’appliquent selon la version de checkout du magasin.
+{%- endcomment -%}
+<!doctype html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0"
+    >
+    <meta name="referrer" content="origin">
+    <title>{{ page_title }}</title>
+    {{ content_for_header }}
+
+    {{ 'font-faces.css' | asset_url | stylesheet_tag }}
+    {% style %}
+      :root {
+        --pc-font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --pc-font-heading: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+        --pc-primary: {{ settings.colors_primary | default: '#1A365D' }};
+        --pc-bg: {{ settings.colors_background | default: '#F7FAFC' }};
+        --pc-surface: {{ settings.colors_surface | default: '#FFFFFF' }};
+        --pc-text: {{ settings.colors_text | default: '#2D3748' }};
+        --pc-muted: {{ settings.colors_muted | default: '#718096' }};
+        --pc-accent: {{ settings.colors_accent | default: '#4FD1C5' }};
+        --pc-btn: {{ settings.colors_button | default: '#4FD1C5' }};
+        --pc-btn-label: {{ settings.colors_button_label | default: '#1A365D' }};
+        --pc-radius: 12px;
+        --pc-radius-lg: 16px;
+      }
+    {% endstyle %}
+
+    {{ checkout_stylesheets }}
+
+    {%- liquid
+      assign pc_checkout_css = true
+      if settings.checkout_custom_css == false
+        assign pc_checkout_css = false
+      endif
+    -%}
+    {%- if pc_checkout_css -%}
+      {{ 'checkout-custom.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    {{ checkout_scripts }}
+  </head>
+  <body>
+    {{ skip_to_content_link }}
+
+    <header class="banner" data-header role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </header>
+
+    {{ order_summary_toggle }}
+
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main" data-main>
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {%- liquid
+              assign pc_trust = true
+              if settings.checkout_trust_bar == false
+                assign pc_trust = false
+              endif
+            -%}
+            {%- if pc_trust -%}
+              {% render 'checkout-trust-bar' %}
+            {%- endif -%}
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+  </body>
+</html>

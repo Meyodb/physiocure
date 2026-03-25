@@ -135,5 +135,14 @@
   },
   "shopify": {
     "checkout": { "general": { "errors": { "merchandise": { "out_of_stock": { "one": "This item is out of stock.", "other": "These items are out of stock." } } } } }
+  },
+  "physiocure": {
+    "checkout_trust": {
+      "aria": "Order benefits",
+      "headline": "You’re almost there — secure checkout in just a moment.",
+      "secure": "Encrypted & secure payment",
+      "shipping": "Tracked delivery",
+      "guarantee": "90-day satisfaction guarantee"
+    }
   }
 }

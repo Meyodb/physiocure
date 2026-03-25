@@ -319,5 +319,14 @@
         "enter_shipping_address": "Livraison Gratuite"
       }
     }
+  },
+  "physiocure": {
+    "checkout_trust": {
+      "aria": "Avantages de votre commande",
+      "headline": "Plus qu’une étape — votre confort est entre de bonnes mains.",
+      "secure": "Paiement sécurisé & crypté",
+      "shipping": "Livraison suivie",
+      "guarantee": "90 jours pour tester sans risque"
+    }
   }
 }

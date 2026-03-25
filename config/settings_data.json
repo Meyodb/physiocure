@@ -19,6 +19,8 @@
     "colors_button_label": "#1A365D",
     "type_heading_font": "montserrat_n6",
     "type_body_font": "inter_n4",
+    "checkout_custom_css": true,
+    "checkout_trust_bar": true,
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
