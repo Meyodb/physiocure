@@ -780,7 +780,7 @@ button, input, select, textarea { font: inherit; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.45rem 0.65rem;
+  gap: 0.55rem 0.85rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -795,14 +795,14 @@ button, input, select, textarea { font: inherit; }
 .payment-icons__item svg {
   display: block;
   width: auto;
-  height: 24px;
-  max-width: 52px;
+  height: 38px;
+  max-width: 82px;
   vertical-align: middle;
 }
 .payment-icons--product .payment-icons__svg,
 .payment-icons--product .payment-icons__item svg {
-  height: 22px;
-  max-width: 48px;
+  height: 34px;
+  max-width: 74px;
 }
 
 /* Pas d’ajout au panier : masquer seuls les anciens CTA « Ajouter au panier » (Acheter maintenant reste visible) */
