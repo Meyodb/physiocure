@@ -776,6 +776,22 @@ button, input, select, textarea { font: inherit; }
   margin-top: 1rem;
   width: 100%;
 }
+/* Fiche produit : confiance (Livraison rapide, etc.) puis moyens de paiement, ordre garanti */
+.product-neuro-buy__post-cta {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  min-width: 0;
+}
+.product-neuro-buy__post-cta .payment-icons--below-cta {
+  margin-top: 0;
+}
+.product-neuro-buy__post-cta .product-neuro-trust {
+  order: 1;
+}
+.product-neuro-buy__post-cta .payment-icons--after-trust {
+  order: 2;
+}
 .payment-icons__list {
   display: flex;
   flex-wrap: wrap;

@@ -253,7 +253,6 @@
               {%- endif -%}
             </div>
             {% endform %}
-            {% render 'payment-icons', extra_class: 'payment-icons--below-cta payment-icons--product' %}
           </div>
         {%- else -%}
           <div class="product-neuro-price-card">
@@ -329,26 +328,29 @@
                 {%- endif -%}
               </div>
             {% endform %}
-            {% render 'payment-icons', extra_class: 'payment-icons--below-cta payment-icons--product' %}
           </div>
         {%- endif -%}
 
-        {%- if section.settings.show_trust_bar -%}
-          <ul class="product-neuro-trust" aria-label="{{ section.settings.trust_bar_label | escape }}">
-            <li class="product-neuro-trust__item">
-              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_1 }}</span>
-              <span class="product-neuro-trust__text">{{ section.settings.trust_text_1 }}</span>
-            </li>
-            <li class="product-neuro-trust__item">
-              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_2 }}</span>
-              <span class="product-neuro-trust__text">{{ section.settings.trust_text_2 }}</span>
-            </li>
-            <li class="product-neuro-trust__item">
-              <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_3 }}</span>
-              <span class="product-neuro-trust__text">{{ section.settings.trust_text_3 }}</span>
-            </li>
-          </ul>
-        {%- endif -%}
+        <div class="product-neuro-buy__post-cta">
+          {%- if section.settings.show_trust_bar -%}
+            <ul class="product-neuro-trust" aria-label="{{ section.settings.trust_bar_label | escape }}">
+              <li class="product-neuro-trust__item">
+                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_1 }}</span>
+                <span class="product-neuro-trust__text">{{ section.settings.trust_text_1 }}</span>
+              </li>
+              <li class="product-neuro-trust__item">
+                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_2 }}</span>
+                <span class="product-neuro-trust__text">{{ section.settings.trust_text_2 }}</span>
+              </li>
+              <li class="product-neuro-trust__item">
+                <span class="product-neuro-trust__icon" aria-hidden="true">{{ section.settings.trust_icon_3 }}</span>
+                <span class="product-neuro-trust__text">{{ section.settings.trust_text_3 }}</span>
+              </li>
+            </ul>
+          {%- endif -%}
+
+          {% render 'payment-icons', extra_class: 'payment-icons--below-cta payment-icons--product payment-icons--after-trust' %}
+        </div>
       </div>
     </div>
 
